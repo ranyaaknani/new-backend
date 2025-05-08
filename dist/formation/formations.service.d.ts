@@ -1,6 +1,6 @@
 import { Repository } from 'typeorm';
-import { Formation } from './formation.entity';
 import { CreateFormationDto } from './dto/create-formation.dto';
+import { Formation } from './entities/formation.entity';
 export declare class FormationsService {
     private formationsRepository;
     constructor(formationsRepository: Repository<Formation>);

@@ -1,6 +1,15 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  ManyToOne,
+  ManyToMany,
+  JoinTable,
+} from 'typeorm';
 import { User } from '../../users/user.entity';
-import { Module } from './module.entity';
+import { Module } from '../../modules/entities/module.entity';
+import { Participant } from '../../participant/entities/participant.entity';
 
 @Entity()
 export class Formation {
@@ -16,9 +25,13 @@ export class Formation {
   @Column({ default: false })
   archived: boolean;
 
-  @ManyToOne(() => User, user => user.formations)
+  @ManyToOne(() => User, (user) => user.formations)
   formateur: User;
 
-  @OneToMany(() => Module, module => module.formation, { cascade: true })
+  @OneToMany(() => Module, (module) => module.formation, { cascade: true })
   modules: Module[];
+
+  @ManyToMany(() => Participant, (participant) => participant.formationsSuivies)
+  @JoinTable()
+  participants: Participant[];
 }

@@ -1,5 +1,5 @@
 // src/formateur/formateur.entity.ts
-import { Formation } from 'formation/formation.entity';
+import { Formation } from 'formation/entities/formation.entity';
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
 @Entity()

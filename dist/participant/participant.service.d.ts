@@ -1,6 +1,6 @@
 import { Repository } from 'typeorm';
 import { CreateParticipantDto } from './dto/create-participant.dto';
-import { Participant } from './participant.entity';
+import { Participant } from './entities/participant.entity';
 export declare class ParticipantsService {
     private participantRepository;
     constructor(participantRepository: Repository<Participant>);

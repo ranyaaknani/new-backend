@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { CreateParticipantDto } from './dto/create-participant.dto';
 import { ParticipantsService } from './participant.service';
-import { Participant } from './participant.entity';
+import { Participant } from './entities/participant.entity';
 
 @Controller('participants')
 export class ParticipantsController {

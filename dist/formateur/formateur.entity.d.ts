@@ -1,4 +1,4 @@
-import { Formation } from 'formation/formation.entity';
+import { Formation } from 'formation/entities/formation.entity';
 export declare class Formateur {
     id: number;
     nom: string;

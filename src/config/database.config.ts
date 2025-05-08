@@ -1,14 +1,5 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import * as dotenv from 'dotenv';
-import { DataSource } from 'typeorm';
-import { User } from '../users/user.entity';
-import { Formation } from '../formation/formation.entity';
-
-
-
-
-
-
 
 dotenv.config();
 
@@ -25,3 +16,4 @@ export const databaseConfig = () => ({
     entities: [__dirname + '/../**/*.entity{.ts,.js}'], // ✅ C’est ça qui corrige le bug
   } as TypeOrmModuleOptions,
 });
+ export default databaseConfig;

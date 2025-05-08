@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Formation } from '../formation/formation.entity';
 import { Repository } from 'typeorm';
 import { Formateur } from './formateur.entity';
+import { Formation } from 'formation/entities/formation.entity';
 
 @Injectable()
 export class FormateurService {
@@ -11,11 +11,15 @@ export class FormateurService {
     private formationRepository: Repository<Formation>,
   ) {}
 
-  async getFormations(formateurId: number) {
-    return this.formationRepository.find({ where: { formateur: { id: formateurId } } });
+  async getFormations(formateurId: string) {
+    return this.formationRepository.find({
+      where: {
+        formateur: { id: formateurId },
+      },
+    });
   }
 
-  async addFormation(formateurId: number, data: any) {
+  async addFormation(formateurId: string, data: any) {
     const formation = this.formationRepository.create({
       ...data,
       formateur: { id: formateurId },

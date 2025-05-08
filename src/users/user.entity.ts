@@ -3,6 +3,7 @@ import { Role } from '../common/enums/role.enum';
 
 @Entity()
 export class User {
+  [x: string]: any;
   @PrimaryGeneratedColumn('uuid')
   id: string;
 

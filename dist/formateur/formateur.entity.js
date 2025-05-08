@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Formateur = void 0;
-const formation_entity_1 = require("../formation/formation.entity");
+const formation_entity_1 = require("../formation/entities/formation.entity");
 const typeorm_1 = require("typeorm");
 let Formateur = class Formateur {
     id;

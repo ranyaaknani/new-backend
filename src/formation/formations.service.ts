@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Formation } from './formation.entity';
 import { CreateFormationDto } from './dto/create-formation.dto';
+import { Formation } from './entities/formation.entity';
 
 @Injectable()
 export class FormationsService {
@@ -22,7 +22,7 @@ export class FormationsService {
 
   async findOne(id: string): Promise<Formation> {
     const formation = await this.formationsRepository.findOne({
-      where: { id: Number(id) }, // CONVERSION en nombre ici
+      where: { id },
       relations: ['participants'],
     });
 

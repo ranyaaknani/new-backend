@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateParticipantDto } from './dto/create-participant.dto';
-import { Participant } from './participant.entity';
+import { Participant } from './entities/participant.entity';
 
 @Injectable()
 export class ParticipantsService {
@@ -22,8 +22,9 @@ export class ParticipantsService {
 
   async findOne(id: string): Promise<Participant> {
     const participant = await this.participantRepository.findOne({
-      where: { id: Number(id) }, // CORRECTION ici ! id doit être un number
+      where: { id },  // ✅ id est une string UUID
     });
+    
 
     if (!participant) {
       throw new NotFoundException(`Participant with ID ${id} not found`);

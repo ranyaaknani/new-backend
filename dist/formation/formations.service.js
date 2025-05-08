@@ -16,7 +16,7 @@ exports.FormationsService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
-const formation_entity_1 = require("./formation.entity");
+const formation_entity_1 = require("./entities/formation.entity");
 let FormationsService = class FormationsService {
     formationsRepository;
     constructor(formationsRepository) {
@@ -31,7 +31,7 @@ let FormationsService = class FormationsService {
     }
     async findOne(id) {
         const formation = await this.formationsRepository.findOne({
-            where: { id: Number(id) },
+            where: { id },
             relations: ['participants'],
         });
         if (!formation) {

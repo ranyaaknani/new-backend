@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { FormationsService } from './formations.service';
 import { CreateFormationDto } from './dto/create-formation.dto';
-import { Formation } from './formation.entity';
+import { Formation } from './entities/formation.entity';
 
 @Controller('formations')
 export class FormationsController {

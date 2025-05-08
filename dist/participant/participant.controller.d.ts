@@ -1,6 +1,6 @@
 import { CreateParticipantDto } from './dto/create-participant.dto';
 import { ParticipantsService } from './participant.service';
-import { Participant } from './participant.entity';
+import { Participant } from './entities/participant.entity';
 export declare class ParticipantsController {
     private readonly participantsService;
     constructor(participantsService: ParticipantsService);

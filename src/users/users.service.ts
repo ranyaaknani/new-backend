@@ -6,6 +6,19 @@ import { CreateUserDto } from './dto/create-user.dto';
 
 @Injectable()
 export class UsersService {
+  async findAll(): Promise<User[]> {
+    return this.userRepository.find();
+  }
+
+  async update(user: User): Promise<User> {
+    return this.userRepository.save(user);
+  }
+
+  async remove(user: User): Promise<{ deleted: boolean }> {
+    await this.userRepository.remove(user);
+    return { deleted: true };
+  }
+
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,

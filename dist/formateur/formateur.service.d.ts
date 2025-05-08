@@ -1,8 +1,8 @@
-import { Formation } from '../formation/formation.entity';
 import { Repository } from 'typeorm';
+import { Formation } from 'formation/entities/formation.entity';
 export declare class FormateurService {
     private formationRepository;
     constructor(formationRepository: Repository<Formation>);
-    getFormations(formateurId: number): Promise<Formation[]>;
-    addFormation(formateurId: number, data: any): Promise<Formation[]>;
+    getFormations(formateurId: string): Promise<Formation[]>;
+    addFormation(formateurId: string, data: any): Promise<Formation[]>;
 }

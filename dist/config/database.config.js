@@ -17,4 +17,5 @@ const databaseConfig = () => ({
     },
 });
 exports.databaseConfig = databaseConfig;
+exports.default = exports.databaseConfig;
 //# sourceMappingURL=database.config.js.map

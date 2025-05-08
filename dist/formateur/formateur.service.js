@@ -15,15 +15,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.FormateurService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
-const formation_entity_1 = require("../formation/formation.entity");
 const typeorm_2 = require("typeorm");
+const formation_entity_1 = require("../formation/entities/formation.entity");
 let FormateurService = class FormateurService {
     formationRepository;
     constructor(formationRepository) {
         this.formationRepository = formationRepository;
     }
     async getFormations(formateurId) {
-        return this.formationRepository.find({ where: { formateur: { id: formateurId } } });
+        return this.formationRepository.find({
+            where: {
+                formateur: { id: formateurId },
+            },
+        });
     }
     async addFormation(formateurId, data) {
         const formation = this.formationRepository.create({

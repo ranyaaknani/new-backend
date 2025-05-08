@@ -11,7 +11,7 @@ const common_1 = require("@nestjs/common");
 const formateur_controller_1 = require("./formateur.controller");
 const formateur_service_1 = require("./formateur.service");
 const typeorm_1 = require("@nestjs/typeorm");
-const formation_entity_1 = require("../formation/formation.entity");
+const formation_entity_1 = require("../formation/entities/formation.entity");
 let FormateurModule = class FormateurModule {
 };
 exports.FormateurModule = FormateurModule;

@@ -1,6 +1,6 @@
 import { FormationsService } from './formations.service';
 import { CreateFormationDto } from './dto/create-formation.dto';
-import { Formation } from './formation.entity';
+import { Formation } from './entities/formation.entity';
 export declare class FormationsController {
     private readonly formationsService;
     constructor(formationsService: FormationsService);
