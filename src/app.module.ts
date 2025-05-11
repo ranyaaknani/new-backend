@@ -14,6 +14,7 @@ import { databaseConfig } from 'config/database.config';
     ConfigModule.forRoot({
       isGlobal: true,
       load: [databaseConfig],
+      envFilePath: '.env',
     }),
 
     TypeOrmModule.forRootAsync({
