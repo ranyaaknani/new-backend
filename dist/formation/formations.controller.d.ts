@@ -7,4 +7,7 @@ export declare class FormationsController {
     create(createFormationDto: CreateFormationDto): Promise<Formation>;
     findAll(): Promise<Formation[]>;
     findOne(id: string): Promise<Formation>;
+    update(id: string, updateFormationDto: Partial<CreateFormationDto>): Promise<Formation>;
+    remove(id: string): Promise<void>;
+    archive(id: string): Promise<Formation>;
 }

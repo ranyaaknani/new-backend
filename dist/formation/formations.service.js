@@ -17,33 +17,96 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const formation_entity_1 = require("./entities/formation.entity");
+const module_entity_1 = require("../modules/entities/module.entity");
 let FormationsService = class FormationsService {
     formationsRepository;
-    constructor(formationsRepository) {
+    modulesRepository;
+    constructor(formationsRepository, modulesRepository) {
         this.formationsRepository = formationsRepository;
+        this.modulesRepository = modulesRepository;
     }
-    create(createFormationDto) {
-        const formation = this.formationsRepository.create(createFormationDto);
-        return this.formationsRepository.save(formation);
+    async create(createFormationDto) {
+        const formation = this.formationsRepository.create({
+            titre: createFormationDto.titre,
+            image: createFormationDto.image,
+            domaine: createFormationDto.domaine,
+            description: createFormationDto.description,
+            objectifs: createFormationDto.objectifs,
+            accessType: createFormationDto.accessType,
+            invitation: createFormationDto.invitation,
+        });
+        const savedFormation = await this.formationsRepository.save(formation);
+        if (createFormationDto.modules && createFormationDto.modules.length > 0) {
+            const modules = createFormationDto.modules.map((moduleData) => {
+                const module = this.modulesRepository.create({
+                    titre: moduleData.titre,
+                    questions: moduleData.questions,
+                    resources: moduleData.resources,
+                    formation: savedFormation,
+                });
+                return module;
+            });
+            await this.modulesRepository.save(modules);
+        }
+        return this.findOne(savedFormation.id);
     }
     findAll() {
-        return this.formationsRepository.find({ relations: ['participants'] });
+        return this.formationsRepository.find({
+            relations: ['participants', 'modules', 'formateur'],
+        });
     }
     async findOne(id) {
         const formation = await this.formationsRepository.findOne({
             where: { id },
-            relations: ['participants'],
+            relations: ['participants', 'modules', 'formateur'],
         });
         if (!formation) {
             throw new common_1.NotFoundException(`Formation with ID ${id} not found`);
         }
         return formation;
     }
+    async update(id, updateData) {
+        const formation = await this.findOne(id);
+        Object.assign(formation, {
+            titre: updateData.titre || formation.titre,
+            image: updateData.image || formation.image,
+            domaine: updateData.domaine || formation.domaine,
+            description: updateData.description || formation.description,
+            objectifs: updateData.objectifs || formation.objectifs,
+            accessType: updateData.accessType || formation.accessType,
+            invitation: updateData.invitation || formation.invitation,
+        });
+        await this.formationsRepository.save(formation);
+        if (updateData.modules) {
+            await this.modulesRepository.delete({ formation: { id } });
+            const modules = updateData.modules.map((moduleData) => {
+                return this.modulesRepository.create({
+                    titre: moduleData.titre,
+                    questions: moduleData.questions,
+                    resources: moduleData.resources,
+                    formation: formation,
+                });
+            });
+            await this.modulesRepository.save(modules);
+        }
+        return this.findOne(id);
+    }
+    async remove(id) {
+        const formation = await this.findOne(id);
+        await this.formationsRepository.remove(formation);
+    }
+    async archive(id) {
+        const formation = await this.findOne(id);
+        formation.archived = true;
+        return this.formationsRepository.save(formation);
+    }
 };
 exports.FormationsService = FormationsService;
 exports.FormationsService = FormationsService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(formation_entity_1.Formation)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __param(1, (0, typeorm_1.InjectRepository)(module_entity_1.Module)),
+    __metadata("design:paramtypes", [typeorm_2.Repository,
+        typeorm_2.Repository])
 ], FormationsService);
 //# sourceMappingURL=formations.service.js.map

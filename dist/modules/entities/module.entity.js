@@ -16,8 +16,12 @@ const section_entity_1 = require("../../section/entities/section.entity");
 let Module = class Module {
     id;
     titre;
-    formation;
     sections;
+    questions;
+    resources;
+    createdAt;
+    updatedAt;
+    formation;
 };
 exports.Module = Module;
 __decorate([
@@ -29,13 +33,31 @@ __decorate([
     __metadata("design:type", String)
 ], Module.prototype, "titre", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => formation_entity_1.Formation, (formation) => formation.modules),
-    __metadata("design:type", formation_entity_1.Formation)
-], Module.prototype, "formation", void 0);
-__decorate([
     (0, typeorm_1.OneToMany)(() => section_entity_1.Section, (section) => section.module, { cascade: true }),
     __metadata("design:type", Array)
 ], Module.prototype, "sections", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'json', default: [] }),
+    __metadata("design:type", Array)
+], Module.prototype, "questions", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'json', default: [] }),
+    __metadata("design:type", Array)
+], Module.prototype, "resources", void 0);
+__decorate([
+    (0, typeorm_1.CreateDateColumn)(),
+    __metadata("design:type", Date)
+], Module.prototype, "createdAt", void 0);
+__decorate([
+    (0, typeorm_1.UpdateDateColumn)(),
+    __metadata("design:type", Date)
+], Module.prototype, "updatedAt", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => formation_entity_1.Formation, (formation) => formation.modules, {
+        onDelete: 'CASCADE',
+    }),
+    __metadata("design:type", formation_entity_1.Formation)
+], Module.prototype, "formation", void 0);
 exports.Module = Module = __decorate([
     (0, typeorm_1.Entity)()
 ], Module);

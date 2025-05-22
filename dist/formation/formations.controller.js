@@ -30,6 +30,15 @@ let FormationsController = class FormationsController {
     findOne(id) {
         return this.formationsService.findOne(id);
     }
+    update(id, updateFormationDto) {
+        return this.formationsService.update(id, updateFormationDto);
+    }
+    remove(id) {
+        return this.formationsService.remove(id);
+    }
+    archive(id) {
+        return this.formationsService.archive(id);
+    }
 };
 exports.FormationsController = FormationsController;
 __decorate([
@@ -52,6 +61,28 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], FormationsController.prototype, "findOne", null);
+__decorate([
+    (0, common_1.Put)(':id'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", Promise)
+], FormationsController.prototype, "update", null);
+__decorate([
+    (0, common_1.Delete)(':id'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], FormationsController.prototype, "remove", null);
+__decorate([
+    (0, common_1.Patch)(':id/archive'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], FormationsController.prototype, "archive", null);
 exports.FormationsController = FormationsController = __decorate([
     (0, common_1.Controller)('formations'),
     __metadata("design:paramtypes", [formations_service_1.FormationsService])

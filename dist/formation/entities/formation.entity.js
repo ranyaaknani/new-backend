@@ -17,8 +17,15 @@ const participant_entity_1 = require("../../participant/entities/participant.ent
 let Formation = class Formation {
     id;
     titre;
+    image;
+    domaine;
     description;
+    objectifs;
     archived;
+    accessType;
+    invitation;
+    createdAt;
+    updatedAt;
     formateur;
     modules;
     participants;
@@ -33,13 +40,45 @@ __decorate([
     __metadata("design:type", String)
 ], Formation.prototype, "titre", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], Formation.prototype, "image", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], Formation.prototype, "domaine", void 0);
+__decorate([
     (0, typeorm_1.Column)({ type: 'text' }),
     __metadata("design:type", String)
 ], Formation.prototype, "description", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ type: 'text', nullable: true }),
+    __metadata("design:type", String)
+], Formation.prototype, "objectifs", void 0);
+__decorate([
     (0, typeorm_1.Column)({ default: false }),
     __metadata("design:type", Boolean)
 ], Formation.prototype, "archived", void 0);
+__decorate([
+    (0, typeorm_1.Column)({
+        type: 'enum',
+        enum: ['private', 'public'],
+        default: 'private',
+    }),
+    __metadata("design:type", String)
+], Formation.prototype, "accessType", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'json', nullable: true }),
+    __metadata("design:type", Object)
+], Formation.prototype, "invitation", void 0);
+__decorate([
+    (0, typeorm_1.CreateDateColumn)(),
+    __metadata("design:type", Date)
+], Formation.prototype, "createdAt", void 0);
+__decorate([
+    (0, typeorm_1.UpdateDateColumn)(),
+    __metadata("design:type", Date)
+], Formation.prototype, "updatedAt", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => user_entity_1.User, (user) => user.formations),
     __metadata("design:type", user_entity_1.User)
