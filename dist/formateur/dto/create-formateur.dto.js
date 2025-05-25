@@ -9,33 +9,27 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreateUserDto = void 0;
+exports.CreateFormateurDto = void 0;
 const class_validator_1 = require("class-validator");
-const role_enum_1 = require("../../common/enums/role.enum");
-class CreateUserDto {
+class CreateFormateurDto {
+    nom;
     email;
     password;
-    name;
-    role;
 }
-exports.CreateUserDto = CreateUserDto;
+exports.CreateFormateurDto = CreateFormateurDto;
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], CreateFormateurDto.prototype, "nom", void 0);
 __decorate([
     (0, class_validator_1.IsEmail)(),
     __metadata("design:type", String)
-], CreateUserDto.prototype, "email", void 0);
+], CreateFormateurDto.prototype, "email", void 0);
 __decorate([
-    (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)(),
-    __metadata("design:type", String)
-], CreateUserDto.prototype, "password", void 0);
-__decorate([
     (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.MinLength)(6),
     __metadata("design:type", String)
-], CreateUserDto.prototype, "name", void 0);
-__decorate([
-    (0, class_validator_1.IsIn)([role_enum_1.Role.Participant, role_enum_1.Role.Formateur, role_enum_1.Role.Admin]),
-    (0, class_validator_1.IsOptional)(),
-    __metadata("design:type", String)
-], CreateUserDto.prototype, "role", void 0);
-//# sourceMappingURL=create-user.dto.js.map
+], CreateFormateurDto.prototype, "password", void 0);
+//# sourceMappingURL=create-formateur.dto.js.map

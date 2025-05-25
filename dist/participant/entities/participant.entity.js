@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Participant = void 0;
 const typeorm_1 = require("typeorm");
 const formation_entity_1 = require("../../formation/entities/formation.entity");
-const ressource_entity_1 = require("../../certificat/entities/ressource.entity");
+const certificate_entity_1 = require("../../certificat/entities/certificate.entity");
 let Participant = class Participant {
     id;
     nom;
@@ -30,7 +30,7 @@ __decorate([
     __metadata("design:type", String)
 ], Participant.prototype, "nom", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ unique: true }),
     __metadata("design:type", String)
 ], Participant.prototype, "email", void 0);
 __decorate([
@@ -38,11 +38,10 @@ __decorate([
     __metadata("design:type", Array)
 ], Participant.prototype, "formationsSuivies", void 0);
 __decorate([
-    (0, typeorm_1.ManyToMany)(() => ressource_entity_1.Certificat, (certificat) => certificat.participants),
-    (0, typeorm_1.JoinTable)(),
+    (0, typeorm_1.ManyToMany)(() => certificate_entity_1.Certificat, (certificat) => certificat.participants),
     __metadata("design:type", Array)
 ], Participant.prototype, "certificatsObtenus", void 0);
 exports.Participant = Participant = __decorate([
-    (0, typeorm_1.Entity)()
+    (0, typeorm_1.Entity)('participants')
 ], Participant);
 //# sourceMappingURL=participant.entity.js.map

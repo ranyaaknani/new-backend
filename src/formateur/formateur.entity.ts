@@ -1,21 +1,33 @@
-// src/formateur/formateur.entity.ts
 import { Formation } from 'formation/entities/formation.entity';
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
-@Entity()
+@Entity('formateurs')
 export class Formateur {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
   nom: string;
 
-  @Column()
+  @Column({ unique: true })
   email: string;
 
   @Column()
-  motDePasse: string;
+  password: string;
 
   @OneToMany(() => Formation, (formation) => formation.formateur)
   formations: Formation[];
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 }

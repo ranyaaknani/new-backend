@@ -17,19 +17,41 @@ const common_1 = require("@nestjs/common");
 const auth_service_1 = require("./auth.service");
 const create_user_dto_1 = require("../users/dto/create-user.dto");
 const public_decorator_1 = require("../common/decorators/public.decorator");
+const role_enum_1 = require("../common/enums/role.enum");
 let AuthController = class AuthController {
     authService;
     constructor(authService) {
         this.authService = authService;
     }
     async login(body) {
-        if (!body.email || !body.password) {
-            throw new common_1.UnauthorizedException('Email ou mot de passe manquant');
+        try {
+            if (!body.email || !body.password) {
+                throw new common_1.UnauthorizedException('Email and password are required');
+            }
+            return await this.authService.login(body);
         }
-        return this.authService.login(body);
+        catch (error) {
+            if (error instanceof common_1.UnauthorizedException) {
+                throw error;
+            }
+            throw new common_1.InternalServerErrorException('Login failed');
+        }
     }
-    async register(dto, req) {
-        return this.authService.register(dto);
+    async register(dto) {
+        try {
+            if (!dto.role) {
+                dto.role = role_enum_1.Role.Participant;
+            }
+            const user = await this.authService.register(dto);
+            const { ...userWithoutPassword } = user;
+            return userWithoutPassword;
+        }
+        catch (error) {
+            if (error.code === '23505') {
+                throw new common_1.ConflictException('Email already exists');
+            }
+            throw new common_1.InternalServerErrorException('Registration failed');
+        }
     }
 };
 exports.AuthController = AuthController;
@@ -44,9 +66,8 @@ __decorate([
     (0, public_decorator_1.Public)(),
     (0, common_1.Post)('register'),
     __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_user_dto_1.CreateUserDto, Object]),
+    __metadata("design:paramtypes", [create_user_dto_1.CreateUserDto]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "register", null);
 exports.AuthController = AuthController = __decorate([

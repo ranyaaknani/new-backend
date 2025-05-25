@@ -1,6 +1,6 @@
 import { Participant } from '../../participant/entities/participant.entity';
 export declare class Certificat {
-    id: number;
+    id: string;
     nomParticipant: string;
     formation: string;
     dateObtention: Date;

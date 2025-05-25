@@ -1,6 +1,6 @@
 import { AuthService } from './auth.service';
 import { CreateUserDto } from '../users/dto/create-user.dto';
-import { Request as ExpressRequest } from 'express';
+import { Role } from 'common/enums/role.enum';
 export declare class AuthController {
     private readonly authService;
     constructor(authService: AuthService);
@@ -10,5 +10,12 @@ export declare class AuthController {
     }): Promise<{
         access_token: string;
     }>;
-    register(dto: CreateUserDto, req: ExpressRequest): Promise<import("../users/user.entity").User>;
+    register(dto: CreateUserDto): Promise<{
+        [x: string]: any;
+        id: string;
+        email: string;
+        password: string;
+        name: string;
+        role: Role;
+    }>;
 }

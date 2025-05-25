@@ -3,17 +3,18 @@ import {
   Column,
   PrimaryGeneratedColumn,
   OneToMany,
-  ManyToOne,
-  ManyToMany,
-  JoinTable,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
+  JoinColumn,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
-import { User } from '../../users/user.entity';
-import { Module } from '../../modules/entities/module.entity';
-import { Participant } from '../../participant/entities/participant.entity';
+import { ModuleEntity } from './module.entity';
+import { Formateur } from 'formateur/formateur.entity';
+import { Participant } from 'participant/entities/participant.entity';
 
-@Entity()
+@Entity('formations')
 export class Formation {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -21,49 +22,48 @@ export class Formation {
   @Column()
   titre: string;
 
-  @Column({ nullable: true })
-  image: string;
-
   @Column()
   domaine: string;
 
-  @Column({ type: 'text' })
+  @Column({ nullable: true })
+  image: string;
+
+  @Column('text')
   description: string;
 
-  @Column({ type: 'text', nullable: true })
+  @Column('text')
   objectifs: string;
 
-  @Column({ default: false })
-  archived: boolean;
+  @Column({ default: 'private' })
+  accessType: string;
 
-  @Column({
-    type: 'enum',
-    enum: ['private', 'public'],
-    default: 'private',
-  })
-  accessType: 'private' | 'public';
-
-  @Column({ type: 'json', nullable: true })
+  @Column('jsonb', { nullable: true })
   invitation: {
-    mode: 'email' | 'link' | 'csv';
+    mode: string;
     emails: string[];
     linkGenerated: boolean;
-    csvFile: any;
+    csvFile?: any;
   };
+
+  @ManyToOne(() => Formateur, (formateur) => formateur.formations)
+  @JoinColumn({ name: 'formateurId' })
+  formateur: Formateur;
+
+  @Column({ type: 'uuid' })
+  formateurId: string;
+
+  @OneToMany(() => ModuleEntity, (module) => module.formation, {
+    cascade: true,
+  })
+  modules: ModuleEntity[];
+
+  @ManyToMany(() => Participant)
+  @JoinTable()
+  participants: Participant[];
 
   @CreateDateColumn()
   createdAt: Date;
 
   @UpdateDateColumn()
   updatedAt: Date;
-
-  @ManyToOne(() => User, (user) => user.formations)
-  formateur: User;
-
-  @OneToMany(() => Module, (module) => module.formation, { cascade: true })
-  modules: Module[];
-
-  @ManyToMany(() => Participant, (participant) => participant.formationsSuivies)
-  @JoinTable()
-  participants: Participant[];
 }

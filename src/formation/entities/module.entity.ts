@@ -1,11 +1,11 @@
 import {
-  Entity,
   Column,
-  PrimaryGeneratedColumn,
-  ManyToOne,
+  Entity,
   JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Formation } from '../../formation/entities/formation.entity';
+import { Formation } from './formation.entity';
 
 @Entity('modules')
 export class ModuleEntity {
@@ -25,12 +25,10 @@ export class ModuleEntity {
   @Column('jsonb', { default: [] })
   questions: any[];
 
-  @ManyToOne(() => Formation, (formation) => formation.modules, {
-    onDelete: 'CASCADE',
-  })
+  @ManyToOne(() => Formation, (formation) => formation.modules)
   @JoinColumn({ name: 'formationId' })
   formation: Formation;
 
-  @Column()
+  @Column({ type: 'uuid' })
   formationId: string;
 }

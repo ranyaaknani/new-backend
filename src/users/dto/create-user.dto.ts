@@ -1,4 +1,10 @@
-import { IsEmail, IsNotEmpty, IsString, IsIn } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsString,
+  IsIn,
+  IsOptional,
+} from 'class-validator';
 import { Role } from '../../common/enums/role.enum';
 
 export class CreateUserDto {
@@ -14,5 +20,6 @@ export class CreateUserDto {
   name: string;
 
   @IsIn([Role.Participant, Role.Formateur, Role.Admin])
+  @IsOptional()
   role: Role;
 }

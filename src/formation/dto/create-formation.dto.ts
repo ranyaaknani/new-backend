@@ -1,111 +1,94 @@
 import { Type } from 'class-transformer';
 import {
   IsArray,
-  IsBoolean,
   IsEnum,
+  IsNotEmpty,
   IsOptional,
   IsString,
+  IsUUID,
   ValidateNested,
 } from 'class-validator';
 
-class QCMOptionDto {
+export class ResourceDto {
   @IsString()
-  texte: string;
+  @IsNotEmpty()
+  type: string;
 
   @IsString()
-  justification: string;
-
-  @IsBoolean()
-  isCorrect: boolean;
-}
-
-class QuestionDto {
-  @IsString()
-  question: string;
-
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => QCMOptionDto)
-  options: QCMOptionDto[];
-}
-
-class ResourceDto {
-  @IsEnum(['video', 'pdf', 'word', 'paragraph', 'table'])
-  type: 'video' | 'pdf' | 'word' | 'paragraph' | 'table';
-
   @IsOptional()
-  @IsString()
   url?: string;
 
-  @IsOptional()
   @IsString()
+  @IsOptional()
   content?: string;
-
-  @IsOptional()
-  @IsArray()
-  columns?: string[];
-
-  @IsOptional()
-  @IsArray()
-  rows?: string[][];
 }
 
-class ModuleDto {
+export class ModuleDto {
   @IsString()
+  @IsNotEmpty()
   titre: string;
-
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => QuestionDto)
-  questions: QuestionDto[];
 
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => ResourceDto)
   resources: ResourceDto[];
-}
-
-class InvitationDto {
-  @IsEnum(['email', 'link', 'csv'])
-  mode: 'email' | 'link' | 'csv';
 
   @IsArray()
+  @IsOptional()
+  questions?: any[];
+}
+
+export class InvitationDto {
+  @IsString()
+  @IsNotEmpty()
+  mode: string;
+
+  @IsArray()
+  @IsString({ each: true })
   emails: string[];
 
-  @IsBoolean()
-  linkGenerated: boolean;
+  @IsOptional()
+  linkGenerated?: boolean;
 
   @IsOptional()
-  csvFile: any; // File type handling
+  csvFile?: any;
 }
 
 export class CreateFormationDto {
   @IsString()
+  @IsNotEmpty()
   titre: string;
 
-  @IsOptional()
   @IsString()
-  image?: string;
-
-  @IsString()
+  @IsNotEmpty()
   domaine: string;
 
   @IsString()
+  @IsOptional()
+  image?: string;
+
+  @IsString()
+  @IsNotEmpty()
   description: string;
 
-  @IsOptional()
   @IsString()
-  objectifs?: string;
+  @IsNotEmpty()
+  objectifs: string;
+
+  @IsEnum(['public', 'private'])
+  @IsNotEmpty()
+  accessType: 'public' | 'private';
+
+  @IsUUID()
+  @IsNotEmpty()
+  formateurId: string;
+
+  @ValidateNested()
+  @Type(() => InvitationDto)
+  invitation: InvitationDto;
 
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => ModuleDto)
   modules: ModuleDto[];
-
-  @IsEnum(['private', 'public'])
-  accessType: 'private' | 'public';
-
-  @ValidateNested()
-  @Type(() => InvitationDto)
-  invitation: InvitationDto;
 }

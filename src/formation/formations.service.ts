@@ -3,40 +3,40 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateFormationDto } from './dto/create-formation.dto';
 import { Formation } from './entities/formation.entity';
-import { Module } from 'modules/entities/module.entity';
+import { ModuleEntity } from './entities/module.entity';
 
 @Injectable()
 export class FormationsService {
   constructor(
     @InjectRepository(Formation)
     private formationsRepository: Repository<Formation>,
-    @InjectRepository(Module)
-    private modulesRepository: Repository<Module>,
+    @InjectRepository(ModuleEntity)
+    private modulesRepository: Repository<ModuleEntity>,
   ) {}
 
   async create(createFormationDto: CreateFormationDto): Promise<Formation> {
     const formation = this.formationsRepository.create({
       titre: createFormationDto.titre,
-      image: createFormationDto.image,
       domaine: createFormationDto.domaine,
+      image: createFormationDto.image,
       description: createFormationDto.description,
       objectifs: createFormationDto.objectifs,
       accessType: createFormationDto.accessType,
       invitation: createFormationDto.invitation,
+      formateurId: createFormationDto.formateurId,
     });
 
     const savedFormation = await this.formationsRepository.save(formation);
 
-    if (createFormationDto.modules && createFormationDto.modules.length > 0) {
-      const modules = createFormationDto.modules.map((moduleData) => {
-        const module = this.modulesRepository.create({
+    if (createFormationDto.modules?.length) {
+      const modules = createFormationDto.modules.map((moduleData) =>
+        this.modulesRepository.create({
           titre: moduleData.titre,
-          questions: moduleData.questions,
-          resources: moduleData.resources,
+          questions: moduleData.questions || [],
+          resources: moduleData.resources || [],
           formation: savedFormation,
-        });
-        return module;
-      });
+        }),
+      );
 
       await this.modulesRepository.save(modules);
     }
@@ -82,13 +82,13 @@ export class FormationsService {
     await this.formationsRepository.save(formation);
 
     if (updateData.modules) {
-      await this.modulesRepository.delete({ formation: { id } });
+      await this.modulesRepository.delete({ formationId: id });
 
       const modules = updateData.modules.map((moduleData) => {
         return this.modulesRepository.create({
           titre: moduleData.titre,
-          questions: moduleData.questions,
-          resources: moduleData.resources,
+          questions: moduleData.questions || [],
+          resources: moduleData.resources || [],
           formation: formation,
         });
       });
@@ -102,11 +102,5 @@ export class FormationsService {
   async remove(id: string): Promise<void> {
     const formation = await this.findOne(id);
     await this.formationsRepository.remove(formation);
-  }
-
-  async archive(id: string): Promise<Formation> {
-    const formation = await this.findOne(id);
-    formation.archived = true;
-    return this.formationsRepository.save(formation);
   }
 }

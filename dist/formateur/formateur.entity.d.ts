@@ -1,8 +1,10 @@
 import { Formation } from 'formation/entities/formation.entity';
 export declare class Formateur {
-    id: number;
+    id: string;
     nom: string;
     email: string;
-    motDePasse: string;
+    password: string;
     formations: Formation[];
+    createdAt: Date;
+    updatedAt: Date;
 }

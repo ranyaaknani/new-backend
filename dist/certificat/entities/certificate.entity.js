@@ -22,8 +22,8 @@ let Certificat = class Certificat {
 };
 exports.Certificat = Certificat;
 __decorate([
-    (0, typeorm_1.PrimaryGeneratedColumn)(),
-    __metadata("design:type", Number)
+    (0, typeorm_1.PrimaryGeneratedColumn)('uuid'),
+    __metadata("design:type", String)
 ], Certificat.prototype, "id", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
@@ -42,10 +42,13 @@ __decorate([
     __metadata("design:type", String)
 ], Certificat.prototype, "urlPdf", void 0);
 __decorate([
-    (0, typeorm_1.ManyToMany)(() => participant_entity_1.Participant, participant => participant.certificatsObtenus),
+    (0, typeorm_1.ManyToMany)(() => participant_entity_1.Participant, (participant) => participant.certificatsObtenus, {
+        onDelete: 'CASCADE',
+    }),
+    (0, typeorm_1.JoinTable)(),
     __metadata("design:type", Array)
 ], Certificat.prototype, "participants", void 0);
 exports.Certificat = Certificat = __decorate([
     (0, typeorm_1.Entity)()
 ], Certificat);
-//# sourceMappingURL=ressource.entity.js.map
+//# sourceMappingURL=certificate.entity.js.map

@@ -6,7 +6,8 @@ import {
   Param,
   Put,
   Delete,
-  Patch,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { FormationsService } from './formations.service';
 import { CreateFormationDto } from './dto/create-formation.dto';
@@ -16,9 +17,30 @@ import { Formation } from './entities/formation.entity';
 export class FormationsController {
   constructor(private readonly formationsService: FormationsService) {}
 
-  @Post()
-  create(@Body() createFormationDto: CreateFormationDto): Promise<Formation> {
-    return this.formationsService.create(createFormationDto);
+  @Post('add')
+  async create(@Body() createFormationDto: CreateFormationDto): Promise<{
+    success: boolean;
+    message: string;
+    data: Formation;
+  }> {
+    try {
+      const formation = await this.formationsService.create(createFormationDto);
+      return {
+        success: true,
+        message: 'Formation created successfully',
+        data: formation,
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          success: false,
+          message: 'Failed to create formation',
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 
   @Get()
@@ -42,10 +64,5 @@ export class FormationsController {
   @Delete(':id')
   remove(@Param('id') id: string): Promise<void> {
     return this.formationsService.remove(id);
-  }
-
-  @Patch(':id/archive')
-  archive(@Param('id') id: string): Promise<Formation> {
-    return this.formationsService.archive(id);
   }
 }

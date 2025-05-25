@@ -1,8 +1,16 @@
 import { Repository } from 'typeorm';
 import { Formation } from 'formation/entities/formation.entity';
+import { CreateFormationDto } from 'formation/dto/create-formation.dto';
+import { ModuleEntity } from 'formation/entities/module.entity';
+import { Formateur } from './formateur.entity';
+import { CreateFormateurDto } from './dto/create-formateur.dto';
 export declare class FormateurService {
-    private formationRepository;
-    constructor(formationRepository: Repository<Formation>);
+    private readonly formateurRepository;
+    private readonly formationRepository;
+    private readonly moduleRepository;
+    constructor(formateurRepository: Repository<Formateur>, formationRepository: Repository<Formation>, moduleRepository: Repository<ModuleEntity>);
+    createFormateur(createFormateurDto: CreateFormateurDto): Promise<Omit<Formateur, 'password'>>;
+    getAllFormateurs(): Promise<Omit<Formateur, 'password'>[]>;
     getFormations(formateurId: string): Promise<Formation[]>;
-    addFormation(formateurId: string, data: any): Promise<Formation[]>;
+    addFormation(formateurId: string, data: CreateFormationDto): Promise<Formation>;
 }

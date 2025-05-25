@@ -1,4 +1,4 @@
-import { Formation } from '../../formation/entities/formation.entity';
+import { Formation } from './formation.entity';
 export declare class ModuleEntity {
     id: string;
     titre: string;

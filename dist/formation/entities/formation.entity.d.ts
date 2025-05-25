@@ -1,24 +1,24 @@
-import { User } from '../../users/user.entity';
-import { Module } from '../../modules/entities/module.entity';
-import { Participant } from '../../participant/entities/participant.entity';
+import { ModuleEntity } from './module.entity';
+import { Formateur } from 'formateur/formateur.entity';
+import { Participant } from 'participant/entities/participant.entity';
 export declare class Formation {
     id: string;
     titre: string;
-    image: string;
     domaine: string;
+    image: string;
     description: string;
     objectifs: string;
-    archived: boolean;
-    accessType: 'private' | 'public';
+    accessType: string;
     invitation: {
-        mode: 'email' | 'link' | 'csv';
+        mode: string;
         emails: string[];
         linkGenerated: boolean;
-        csvFile: any;
+        csvFile?: any;
     };
+    formateur: Formateur;
+    formateurId: string;
+    modules: ModuleEntity[];
+    participants: Participant[];
     createdAt: Date;
     updatedAt: Date;
-    formateur: User;
-    modules: Module[];
-    participants: Participant[];
 }

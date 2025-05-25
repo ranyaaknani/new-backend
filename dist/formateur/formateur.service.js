@@ -17,30 +17,68 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const formation_entity_1 = require("../formation/entities/formation.entity");
+const module_entity_1 = require("../formation/entities/module.entity");
+const formateur_entity_1 = require("./formateur.entity");
 let FormateurService = class FormateurService {
+    formateurRepository;
     formationRepository;
-    constructor(formationRepository) {
+    moduleRepository;
+    constructor(formateurRepository, formationRepository, moduleRepository) {
+        this.formateurRepository = formateurRepository;
         this.formationRepository = formationRepository;
+        this.moduleRepository = moduleRepository;
+    }
+    async createFormateur(createFormateurDto) {
+        const existingFormateur = await this.formateurRepository.findOne({
+            where: { email: createFormateurDto.email },
+        });
+        if (existingFormateur) {
+            throw new common_1.ConflictException('Un formateur avec cet email existe déjà');
+        }
+        const hashedPassword = createFormateurDto.password;
+        const formateur = this.formateurRepository.create({
+            ...createFormateurDto,
+            password: hashedPassword,
+        });
+        const savedFormateur = await this.formateurRepository.save(formateur);
+        const { ...result } = savedFormateur;
+        return result;
+    }
+    async getAllFormateurs() {
+        const formateurs = await this.formateurRepository.find({
+            relations: ['formations'],
+            select: ['id', 'nom', 'email', 'createdAt', 'updatedAt'],
+        });
+        return formateurs;
     }
     async getFormations(formateurId) {
         return this.formationRepository.find({
-            where: {
-                formateur: { id: formateurId },
-            },
+            where: { formateurId },
+            relations: ['modules', 'participants', 'formateur'],
         });
     }
     async addFormation(formateurId, data) {
         const formation = this.formationRepository.create({
             ...data,
-            formateur: { id: formateurId },
+            formateurId,
+            modules: data.modules?.map((module) => this.moduleRepository.create(module)) ||
+                [],
         });
-        return this.formationRepository.save(formation);
+        const savedFormation = await this.formationRepository.save(formation);
+        return this.formationRepository.findOneOrFail({
+            where: { id: savedFormation.id },
+            relations: ['modules', 'participants', 'formateur'],
+        });
     }
 };
 exports.FormateurService = FormateurService;
 exports.FormateurService = FormateurService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, typeorm_1.InjectRepository)(formation_entity_1.Formation)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __param(0, (0, typeorm_1.InjectRepository)(formateur_entity_1.Formateur)),
+    __param(1, (0, typeorm_1.InjectRepository)(formation_entity_1.Formation)),
+    __param(2, (0, typeorm_1.InjectRepository)(module_entity_1.ModuleEntity)),
+    __metadata("design:paramtypes", [typeorm_2.Repository,
+        typeorm_2.Repository,
+        typeorm_2.Repository])
 ], FormateurService);
 //# sourceMappingURL=formateur.service.js.map

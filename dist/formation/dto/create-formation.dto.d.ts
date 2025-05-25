@@ -1,38 +1,27 @@
-declare class QCMOptionDto {
-    texte: string;
-    justification: string;
-    isCorrect: boolean;
-}
-declare class QuestionDto {
-    question: string;
-    options: QCMOptionDto[];
-}
-declare class ResourceDto {
-    type: 'video' | 'pdf' | 'word' | 'paragraph' | 'table';
+export declare class ResourceDto {
+    type: string;
     url?: string;
     content?: string;
-    columns?: string[];
-    rows?: string[][];
 }
-declare class ModuleDto {
+export declare class ModuleDto {
     titre: string;
-    questions: QuestionDto[];
     resources: ResourceDto[];
+    questions?: any[];
 }
-declare class InvitationDto {
-    mode: 'email' | 'link' | 'csv';
+export declare class InvitationDto {
+    mode: string;
     emails: string[];
-    linkGenerated: boolean;
-    csvFile: any;
+    linkGenerated?: boolean;
+    csvFile?: any;
 }
 export declare class CreateFormationDto {
     titre: string;
-    image?: string;
     domaine: string;
+    image?: string;
     description: string;
-    objectifs?: string;
-    modules: ModuleDto[];
-    accessType: 'private' | 'public';
+    objectifs: string;
+    accessType: 'public' | 'private';
+    formateurId: string;
     invitation: InvitationDto;
+    modules: ModuleDto[];
 }
-export {};

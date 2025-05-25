@@ -9,56 +9,46 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Module = void 0;
+exports.ModuleEntity = void 0;
 const typeorm_1 = require("typeorm");
 const formation_entity_1 = require("../../formation/entities/formation.entity");
-const section_entity_1 = require("../../section/entities/section.entity");
-let Module = class Module {
+let ModuleEntity = class ModuleEntity {
     id;
     titre;
-    sections;
-    questions;
     resources;
-    createdAt;
-    updatedAt;
+    questions;
     formation;
+    formationId;
 };
-exports.Module = Module;
+exports.ModuleEntity = ModuleEntity;
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)('uuid'),
     __metadata("design:type", String)
-], Module.prototype, "id", void 0);
+], ModuleEntity.prototype, "id", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], Module.prototype, "titre", void 0);
+], ModuleEntity.prototype, "titre", void 0);
 __decorate([
-    (0, typeorm_1.OneToMany)(() => section_entity_1.Section, (section) => section.module, { cascade: true }),
+    (0, typeorm_1.Column)('jsonb', { default: [] }),
     __metadata("design:type", Array)
-], Module.prototype, "sections", void 0);
+], ModuleEntity.prototype, "resources", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'json', default: [] }),
+    (0, typeorm_1.Column)('jsonb', { default: [] }),
     __metadata("design:type", Array)
-], Module.prototype, "questions", void 0);
-__decorate([
-    (0, typeorm_1.Column)({ type: 'json', default: [] }),
-    __metadata("design:type", Array)
-], Module.prototype, "resources", void 0);
-__decorate([
-    (0, typeorm_1.CreateDateColumn)(),
-    __metadata("design:type", Date)
-], Module.prototype, "createdAt", void 0);
-__decorate([
-    (0, typeorm_1.UpdateDateColumn)(),
-    __metadata("design:type", Date)
-], Module.prototype, "updatedAt", void 0);
+], ModuleEntity.prototype, "questions", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => formation_entity_1.Formation, (formation) => formation.modules, {
         onDelete: 'CASCADE',
     }),
+    (0, typeorm_1.JoinColumn)({ name: 'formationId' }),
     __metadata("design:type", formation_entity_1.Formation)
-], Module.prototype, "formation", void 0);
-exports.Module = Module = __decorate([
-    (0, typeorm_1.Entity)()
-], Module);
+], ModuleEntity.prototype, "formation", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], ModuleEntity.prototype, "formationId", void 0);
+exports.ModuleEntity = ModuleEntity = __decorate([
+    (0, typeorm_1.Entity)('modules')
+], ModuleEntity);
 //# sourceMappingURL=module.entity.js.map

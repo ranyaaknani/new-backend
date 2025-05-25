@@ -21,8 +21,22 @@ let FormationsController = class FormationsController {
     constructor(formationsService) {
         this.formationsService = formationsService;
     }
-    create(createFormationDto) {
-        return this.formationsService.create(createFormationDto);
+    async create(createFormationDto) {
+        try {
+            const formation = await this.formationsService.create(createFormationDto);
+            return {
+                success: true,
+                message: 'Formation created successfully',
+                data: formation,
+            };
+        }
+        catch (error) {
+            throw new common_1.HttpException({
+                success: false,
+                message: 'Failed to create formation',
+                error: error.message,
+            }, common_1.HttpStatus.BAD_REQUEST);
+        }
     }
     findAll() {
         return this.formationsService.findAll();
@@ -36,13 +50,10 @@ let FormationsController = class FormationsController {
     remove(id) {
         return this.formationsService.remove(id);
     }
-    archive(id) {
-        return this.formationsService.archive(id);
-    }
 };
 exports.FormationsController = FormationsController;
 __decorate([
-    (0, common_1.Post)(),
+    (0, common_1.Post)('add'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_formation_dto_1.CreateFormationDto]),
@@ -76,13 +87,6 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], FormationsController.prototype, "remove", null);
-__decorate([
-    (0, common_1.Patch)(':id/archive'),
-    __param(0, (0, common_1.Param)('id')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Promise)
-], FormationsController.prototype, "archive", null);
 exports.FormationsController = FormationsController = __decorate([
     (0, common_1.Controller)('formations'),
     __metadata("design:paramtypes", [formations_service_1.FormationsService])

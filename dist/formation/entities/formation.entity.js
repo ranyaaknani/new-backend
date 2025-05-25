@@ -11,24 +11,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Formation = void 0;
 const typeorm_1 = require("typeorm");
-const user_entity_1 = require("../../users/user.entity");
-const module_entity_1 = require("../../modules/entities/module.entity");
+const module_entity_1 = require("./module.entity");
+const formateur_entity_1 = require("../../formateur/formateur.entity");
 const participant_entity_1 = require("../../participant/entities/participant.entity");
 let Formation = class Formation {
     id;
     titre;
-    image;
     domaine;
+    image;
     description;
     objectifs;
-    archived;
     accessType;
     invitation;
-    createdAt;
-    updatedAt;
     formateur;
+    formateurId;
     modules;
     participants;
+    createdAt;
+    updatedAt;
 };
 exports.Formation = Formation;
 __decorate([
@@ -40,37 +40,49 @@ __decorate([
     __metadata("design:type", String)
 ], Formation.prototype, "titre", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
-    __metadata("design:type", String)
-], Formation.prototype, "image", void 0);
-__decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], Formation.prototype, "domaine", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'text' }),
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], Formation.prototype, "image", void 0);
+__decorate([
+    (0, typeorm_1.Column)('text'),
     __metadata("design:type", String)
 ], Formation.prototype, "description", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'text', nullable: true }),
+    (0, typeorm_1.Column)('text'),
     __metadata("design:type", String)
 ], Formation.prototype, "objectifs", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ default: false }),
-    __metadata("design:type", Boolean)
-], Formation.prototype, "archived", void 0);
-__decorate([
-    (0, typeorm_1.Column)({
-        type: 'enum',
-        enum: ['private', 'public'],
-        default: 'private',
-    }),
+    (0, typeorm_1.Column)({ default: 'private' }),
     __metadata("design:type", String)
 ], Formation.prototype, "accessType", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'json', nullable: true }),
+    (0, typeorm_1.Column)('jsonb', { nullable: true }),
     __metadata("design:type", Object)
 ], Formation.prototype, "invitation", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => formateur_entity_1.Formateur, (formateur) => formateur.formations),
+    (0, typeorm_1.JoinColumn)({ name: 'formateurId' }),
+    __metadata("design:type", formateur_entity_1.Formateur)
+], Formation.prototype, "formateur", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'uuid' }),
+    __metadata("design:type", String)
+], Formation.prototype, "formateurId", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => module_entity_1.ModuleEntity, (module) => module.formation, {
+        cascade: true,
+    }),
+    __metadata("design:type", Array)
+], Formation.prototype, "modules", void 0);
+__decorate([
+    (0, typeorm_1.ManyToMany)(() => participant_entity_1.Participant),
+    (0, typeorm_1.JoinTable)(),
+    __metadata("design:type", Array)
+], Formation.prototype, "participants", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)
@@ -79,20 +91,7 @@ __decorate([
     (0, typeorm_1.UpdateDateColumn)(),
     __metadata("design:type", Date)
 ], Formation.prototype, "updatedAt", void 0);
-__decorate([
-    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, (user) => user.formations),
-    __metadata("design:type", user_entity_1.User)
-], Formation.prototype, "formateur", void 0);
-__decorate([
-    (0, typeorm_1.OneToMany)(() => module_entity_1.Module, (module) => module.formation, { cascade: true }),
-    __metadata("design:type", Array)
-], Formation.prototype, "modules", void 0);
-__decorate([
-    (0, typeorm_1.ManyToMany)(() => participant_entity_1.Participant, (participant) => participant.formationsSuivies),
-    (0, typeorm_1.JoinTable)(),
-    __metadata("design:type", Array)
-], Formation.prototype, "participants", void 0);
 exports.Formation = Formation = __decorate([
-    (0, typeorm_1.Entity)()
+    (0, typeorm_1.Entity)('formations')
 ], Formation);
 //# sourceMappingURL=formation.entity.js.map

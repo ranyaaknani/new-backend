@@ -1,14 +1,8 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  ManyToMany,
-  JoinTable,
-} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany } from 'typeorm';
 import { Formation } from '../../formation/entities/formation.entity';
-import { Certificat } from 'certificat/entities/ressource.entity';
+import { Certificat } from 'certificat/entities/certificate.entity';
 
-@Entity()
+@Entity('participants')
 export class Participant {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -16,13 +10,12 @@ export class Participant {
   @Column()
   nom: string;
 
-  @Column()
+  @Column({ unique: true })
   email: string;
 
   @ManyToMany(() => Formation, (formation) => formation.participants)
   formationsSuivies: Formation[];
 
   @ManyToMany(() => Certificat, (certificat) => certificat.participants)
-  @JoinTable()
   certificatsObtenus: Certificat[];
 }
