@@ -1,11 +1,15 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { Formation } from './formation.entity';
+import { ResourceEntity } from 'ressource/entities/ressource.entity';
 
 @Entity('modules')
 export class ModuleEntity {
@@ -15,15 +19,17 @@ export class ModuleEntity {
   @Column()
   titre: string;
 
-  @Column('jsonb', { default: [] })
-  resources: {
-    type: string;
-    url?: string;
-    content?: string;
-  }[];
+  @Column({ default: 0 })
+  order: number;
 
-  @Column('jsonb', { default: [] })
-  questions: any[];
+  @Column('text', { nullable: true })
+  description?: string;
+
+  @Column({ nullable: true })
+  duration?: number; // in minutes
+
+  @Column('jsonb', { nullable: true })
+  questions?: any[];
 
   @ManyToOne(() => Formation, (formation) => formation.modules)
   @JoinColumn({ name: 'formationId' })
@@ -31,4 +37,15 @@ export class ModuleEntity {
 
   @Column({ type: 'uuid' })
   formationId: string;
+
+  @OneToMany(() => ResourceEntity, (resource) => resource.module, {
+    cascade: true,
+  })
+  resources: ResourceEntity[];
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 }

@@ -1,8 +1,19 @@
-import { Section } from 'section/entities/section.entity';
-export declare class Ressource {
+import { ModuleEntity } from 'formation/entities/module.entity';
+export declare class ResourceEntity {
     id: string;
-    titre: string;
+    title: string;
     type: string;
-    url: string;
-    section: Section;
+    videoLink?: string;
+    pdfLink?: string;
+    textLink?: string;
+    content?: string;
+    duration?: number;
+    order: number;
+    isCompleted: boolean;
+    thumbnail?: string;
+    description?: string;
+    module: ModuleEntity;
+    moduleId: string;
+    createdAt: Date;
+    updatedAt: Date;
 }

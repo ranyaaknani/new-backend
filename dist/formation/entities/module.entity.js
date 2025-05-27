@@ -12,13 +12,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ModuleEntity = void 0;
 const typeorm_1 = require("typeorm");
 const formation_entity_1 = require("./formation.entity");
+const ressource_entity_1 = require("../../ressource/entities/ressource.entity");
 let ModuleEntity = class ModuleEntity {
     id;
     titre;
-    resources;
+    order;
+    description;
+    duration;
     questions;
     formation;
     formationId;
+    resources;
+    createdAt;
+    updatedAt;
 };
 exports.ModuleEntity = ModuleEntity;
 __decorate([
@@ -30,11 +36,19 @@ __decorate([
     __metadata("design:type", String)
 ], ModuleEntity.prototype, "titre", void 0);
 __decorate([
-    (0, typeorm_1.Column)('jsonb', { default: [] }),
-    __metadata("design:type", Array)
-], ModuleEntity.prototype, "resources", void 0);
+    (0, typeorm_1.Column)({ default: 0 }),
+    __metadata("design:type", Number)
+], ModuleEntity.prototype, "order", void 0);
 __decorate([
-    (0, typeorm_1.Column)('jsonb', { default: [] }),
+    (0, typeorm_1.Column)('text', { nullable: true }),
+    __metadata("design:type", String)
+], ModuleEntity.prototype, "description", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", Number)
+], ModuleEntity.prototype, "duration", void 0);
+__decorate([
+    (0, typeorm_1.Column)('jsonb', { nullable: true }),
     __metadata("design:type", Array)
 ], ModuleEntity.prototype, "questions", void 0);
 __decorate([
@@ -46,6 +60,20 @@ __decorate([
     (0, typeorm_1.Column)({ type: 'uuid' }),
     __metadata("design:type", String)
 ], ModuleEntity.prototype, "formationId", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => ressource_entity_1.ResourceEntity, (resource) => resource.module, {
+        cascade: true,
+    }),
+    __metadata("design:type", Array)
+], ModuleEntity.prototype, "resources", void 0);
+__decorate([
+    (0, typeorm_1.CreateDateColumn)(),
+    __metadata("design:type", Date)
+], ModuleEntity.prototype, "createdAt", void 0);
+__decorate([
+    (0, typeorm_1.UpdateDateColumn)(),
+    __metadata("design:type", Date)
+], ModuleEntity.prototype, "updatedAt", void 0);
 exports.ModuleEntity = ModuleEntity = __decorate([
     (0, typeorm_1.Entity)('modules')
 ], ModuleEntity);

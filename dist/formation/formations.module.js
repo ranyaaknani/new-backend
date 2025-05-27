@@ -13,12 +13,21 @@ const formations_service_1 = require("./formations.service");
 const formations_controller_1 = require("./formations.controller");
 const formation_entity_1 = require("./entities/formation.entity");
 const module_entity_1 = require("../modules/entities/module.entity");
+const ressource_entity_1 = require("../ressource/entities/ressource.entity");
+const invitation_entity_1 = require("../invitation/invitation.entity");
 let FormationsModule = class FormationsModule {
 };
 exports.FormationsModule = FormationsModule;
 exports.FormationsModule = FormationsModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([formation_entity_1.Formation, module_entity_1.ModuleEntity])],
+        imports: [
+            typeorm_1.TypeOrmModule.forFeature([
+                formation_entity_1.Formation,
+                module_entity_1.ModuleEntity,
+                ressource_entity_1.ResourceEntity,
+                invitation_entity_1.InvitationEntity,
+            ]),
+        ],
         controllers: [formations_controller_1.FormationsController],
         providers: [formations_service_1.FormationsService],
         exports: [formations_service_1.FormationsService],

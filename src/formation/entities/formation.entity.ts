@@ -13,6 +13,7 @@ import {
 import { ModuleEntity } from './module.entity';
 import { Formateur } from 'formateur/formateur.entity';
 import { Participant } from 'participant/entities/participant.entity';
+import { InvitationEntity } from 'invitation/invitation.entity';
 
 @Entity('formations')
 export class Formation {
@@ -37,14 +38,6 @@ export class Formation {
   @Column({ default: 'private' })
   accessType: string;
 
-  @Column('jsonb', { nullable: true })
-  invitation: {
-    mode: string;
-    emails: string[];
-    linkGenerated: boolean;
-    csvFile?: any;
-  };
-
   @ManyToOne(() => Formateur, (formateur) => formateur.formations)
   @JoinColumn({ name: 'formateurId' })
   formateur: Formateur;
@@ -56,6 +49,11 @@ export class Formation {
     cascade: true,
   })
   modules: ModuleEntity[];
+
+  @OneToMany(() => InvitationEntity, (invitation) => invitation.formation, {
+    cascade: true,
+  })
+  invitations: InvitationEntity[];
 
   @ManyToMany(() => Participant)
   @JoinTable()

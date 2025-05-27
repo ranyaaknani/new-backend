@@ -9,38 +9,94 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Ressource = void 0;
-const section_entity_1 = require("../../section/entities/section.entity");
+exports.ResourceEntity = void 0;
+const module_entity_1 = require("../../formation/entities/module.entity");
 const typeorm_1 = require("typeorm");
-let Ressource = class Ressource {
+let ResourceEntity = class ResourceEntity {
     id;
-    titre;
+    title;
     type;
-    url;
-    section;
+    videoLink;
+    pdfLink;
+    textLink;
+    content;
+    duration;
+    order;
+    isCompleted;
+    thumbnail;
+    description;
+    module;
+    moduleId;
+    createdAt;
+    updatedAt;
 };
-exports.Ressource = Ressource;
+exports.ResourceEntity = ResourceEntity;
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)('uuid'),
     __metadata("design:type", String)
-], Ressource.prototype, "id", void 0);
+], ResourceEntity.prototype, "id", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], Ressource.prototype, "titre", void 0);
+], ResourceEntity.prototype, "title", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], Ressource.prototype, "type", void 0);
+], ResourceEntity.prototype, "type", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
-], Ressource.prototype, "url", void 0);
+], ResourceEntity.prototype, "videoLink", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => section_entity_1.Section, (section) => section.ressources),
-    __metadata("design:type", section_entity_1.Section)
-], Ressource.prototype, "section", void 0);
-exports.Ressource = Ressource = __decorate([
-    (0, typeorm_1.Entity)()
-], Ressource);
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], ResourceEntity.prototype, "pdfLink", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], ResourceEntity.prototype, "textLink", void 0);
+__decorate([
+    (0, typeorm_1.Column)('text', { nullable: true }),
+    __metadata("design:type", String)
+], ResourceEntity.prototype, "content", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", Number)
+], ResourceEntity.prototype, "duration", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ default: 0 }),
+    __metadata("design:type", Number)
+], ResourceEntity.prototype, "order", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ default: false }),
+    __metadata("design:type", Boolean)
+], ResourceEntity.prototype, "isCompleted", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], ResourceEntity.prototype, "thumbnail", void 0);
+__decorate([
+    (0, typeorm_1.Column)('text', { nullable: true }),
+    __metadata("design:type", String)
+], ResourceEntity.prototype, "description", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => module_entity_1.ModuleEntity, (module) => module.resources),
+    (0, typeorm_1.JoinColumn)({ name: 'moduleId' }),
+    __metadata("design:type", module_entity_1.ModuleEntity)
+], ResourceEntity.prototype, "module", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'uuid' }),
+    __metadata("design:type", String)
+], ResourceEntity.prototype, "moduleId", void 0);
+__decorate([
+    (0, typeorm_1.CreateDateColumn)(),
+    __metadata("design:type", Date)
+], ResourceEntity.prototype, "createdAt", void 0);
+__decorate([
+    (0, typeorm_1.UpdateDateColumn)(),
+    __metadata("design:type", Date)
+], ResourceEntity.prototype, "updatedAt", void 0);
+exports.ResourceEntity = ResourceEntity = __decorate([
+    (0, typeorm_1.Entity)('resources')
+], ResourceEntity);
 //# sourceMappingURL=ressource.entity.js.map

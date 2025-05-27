@@ -9,77 +9,195 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreateFormationDto = exports.InvitationDto = exports.ModuleDto = exports.ResourceDto = void 0;
+exports.CreateFormationDto = exports.CreateInvitationDto = exports.CreateModuleDto = exports.CreateResourceDto = void 0;
 const class_transformer_1 = require("class-transformer");
 const class_validator_1 = require("class-validator");
-class ResourceDto {
+class CreateResourceDto {
+    title;
     type;
-    url;
+    videoLink;
+    pdfLink;
+    textLink;
     content;
+    duration;
+    order;
+    isCompleted;
+    thumbnail;
+    description;
 }
-exports.ResourceDto = ResourceDto;
+exports.CreateResourceDto = CreateResourceDto;
 __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
-], ResourceDto.prototype, "type", void 0);
+], CreateResourceDto.prototype, "title", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", String)
+], CreateResourceDto.prototype, "type", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
-], ResourceDto.prototype, "url", void 0);
+], CreateResourceDto.prototype, "videoLink", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
-], ResourceDto.prototype, "content", void 0);
-class ModuleDto {
+], CreateResourceDto.prototype, "pdfLink", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], CreateResourceDto.prototype, "textLink", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], CreateResourceDto.prototype, "content", void 0);
+__decorate([
+    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Number)
+], CreateResourceDto.prototype, "duration", void 0);
+__decorate([
+    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Number)
+], CreateResourceDto.prototype, "order", void 0);
+__decorate([
+    (0, class_validator_1.IsBoolean)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Boolean)
+], CreateResourceDto.prototype, "isCompleted", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], CreateResourceDto.prototype, "thumbnail", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], CreateResourceDto.prototype, "description", void 0);
+class CreateModuleDto {
     titre;
+    order;
+    description;
+    duration;
     resources;
     questions;
 }
-exports.ModuleDto = ModuleDto;
+exports.CreateModuleDto = CreateModuleDto;
 __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
-], ModuleDto.prototype, "titre", void 0);
+], CreateModuleDto.prototype, "titre", void 0);
+__decorate([
+    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Number)
+], CreateModuleDto.prototype, "order", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], CreateModuleDto.prototype, "description", void 0);
+__decorate([
+    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Number)
+], CreateModuleDto.prototype, "duration", void 0);
 __decorate([
     (0, class_validator_1.IsArray)(),
     (0, class_validator_1.ValidateNested)({ each: true }),
-    (0, class_transformer_1.Type)(() => ResourceDto),
+    (0, class_transformer_1.Type)(() => CreateResourceDto),
     __metadata("design:type", Array)
-], ModuleDto.prototype, "resources", void 0);
+], CreateModuleDto.prototype, "resources", void 0);
 __decorate([
     (0, class_validator_1.IsArray)(),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", Array)
-], ModuleDto.prototype, "questions", void 0);
-class InvitationDto {
+], CreateModuleDto.prototype, "questions", void 0);
+class CreateInvitationDto {
     mode;
     emails;
+    fromEmails;
+    toEmails;
+    invitationLink;
     linkGenerated;
     csvFile;
+    csvImage;
+    subject;
+    message;
+    expiresAt;
+    isActive;
 }
-exports.InvitationDto = InvitationDto;
+exports.CreateInvitationDto = CreateInvitationDto;
 __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
-], InvitationDto.prototype, "mode", void 0);
+], CreateInvitationDto.prototype, "mode", void 0);
 __decorate([
     (0, class_validator_1.IsArray)(),
     (0, class_validator_1.IsString)({ each: true }),
+    (0, class_validator_1.IsOptional)(),
     __metadata("design:type", Array)
-], InvitationDto.prototype, "emails", void 0);
+], CreateInvitationDto.prototype, "emails", void 0);
 __decorate([
+    (0, class_validator_1.IsArray)(),
+    (0, class_validator_1.IsString)({ each: true }),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Array)
+], CreateInvitationDto.prototype, "fromEmails", void 0);
+__decorate([
+    (0, class_validator_1.IsArray)(),
+    (0, class_validator_1.IsString)({ each: true }),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Array)
+], CreateInvitationDto.prototype, "toEmails", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], CreateInvitationDto.prototype, "invitationLink", void 0);
+__decorate([
+    (0, class_validator_1.IsBoolean)(),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", Boolean)
-], InvitationDto.prototype, "linkGenerated", void 0);
+], CreateInvitationDto.prototype, "linkGenerated", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", Object)
-], InvitationDto.prototype, "csvFile", void 0);
+], CreateInvitationDto.prototype, "csvFile", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], CreateInvitationDto.prototype, "csvImage", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], CreateInvitationDto.prototype, "subject", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], CreateInvitationDto.prototype, "message", void 0);
+__decorate([
+    (0, class_validator_1.IsDateString)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], CreateInvitationDto.prototype, "expiresAt", void 0);
+__decorate([
+    (0, class_validator_1.IsBoolean)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Boolean)
+], CreateInvitationDto.prototype, "isActive", void 0);
 class CreateFormationDto {
     titre;
     domaine;
@@ -129,13 +247,13 @@ __decorate([
 ], CreateFormationDto.prototype, "formateurId", void 0);
 __decorate([
     (0, class_validator_1.ValidateNested)(),
-    (0, class_transformer_1.Type)(() => InvitationDto),
-    __metadata("design:type", InvitationDto)
+    (0, class_transformer_1.Type)(() => CreateInvitationDto),
+    __metadata("design:type", CreateInvitationDto)
 ], CreateFormationDto.prototype, "invitation", void 0);
 __decorate([
     (0, class_validator_1.IsArray)(),
     (0, class_validator_1.ValidateNested)({ each: true }),
-    (0, class_transformer_1.Type)(() => ModuleDto),
+    (0, class_transformer_1.Type)(() => CreateModuleDto),
     __metadata("design:type", Array)
 ], CreateFormationDto.prototype, "modules", void 0);
 //# sourceMappingURL=create-formation.dto.js.map

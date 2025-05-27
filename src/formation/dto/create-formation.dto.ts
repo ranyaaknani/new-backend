@@ -1,57 +1,140 @@
 import { Type } from 'class-transformer';
 import {
   IsArray,
+  IsBoolean,
+  IsDateString,
   IsEnum,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsString,
   IsUUID,
   ValidateNested,
 } from 'class-validator';
 
-export class ResourceDto {
+export class CreateResourceDto {
+  @IsString()
+  @IsNotEmpty()
+  title: string;
+
   @IsString()
   @IsNotEmpty()
   type: string;
 
   @IsString()
   @IsOptional()
-  url?: string;
+  videoLink?: string;
+
+  @IsString()
+  @IsOptional()
+  pdfLink?: string;
+
+  @IsString()
+  @IsOptional()
+  textLink?: string;
 
   @IsString()
   @IsOptional()
   content?: string;
+
+  @IsNumber()
+  @IsOptional()
+  duration?: number;
+
+  @IsNumber()
+  @IsOptional()
+  order?: number;
+
+  @IsBoolean()
+  @IsOptional()
+  isCompleted?: boolean;
+
+  @IsString()
+  @IsOptional()
+  thumbnail?: string;
+
+  @IsString()
+  @IsOptional()
+  description?: string;
 }
 
-export class ModuleDto {
+export class CreateModuleDto {
   @IsString()
   @IsNotEmpty()
   titre: string;
 
+  @IsNumber()
+  @IsOptional()
+  order?: number;
+
+  @IsString()
+  @IsOptional()
+  description?: string;
+
+  @IsNumber()
+  @IsOptional()
+  duration?: number;
+
   @IsArray()
   @ValidateNested({ each: true })
-  @Type(() => ResourceDto)
-  resources: ResourceDto[];
+  @Type(() => CreateResourceDto)
+  resources: CreateResourceDto[];
 
   @IsArray()
   @IsOptional()
   questions?: any[];
 }
 
-export class InvitationDto {
+export class CreateInvitationDto {
   @IsString()
   @IsNotEmpty()
   mode: string;
 
   @IsArray()
   @IsString({ each: true })
-  emails: string[];
+  @IsOptional()
+  emails?: string[];
 
+  @IsArray()
+  @IsString({ each: true })
+  @IsOptional()
+  fromEmails?: string[];
+
+  @IsArray()
+  @IsString({ each: true })
+  @IsOptional()
+  toEmails?: string[];
+
+  @IsString()
+  @IsOptional()
+  invitationLink?: string;
+
+  @IsBoolean()
   @IsOptional()
   linkGenerated?: boolean;
 
   @IsOptional()
   csvFile?: any;
+
+  @IsString()
+  @IsOptional()
+  csvImage?: string;
+
+  @IsString()
+  @IsOptional()
+  subject?: string;
+
+  @IsString()
+  @IsOptional()
+  message?: string;
+
+  @IsDateString()
+  @IsOptional()
+  expiresAt?: string;
+
+  @IsBoolean()
+  @IsOptional()
+  isActive?: boolean;
 }
 
 export class CreateFormationDto {
@@ -84,11 +167,11 @@ export class CreateFormationDto {
   formateurId: string;
 
   @ValidateNested()
-  @Type(() => InvitationDto)
-  invitation: InvitationDto;
+  @Type(() => CreateInvitationDto)
+  invitation: CreateInvitationDto;
 
   @IsArray()
   @ValidateNested({ each: true })
-  @Type(() => ModuleDto)
-  modules: ModuleDto[];
+  @Type(() => CreateModuleDto)
+  modules: CreateModuleDto[];
 }

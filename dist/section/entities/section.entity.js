@@ -11,7 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Section = void 0;
 const typeorm_1 = require("typeorm");
-const ressource_entity_1 = require("../../ressource/entities/ressource.entity");
 const quiz_entity_1 = require("../../quiz/entities/quiz.entity");
 const module_entity_1 = require("./module.entity");
 let Section = class Section {
@@ -19,7 +18,6 @@ let Section = class Section {
     titre;
     module;
     quizzes;
-    ressources;
 };
 exports.Section = Section;
 __decorate([
@@ -38,12 +36,6 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => quiz_entity_1.Quiz, (quiz) => quiz.section, { cascade: true }),
     __metadata("design:type", Array)
 ], Section.prototype, "quizzes", void 0);
-__decorate([
-    (0, typeorm_1.OneToMany)(() => ressource_entity_1.Ressource, (ressource) => ressource.section, {
-        cascade: true,
-    }),
-    __metadata("design:type", Array)
-], Section.prototype, "ressources", void 0);
 exports.Section = Section = __decorate([
     (0, typeorm_1.Entity)()
 ], Section);
