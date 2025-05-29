@@ -20,8 +20,8 @@ let ModuleEntity = class ModuleEntity {
     description;
     duration;
     questions;
-    formation;
     formationId;
+    formation;
     resources;
     createdAt;
     updatedAt;
@@ -48,21 +48,24 @@ __decorate([
     __metadata("design:type", Number)
 ], ModuleEntity.prototype, "duration", void 0);
 __decorate([
-    (0, typeorm_1.Column)('jsonb', { nullable: true }),
+    (0, typeorm_1.Column)('jsonb', { nullable: true, default: '[]' }),
     __metadata("design:type", Array)
 ], ModuleEntity.prototype, "questions", void 0);
-__decorate([
-    (0, typeorm_1.ManyToOne)(() => formation_entity_1.Formation, (formation) => formation.modules),
-    (0, typeorm_1.JoinColumn)({ name: 'formationId' }),
-    __metadata("design:type", formation_entity_1.Formation)
-], ModuleEntity.prototype, "formation", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'uuid' }),
     __metadata("design:type", String)
 ], ModuleEntity.prototype, "formationId", void 0);
 __decorate([
+    (0, typeorm_1.ManyToOne)(() => formation_entity_1.Formation, (formation) => formation.modules, {
+        onDelete: 'CASCADE',
+    }),
+    (0, typeorm_1.JoinColumn)({ name: 'formationId' }),
+    __metadata("design:type", formation_entity_1.Formation)
+], ModuleEntity.prototype, "formation", void 0);
+__decorate([
     (0, typeorm_1.OneToMany)(() => ressource_entity_1.ResourceEntity, (resource) => resource.module, {
         cascade: true,
+        onDelete: 'CASCADE',
     }),
     __metadata("design:type", Array)
 ], ModuleEntity.prototype, "resources", void 0);

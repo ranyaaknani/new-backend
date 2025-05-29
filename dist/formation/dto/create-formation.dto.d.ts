@@ -16,7 +16,7 @@ export declare class CreateModuleDto {
     order?: number;
     description?: string;
     duration?: number;
-    resources: CreateResourceDto[];
+    resources?: CreateResourceDto[];
     questions?: any[];
 }
 export declare class CreateInvitationDto {
@@ -41,6 +41,6 @@ export declare class CreateFormationDto {
     objectifs: string;
     accessType: 'public' | 'private';
     formateurId: string;
-    invitation: CreateInvitationDto;
-    modules: CreateModuleDto[];
+    invitation?: CreateInvitationDto;
+    modules?: CreateModuleDto[];
 }

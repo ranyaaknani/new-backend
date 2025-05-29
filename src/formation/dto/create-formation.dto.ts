@@ -78,7 +78,8 @@ export class CreateModuleDto {
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => CreateResourceDto)
-  resources: CreateResourceDto[];
+  @IsOptional()
+  resources?: CreateResourceDto[];
 
   @IsArray()
   @IsOptional()
@@ -168,10 +169,12 @@ export class CreateFormationDto {
 
   @ValidateNested()
   @Type(() => CreateInvitationDto)
-  invitation: CreateInvitationDto;
+  @IsOptional()
+  invitation?: CreateInvitationDto;
 
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => CreateModuleDto)
-  modules: CreateModuleDto[];
+  @IsOptional()
+  modules?: CreateModuleDto[];
 }

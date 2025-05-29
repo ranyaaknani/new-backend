@@ -25,8 +25,8 @@ let ResourceEntity = class ResourceEntity {
     isCompleted;
     thumbnail;
     description;
-    module;
     moduleId;
+    module;
     createdAt;
     updatedAt;
 };
@@ -80,14 +80,16 @@ __decorate([
     __metadata("design:type", String)
 ], ResourceEntity.prototype, "description", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => module_entity_1.ModuleEntity, (module) => module.resources),
-    (0, typeorm_1.JoinColumn)({ name: 'moduleId' }),
-    __metadata("design:type", module_entity_1.ModuleEntity)
-], ResourceEntity.prototype, "module", void 0);
-__decorate([
     (0, typeorm_1.Column)({ type: 'uuid' }),
     __metadata("design:type", String)
 ], ResourceEntity.prototype, "moduleId", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => module_entity_1.ModuleEntity, (module) => module.resources, {
+        onDelete: 'CASCADE',
+    }),
+    (0, typeorm_1.JoinColumn)({ name: 'moduleId' }),
+    __metadata("design:type", module_entity_1.ModuleEntity)
+], ResourceEntity.prototype, "module", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)

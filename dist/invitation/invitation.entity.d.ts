@@ -13,8 +13,8 @@ export declare class InvitationEntity {
     message?: string;
     expiresAt?: Date;
     isActive: boolean;
-    formation: Formation;
     formationId: string;
+    formation: Formation;
     createdAt: Date;
     updatedAt: Date;
 }

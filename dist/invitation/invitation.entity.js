@@ -26,8 +26,8 @@ let InvitationEntity = class InvitationEntity {
     message;
     expiresAt;
     isActive;
-    formation;
     formationId;
+    formation;
     createdAt;
     updatedAt;
 };
@@ -85,14 +85,16 @@ __decorate([
     __metadata("design:type", Boolean)
 ], InvitationEntity.prototype, "isActive", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => formation_entity_1.Formation, (formation) => formation.invitations),
-    (0, typeorm_1.JoinColumn)({ name: 'formationId' }),
-    __metadata("design:type", formation_entity_1.Formation)
-], InvitationEntity.prototype, "formation", void 0);
-__decorate([
     (0, typeorm_1.Column)({ type: 'uuid' }),
     __metadata("design:type", String)
 ], InvitationEntity.prototype, "formationId", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => formation_entity_1.Formation, (formation) => formation.invitations, {
+        onDelete: 'CASCADE',
+    }),
+    (0, typeorm_1.JoinColumn)({ name: 'formationId' }),
+    __metadata("design:type", formation_entity_1.Formation)
+], InvitationEntity.prototype, "formation", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)

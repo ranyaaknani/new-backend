@@ -7,8 +7,8 @@ export declare class ModuleEntity {
     description?: string;
     duration?: number;
     questions?: any[];
-    formation: Formation;
     formationId: string;
+    formation: Formation;
     resources: ResourceEntity[];
     createdAt: Date;
     updatedAt: Date;

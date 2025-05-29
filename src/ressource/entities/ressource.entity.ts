@@ -47,12 +47,14 @@ export class ResourceEntity {
   @Column('text', { nullable: true })
   description?: string;
 
-  @ManyToOne(() => ModuleEntity, (module) => module.resources)
-  @JoinColumn({ name: 'moduleId' })
-  module: ModuleEntity;
-
   @Column({ type: 'uuid' })
   moduleId: string;
+
+  @ManyToOne(() => ModuleEntity, (module) => module.resources, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'moduleId' })
+  module: ModuleEntity;
 
   @CreateDateColumn()
   createdAt: Date;

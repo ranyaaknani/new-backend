@@ -15,8 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.FormateurController = void 0;
 const common_1 = require("@nestjs/common");
 const formateur_service_1 = require("./formateur.service");
-const jwt_auth_guard_1 = require("../auth/jwt-auth.guard");
-const create_formation_dto_1 = require("../formation/dto/create-formation.dto");
 const create_formateur_dto_1 = require("./dto/create-formateur.dto");
 let FormateurController = class FormateurController {
     formateurService;
@@ -25,14 +23,6 @@ let FormateurController = class FormateurController {
     }
     createFormateur(createFormateurDto) {
         return this.formateurService.createFormateur(createFormateurDto);
-    }
-    async getFormations(req) {
-        const formateurId = req.user.id;
-        return this.formateurService.getFormations(formateurId);
-    }
-    async addFormation(createFormationDto, req) {
-        const formateurId = req.user.id;
-        return this.formateurService.addFormation(formateurId, createFormationDto);
     }
     getAllFormateurs() {
         return this.formateurService.getAllFormateurs();
@@ -46,23 +36,6 @@ __decorate([
     __metadata("design:paramtypes", [create_formateur_dto_1.CreateFormateurDto]),
     __metadata("design:returntype", void 0)
 ], FormateurController.prototype, "createFormateur", null);
-__decorate([
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    (0, common_1.Get)('formations'),
-    __param(0, (0, common_1.Req)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", Promise)
-], FormateurController.prototype, "getFormations", null);
-__decorate([
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    (0, common_1.Post)('formations'),
-    __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Req)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_formation_dto_1.CreateFormationDto, Object]),
-    __metadata("design:returntype", Promise)
-], FormateurController.prototype, "addFormation", null);
 __decorate([
     (0, common_1.Get)(),
     __metadata("design:type", Function),

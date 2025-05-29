@@ -38,20 +38,22 @@ export class Formation {
   @Column({ default: 'private' })
   accessType: string;
 
+  @Column({ type: 'uuid' })
+  formateurId: string;
+
   @ManyToOne(() => Formateur, (formateur) => formateur.formations)
   @JoinColumn({ name: 'formateurId' })
   formateur: Formateur;
 
-  @Column({ type: 'uuid' })
-  formateurId: string;
-
   @OneToMany(() => ModuleEntity, (module) => module.formation, {
     cascade: true,
+    onDelete: 'CASCADE',
   })
   modules: ModuleEntity[];
 
   @OneToMany(() => InvitationEntity, (invitation) => invitation.formation, {
     cascade: true,
+    onDelete: 'CASCADE',
   })
   invitations: InvitationEntity[];
 

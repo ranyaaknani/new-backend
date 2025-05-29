@@ -2,7 +2,6 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Formation } from 'formation/entities/formation.entity';
-import { CreateFormationDto } from 'formation/dto/create-formation.dto';
 import { ModuleEntity } from 'formation/entities/module.entity';
 import { Formateur } from './formateur.entity';
 import { CreateFormateurDto } from './dto/create-formateur.dto';
@@ -50,32 +49,5 @@ export class FormateurService {
       select: ['id', 'nom', 'email', 'createdAt', 'updatedAt'],
     });
     return formateurs;
-  }
-
-  async getFormations(formateurId: string): Promise<Formation[]> {
-    return this.formationRepository.find({
-      where: { formateurId },
-      relations: ['modules', 'participants', 'formateur'],
-    });
-  }
-
-  async addFormation(
-    formateurId: string,
-    data: CreateFormationDto,
-  ): Promise<Formation> {
-    const formation = this.formationRepository.create({
-      ...data,
-      formateurId,
-      modules:
-        data.modules?.map((module) => this.moduleRepository.create(module)) ||
-        [],
-    });
-
-    const savedFormation = await this.formationRepository.save(formation);
-
-    return this.formationRepository.findOneOrFail({
-      where: { id: savedFormation.id },
-      relations: ['modules', 'participants', 'formateur'],
-    });
   }
 }

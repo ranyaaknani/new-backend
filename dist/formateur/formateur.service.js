@@ -51,25 +51,6 @@ let FormateurService = class FormateurService {
         });
         return formateurs;
     }
-    async getFormations(formateurId) {
-        return this.formationRepository.find({
-            where: { formateurId },
-            relations: ['modules', 'participants', 'formateur'],
-        });
-    }
-    async addFormation(formateurId, data) {
-        const formation = this.formationRepository.create({
-            ...data,
-            formateurId,
-            modules: data.modules?.map((module) => this.moduleRepository.create(module)) ||
-                [],
-        });
-        const savedFormation = await this.formationRepository.save(formation);
-        return this.formationRepository.findOneOrFail({
-            where: { id: savedFormation.id },
-            relations: ['modules', 'participants', 'formateur'],
-        });
-    }
 };
 exports.FormateurService = FormateurService;
 exports.FormateurService = FormateurService = __decorate([

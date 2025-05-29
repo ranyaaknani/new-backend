@@ -114,6 +114,7 @@ __decorate([
     (0, class_validator_1.IsArray)(),
     (0, class_validator_1.ValidateNested)({ each: true }),
     (0, class_transformer_1.Type)(() => CreateResourceDto),
+    (0, class_validator_1.IsOptional)(),
     __metadata("design:type", Array)
 ], CreateModuleDto.prototype, "resources", void 0);
 __decorate([
@@ -248,12 +249,14 @@ __decorate([
 __decorate([
     (0, class_validator_1.ValidateNested)(),
     (0, class_transformer_1.Type)(() => CreateInvitationDto),
+    (0, class_validator_1.IsOptional)(),
     __metadata("design:type", CreateInvitationDto)
 ], CreateFormationDto.prototype, "invitation", void 0);
 __decorate([
     (0, class_validator_1.IsArray)(),
     (0, class_validator_1.ValidateNested)({ each: true }),
     (0, class_transformer_1.Type)(() => CreateModuleDto),
+    (0, class_validator_1.IsOptional)(),
     __metadata("design:type", Array)
 ], CreateFormationDto.prototype, "modules", void 0);
 //# sourceMappingURL=create-formation.dto.js.map

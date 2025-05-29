@@ -12,8 +12,8 @@ export declare class ResourceEntity {
     isCompleted: boolean;
     thumbnail?: string;
     description?: string;
-    module: ModuleEntity;
     moduleId: string;
+    module: ModuleEntity;
     createdAt: Date;
     updatedAt: Date;
 }

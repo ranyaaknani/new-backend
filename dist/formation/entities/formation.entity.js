@@ -23,8 +23,8 @@ let Formation = class Formation {
     description;
     objectifs;
     accessType;
-    formateur;
     formateurId;
+    formateur;
     modules;
     invitations;
     participants;
@@ -61,23 +61,25 @@ __decorate([
     __metadata("design:type", String)
 ], Formation.prototype, "accessType", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ type: 'uuid' }),
+    __metadata("design:type", String)
+], Formation.prototype, "formateurId", void 0);
+__decorate([
     (0, typeorm_1.ManyToOne)(() => formateur_entity_1.Formateur, (formateur) => formateur.formations),
     (0, typeorm_1.JoinColumn)({ name: 'formateurId' }),
     __metadata("design:type", formateur_entity_1.Formateur)
 ], Formation.prototype, "formateur", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'uuid' }),
-    __metadata("design:type", String)
-], Formation.prototype, "formateurId", void 0);
-__decorate([
     (0, typeorm_1.OneToMany)(() => module_entity_1.ModuleEntity, (module) => module.formation, {
         cascade: true,
+        onDelete: 'CASCADE',
     }),
     __metadata("design:type", Array)
 ], Formation.prototype, "modules", void 0);
 __decorate([
     (0, typeorm_1.OneToMany)(() => invitation_entity_1.InvitationEntity, (invitation) => invitation.formation, {
         cascade: true,
+        onDelete: 'CASCADE',
     }),
     __metadata("design:type", Array)
 ], Formation.prototype, "invitations", void 0);

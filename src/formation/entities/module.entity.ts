@@ -26,20 +26,23 @@ export class ModuleEntity {
   description?: string;
 
   @Column({ nullable: true })
-  duration?: number; // in minutes
+  duration?: number;
 
-  @Column('jsonb', { nullable: true })
+  @Column('jsonb', { nullable: true, default: '[]' })
   questions?: any[];
-
-  @ManyToOne(() => Formation, (formation) => formation.modules)
-  @JoinColumn({ name: 'formationId' })
-  formation: Formation;
 
   @Column({ type: 'uuid' })
   formationId: string;
 
+  @ManyToOne(() => Formation, (formation) => formation.modules, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'formationId' })
+  formation: Formation;
+
   @OneToMany(() => ResourceEntity, (resource) => resource.module, {
     cascade: true,
+    onDelete: 'CASCADE',
   })
   resources: ResourceEntity[];
 

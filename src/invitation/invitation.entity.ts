@@ -50,12 +50,14 @@ export class InvitationEntity {
   @Column({ default: true })
   isActive: boolean;
 
-  @ManyToOne(() => Formation, (formation) => formation.invitations)
-  @JoinColumn({ name: 'formationId' })
-  formation: Formation;
-
   @Column({ type: 'uuid' })
   formationId: string;
+
+  @ManyToOne(() => Formation, (formation) => formation.invitations, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'formationId' })
+  formation: Formation;
 
   @CreateDateColumn()
   createdAt: Date;

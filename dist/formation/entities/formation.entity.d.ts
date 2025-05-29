@@ -10,8 +10,8 @@ export declare class Formation {
     description: string;
     objectifs: string;
     accessType: string;
-    formateur: Formateur;
     formateurId: string;
+    formateur: Formateur;
     modules: ModuleEntity[];
     invitations: InvitationEntity[];
     participants: Participant[];
