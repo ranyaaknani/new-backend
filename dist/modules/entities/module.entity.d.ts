@@ -1,13 +1,15 @@
 import { Formation } from '../../formation/entities/formation.entity';
+import { ResourceEntity } from 'ressource/entities/ressource.entity';
 export declare class ModuleEntity {
     id: string;
     titre: string;
-    resources: {
-        type: string;
-        url?: string;
-        content?: string;
-    }[];
-    questions: any[];
-    formation: Formation;
+    order: number;
+    description?: string;
+    duration?: number;
+    questions?: any[];
     formationId: string;
+    formation: Formation;
+    resources: ResourceEntity[];
+    createdAt: Date;
+    updatedAt: Date;
 }

@@ -12,14 +12,14 @@ const formateur_controller_1 = require("./formateur.controller");
 const formateur_service_1 = require("./formateur.service");
 const typeorm_1 = require("@nestjs/typeorm");
 const formation_entity_1 = require("../formation/entities/formation.entity");
-const module_entity_1 = require("../formation/entities/module.entity");
 const formateur_entity_1 = require("./formateur.entity");
+const module_entity_1 = require("../modules/entities/module.entity");
 let FormateurModule = class FormateurModule {
 };
 exports.FormateurModule = FormateurModule;
 exports.FormateurModule = FormateurModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([formation_entity_1.Formation, module_entity_1.ModuleEntity, formateur_entity_1.Formateur])],
+        imports: [typeorm_1.TypeOrmModule.forFeature([formateur_entity_1.Formateur, formation_entity_1.Formation, module_entity_1.ModuleEntity])],
         controllers: [formateur_controller_1.FormateurController],
         providers: [formateur_service_1.FormateurService],
         exports: [formateur_service_1.FormateurService],

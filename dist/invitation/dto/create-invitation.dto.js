@@ -14,11 +14,16 @@ const class_validator_1 = require("class-validator");
 class CreateInvitationDto {
     mode;
     emails;
-    linkGenerated;
+    fromEmails;
+    toEmails;
     invitationLink;
+    linkGenerated;
+    csvFile;
     csvImage;
-    validFrom;
-    validTo;
+    subject;
+    message;
+    expiresAt;
+    isActive;
     formationId;
 }
 exports.CreateInvitationDto = CreateInvitationDto;
@@ -30,28 +35,60 @@ __decorate([
 __decorate([
     (0, class_validator_1.IsArray)(),
     (0, class_validator_1.IsString)({ each: true }),
+    (0, class_validator_1.IsOptional)(),
     __metadata("design:type", Array)
 ], CreateInvitationDto.prototype, "emails", void 0);
 __decorate([
+    (0, class_validator_1.IsArray)(),
+    (0, class_validator_1.IsString)({ each: true }),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Array)
+], CreateInvitationDto.prototype, "fromEmails", void 0);
+__decorate([
+    (0, class_validator_1.IsArray)(),
+    (0, class_validator_1.IsString)({ each: true }),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Array)
+], CreateInvitationDto.prototype, "toEmails", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], CreateInvitationDto.prototype, "invitationLink", void 0);
+__decorate([
+    (0, class_validator_1.IsBoolean)(),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", Boolean)
 ], CreateInvitationDto.prototype, "linkGenerated", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
-    __metadata("design:type", String)
-], CreateInvitationDto.prototype, "invitationLink", void 0);
+    __metadata("design:type", Object)
+], CreateInvitationDto.prototype, "csvFile", void 0);
 __decorate([
+    (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], CreateInvitationDto.prototype, "csvImage", void 0);
 __decorate([
+    (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsOptional)(),
-    __metadata("design:type", Date)
-], CreateInvitationDto.prototype, "validFrom", void 0);
+    __metadata("design:type", String)
+], CreateInvitationDto.prototype, "subject", void 0);
 __decorate([
+    (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsOptional)(),
-    __metadata("design:type", Date)
-], CreateInvitationDto.prototype, "validTo", void 0);
+    __metadata("design:type", String)
+], CreateInvitationDto.prototype, "message", void 0);
+__decorate([
+    (0, class_validator_1.IsDateString)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], CreateInvitationDto.prototype, "expiresAt", void 0);
+__decorate([
+    (0, class_validator_1.IsBoolean)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Boolean)
+], CreateInvitationDto.prototype, "isActive", void 0);
 __decorate([
     (0, class_validator_1.IsUUID)(),
     (0, class_validator_1.IsNotEmpty)(),

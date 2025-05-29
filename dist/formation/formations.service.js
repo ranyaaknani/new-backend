@@ -17,82 +17,96 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const formation_entity_1 = require("./entities/formation.entity");
-const module_entity_1 = require("./entities/module.entity");
 const ressource_entity_1 = require("../ressource/entities/ressource.entity");
 const invitation_entity_1 = require("../invitation/invitation.entity");
+const module_entity_1 = require("../modules/entities/module.entity");
+const formateur_entity_1 = require("../formateur/formateur.entity");
 let FormationsService = class FormationsService {
     formationsRepository;
+    formateurRepository;
     modulesRepository;
-    resourcesRepository;
     invitationsRepository;
-    constructor(formationsRepository, modulesRepository, resourcesRepository, invitationsRepository) {
+    resourcesRepository;
+    dataSource;
+    constructor(formationsRepository, formateurRepository, modulesRepository, invitationsRepository, resourcesRepository, dataSource) {
         this.formationsRepository = formationsRepository;
+        this.formateurRepository = formateurRepository;
         this.modulesRepository = modulesRepository;
-        this.resourcesRepository = resourcesRepository;
         this.invitationsRepository = invitationsRepository;
+        this.resourcesRepository = resourcesRepository;
+        this.dataSource = dataSource;
     }
     async create(createFormationDto) {
-        const formation = this.formationsRepository.create({
-            titre: createFormationDto.titre,
-            domaine: createFormationDto.domaine,
-            image: createFormationDto.image,
-            description: createFormationDto.description,
-            objectifs: createFormationDto.objectifs,
-            accessType: createFormationDto.accessType,
-            formateurId: createFormationDto.formateurId,
-        });
-        const savedFormation = await this.formationsRepository.save(formation);
-        if (createFormationDto.invitation) {
-            const invitation = this.invitationsRepository.create({
-                mode: createFormationDto.invitation.mode,
-                emails: createFormationDto.invitation.emails,
-                fromEmails: createFormationDto.invitation.fromEmails,
-                toEmails: createFormationDto.invitation.toEmails,
-                invitationLink: createFormationDto.invitation.invitationLink,
-                linkGenerated: createFormationDto.invitation.linkGenerated || false,
-                csvFile: createFormationDto?.invitation?.csvFile,
-                csvImage: createFormationDto.invitation.csvImage,
-                subject: createFormationDto.invitation.subject,
-                message: createFormationDto.invitation.message,
-                expiresAt: createFormationDto.invitation.expiresAt
-                    ? new Date(createFormationDto.invitation.expiresAt)
-                    : undefined,
-                isActive: createFormationDto.invitation.isActive !== false,
-                formationId: savedFormation.id,
+        const queryRunner = this.dataSource.createQueryRunner();
+        await queryRunner.connect();
+        await queryRunner.startTransaction();
+        try {
+            const formateur = await this.formateurRepository.findOne({
+                where: { id: createFormationDto.formateurId },
             });
-            await this.invitationsRepository.save(invitation);
-        }
-        if (createFormationDto.modules?.length) {
-            for (const moduleData of createFormationDto.modules) {
-                const module = this.modulesRepository.create({
-                    titre: moduleData.titre,
-                    order: moduleData.order || 0,
-                    description: moduleData.description,
-                    duration: moduleData.duration,
-                    questions: moduleData.questions || [],
+            if (!formateur) {
+                throw new common_1.NotFoundException(`Formateur with ID ${createFormationDto.formateurId} not found`);
+            }
+            const formation = this.formationsRepository.create({
+                titre: createFormationDto.titre,
+                domaine: createFormationDto.domaine,
+                image: createFormationDto.image,
+                description: createFormationDto.description,
+                objectifs: createFormationDto.objectifs,
+                accessType: createFormationDto.accessType,
+                formateurId: createFormationDto.formateurId,
+            });
+            const savedFormation = await queryRunner.manager.save(formation);
+            if (createFormationDto.invitation) {
+                const invitation = this.invitationsRepository.create({
+                    mode: createFormationDto.invitation.mode,
+                    emails: createFormationDto.invitation.emails,
+                    subject: createFormationDto.invitation.subject,
+                    message: createFormationDto.invitation.message,
                     formationId: savedFormation.id,
                 });
-                const savedModule = await this.modulesRepository.save(module);
-                if (moduleData.resources?.length) {
-                    const resources = moduleData.resources.map((resourceData, index) => this.resourcesRepository.create({
-                        title: resourceData.title,
-                        type: resourceData.type,
-                        videoLink: resourceData.videoLink,
-                        pdfLink: resourceData.pdfLink,
-                        textLink: resourceData.textLink,
-                        content: resourceData.content,
-                        duration: resourceData.duration,
-                        order: resourceData.order !== undefined ? resourceData.order : index,
-                        isCompleted: resourceData.isCompleted || false,
-                        thumbnail: resourceData.thumbnail,
-                        description: resourceData.description,
-                        moduleId: savedModule.id,
-                    }));
-                    await this.resourcesRepository.save(resources);
+                await queryRunner.manager.save(invitation);
+            }
+            if (createFormationDto.modules?.length) {
+                for (const moduleData of createFormationDto.modules) {
+                    const module = this.modulesRepository.create({
+                        titre: moduleData.titre,
+                        order: moduleData.order || 0,
+                        description: moduleData.description,
+                        duration: moduleData.duration,
+                        questions: moduleData.questions || [],
+                        formationId: savedFormation.id,
+                    });
+                    const savedModule = await queryRunner.manager.save(module);
+                    if (moduleData.resources?.length) {
+                        const resources = moduleData.resources.map((resourceData, index) => this.resourcesRepository.create({
+                            title: resourceData.title,
+                            type: resourceData.type,
+                            videoLink: resourceData.videoLink,
+                            pdfLink: resourceData.pdfLink,
+                            textLink: resourceData.textLink,
+                            content: resourceData.content,
+                            duration: resourceData.duration,
+                            order: resourceData.order !== undefined ? resourceData.order : index,
+                            isCompleted: resourceData.isCompleted || false,
+                            thumbnail: resourceData.thumbnail,
+                            description: resourceData.description,
+                            moduleId: savedModule.id,
+                        }));
+                        await queryRunner.manager.save(resources);
+                    }
                 }
             }
+            await queryRunner.commitTransaction();
+            return this.findOne(savedFormation.id);
         }
-        return this.findOne(savedFormation.id);
+        catch (error) {
+            await queryRunner.rollbackTransaction();
+            throw new common_1.ConflictException(`Failed to create formation: ${error.message}`);
+        }
+        finally {
+            await queryRunner.release();
+        }
     }
     async findAll() {
         return this.formationsRepository.find({
@@ -136,78 +150,93 @@ let FormationsService = class FormationsService {
             },
         });
         if (!formation) {
-            throw new Error(`Formation with ID ${id} not found`);
+            throw new common_1.NotFoundException(`Formation with ID ${id} not found`);
         }
         return formation;
     }
     async update(id, updateFormationDto) {
-        const formation = await this.findOne(id);
-        if (updateFormationDto.titre)
-            formation.titre = updateFormationDto.titre;
-        if (updateFormationDto.domaine)
-            formation.domaine = updateFormationDto.domaine;
-        if (updateFormationDto.image !== undefined)
-            formation.image = updateFormationDto.image;
-        if (updateFormationDto.description)
-            formation.description = updateFormationDto.description;
-        if (updateFormationDto.objectifs)
-            formation.objectifs = updateFormationDto.objectifs;
-        if (updateFormationDto.accessType)
-            formation.accessType = updateFormationDto.accessType;
-        await this.formationsRepository.save(formation);
-        if (updateFormationDto.invitation) {
-            await this.invitationsRepository.delete({ formationId: id });
-            const invitation = this.invitationsRepository.create({
-                mode: updateFormationDto.invitation.mode,
-                emails: updateFormationDto.invitation.emails,
-                fromEmails: updateFormationDto.invitation.fromEmails,
-                toEmails: updateFormationDto.invitation.toEmails,
-                invitationLink: updateFormationDto.invitation.invitationLink,
-                linkGenerated: updateFormationDto.invitation.linkGenerated || false,
-                csvFile: updateFormationDto.invitation.csvFile,
-                csvImage: updateFormationDto.invitation.csvImage,
-                subject: updateFormationDto.invitation.subject,
-                message: updateFormationDto.invitation.message,
-                expiresAt: updateFormationDto.invitation.expiresAt
-                    ? new Date(updateFormationDto.invitation.expiresAt)
-                    : undefined,
-                isActive: updateFormationDto.invitation.isActive !== false,
-                formationId: id,
-            });
-            await this.invitationsRepository.save(invitation);
-        }
-        if (updateFormationDto.modules) {
-            await this.modulesRepository.delete({ formationId: id });
-            for (const moduleData of updateFormationDto.modules) {
-                const module = this.modulesRepository.create({
-                    titre: moduleData.titre,
-                    order: moduleData.order || 0,
-                    description: moduleData.description,
-                    duration: moduleData.duration,
-                    questions: moduleData.questions || [],
+        const queryRunner = this.dataSource.createQueryRunner();
+        await queryRunner.connect();
+        await queryRunner.startTransaction();
+        try {
+            const formation = await this.findOne(id);
+            if (updateFormationDto.titre)
+                formation.titre = updateFormationDto.titre;
+            if (updateFormationDto.domaine)
+                formation.domaine = updateFormationDto.domaine;
+            if (updateFormationDto.image !== undefined)
+                formation.image = updateFormationDto.image;
+            if (updateFormationDto.description)
+                formation.description = updateFormationDto.description;
+            if (updateFormationDto.objectifs)
+                formation.objectifs = updateFormationDto.objectifs;
+            if (updateFormationDto.accessType)
+                formation.accessType = updateFormationDto.accessType;
+            if (updateFormationDto.formateurId)
+                formation.formateurId = updateFormationDto.formateurId;
+            await queryRunner.manager.save(formation);
+            if (updateFormationDto.invitation) {
+                await queryRunner.manager.delete(invitation_entity_1.InvitationEntity, { formationId: id });
+                const invitation = this.invitationsRepository.create({
+                    mode: updateFormationDto.invitation.mode,
+                    emails: updateFormationDto.invitation.emails,
+                    fromEmails: updateFormationDto.invitation.fromEmails,
+                    toEmails: updateFormationDto.invitation.toEmails,
+                    invitationLink: updateFormationDto.invitation.invitationLink,
+                    linkGenerated: updateFormationDto.invitation.linkGenerated || false,
+                    csvFile: updateFormationDto.invitation.csvFile,
+                    csvImage: updateFormationDto.invitation.csvImage,
+                    subject: updateFormationDto.invitation.subject,
+                    message: updateFormationDto.invitation.message,
+                    expiresAt: updateFormationDto.invitation.expiresAt
+                        ? new Date(updateFormationDto.invitation.expiresAt)
+                        : undefined,
+                    isActive: updateFormationDto.invitation.isActive !== false,
                     formationId: id,
                 });
-                const savedModule = await this.modulesRepository.save(module);
-                if (moduleData.resources?.length) {
-                    const resources = moduleData.resources.map((resourceData, index) => this.resourcesRepository.create({
-                        title: resourceData.title,
-                        type: resourceData.type,
-                        videoLink: resourceData.videoLink,
-                        pdfLink: resourceData.pdfLink,
-                        textLink: resourceData.textLink,
-                        content: resourceData.content,
-                        duration: resourceData.duration,
-                        order: resourceData.order !== undefined ? resourceData.order : index,
-                        isCompleted: resourceData.isCompleted || false,
-                        thumbnail: resourceData.thumbnail,
-                        description: resourceData.description,
-                        moduleId: savedModule.id,
-                    }));
-                    await this.resourcesRepository.save(resources);
+                await queryRunner.manager.save(invitation);
+            }
+            if (updateFormationDto.modules) {
+                await queryRunner.manager.delete(module_entity_1.ModuleEntity, { formationId: id });
+                for (const moduleData of updateFormationDto.modules) {
+                    const module = this.modulesRepository.create({
+                        titre: moduleData.titre,
+                        order: moduleData.order || 0,
+                        description: moduleData.description,
+                        duration: moduleData.duration,
+                        questions: moduleData.questions || [],
+                        formationId: id,
+                    });
+                    const savedModule = await queryRunner.manager.save(module);
+                    if (moduleData.resources?.length) {
+                        const resources = moduleData.resources.map((resourceData, index) => this.resourcesRepository.create({
+                            title: resourceData.title,
+                            type: resourceData.type,
+                            videoLink: resourceData.videoLink,
+                            pdfLink: resourceData.pdfLink,
+                            textLink: resourceData.textLink,
+                            content: resourceData.content,
+                            duration: resourceData.duration,
+                            order: resourceData.order !== undefined ? resourceData.order : index,
+                            isCompleted: resourceData.isCompleted || false,
+                            thumbnail: resourceData.thumbnail,
+                            description: resourceData.description,
+                            moduleId: savedModule.id,
+                        }));
+                        await queryRunner.manager.save(resources);
+                    }
                 }
             }
+            await queryRunner.commitTransaction();
+            return this.findOne(id);
         }
-        return this.findOne(id);
+        catch (error) {
+            await queryRunner.rollbackTransaction();
+            throw new common_1.ConflictException(`Failed to update formation: ${error.message}`);
+        }
+        finally {
+            await queryRunner.release();
+        }
     }
     async remove(id) {
         const formation = await this.findOne(id);
@@ -259,12 +288,15 @@ exports.FormationsService = FormationsService;
 exports.FormationsService = FormationsService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(formation_entity_1.Formation)),
-    __param(1, (0, typeorm_1.InjectRepository)(module_entity_1.ModuleEntity)),
-    __param(2, (0, typeorm_1.InjectRepository)(ressource_entity_1.ResourceEntity)),
+    __param(1, (0, typeorm_1.InjectRepository)(formateur_entity_1.Formateur)),
+    __param(2, (0, typeorm_1.InjectRepository)(module_entity_1.ModuleEntity)),
     __param(3, (0, typeorm_1.InjectRepository)(invitation_entity_1.InvitationEntity)),
+    __param(4, (0, typeorm_1.InjectRepository)(ressource_entity_1.ResourceEntity)),
     __metadata("design:paramtypes", [typeorm_2.Repository,
         typeorm_2.Repository,
         typeorm_2.Repository,
-        typeorm_2.Repository])
+        typeorm_2.Repository,
+        typeorm_2.Repository,
+        typeorm_2.DataSource])
 ], FormationsService);
 //# sourceMappingURL=formations.service.js.map

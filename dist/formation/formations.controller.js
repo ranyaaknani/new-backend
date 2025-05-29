@@ -16,6 +16,7 @@ exports.FormationsController = void 0;
 const common_1 = require("@nestjs/common");
 const formations_service_1 = require("./formations.service");
 const create_formation_dto_1 = require("./dto/create-formation.dto");
+const update_formation_dto_1 = require("./dto/update-formation.dto");
 let FormationsController = class FormationsController {
     formationsService;
     constructor(formationsService) {
@@ -77,7 +78,7 @@ __decorate([
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:paramtypes", [String, update_formation_dto_1.UpdateFormationDto]),
     __metadata("design:returntype", Promise)
 ], FormationsController.prototype, "update", null);
 __decorate([

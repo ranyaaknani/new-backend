@@ -1,6 +1,6 @@
-export declare class CreateResourceDto {
-    title: string;
-    type: string;
+export declare class UpdateResourceDto {
+    title?: string;
+    type?: string;
     videoLink?: string;
     pdfLink?: string;
     textLink?: string;
@@ -10,5 +10,4 @@ export declare class CreateResourceDto {
     isCompleted?: boolean;
     thumbnail?: string;
     description?: string;
-    moduleId: string;
 }

@@ -1,20 +1,13 @@
-import {
-  IsBoolean,
-  IsNotEmpty,
-  IsNumber,
-  IsOptional,
-  IsString,
-  IsUUID,
-} from 'class-validator';
+import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator';
 
-export class CreateResourceDto {
+export class UpdateResourceDto {
   @IsString()
-  @IsNotEmpty()
-  title: string;
+  @IsOptional()
+  title?: string;
 
   @IsString()
-  @IsNotEmpty()
-  type: string;
+  @IsOptional()
+  type?: string;
 
   @IsString()
   @IsOptional()
@@ -51,8 +44,4 @@ export class CreateResourceDto {
   @IsString()
   @IsOptional()
   description?: string;
-
-  @IsUUID()
-  @IsNotEmpty()
-  moduleId: string;
 }

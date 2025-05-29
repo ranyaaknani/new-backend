@@ -12,6 +12,7 @@ import {
 import { FormationsService } from './formations.service';
 import { CreateFormationDto } from './dto/create-formation.dto';
 import { Formation } from './entities/formation.entity';
+import { UpdateFormationDto } from './dto/update-formation.dto';
 
 @Controller('formations')
 export class FormationsController {
@@ -56,7 +57,7 @@ export class FormationsController {
   @Put(':id')
   update(
     @Param('id') id: string,
-    @Body() updateFormationDto: Partial<CreateFormationDto>,
+    @Body() updateFormationDto: UpdateFormationDto,
   ): Promise<Formation> {
     return this.formationsService.update(id, updateFormationDto);
   }

@@ -11,10 +11,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Formation = void 0;
 const typeorm_1 = require("typeorm");
-const module_entity_1 = require("./module.entity");
 const formateur_entity_1 = require("../../formateur/formateur.entity");
 const participant_entity_1 = require("../../participant/entities/participant.entity");
 const invitation_entity_1 = require("../../invitation/invitation.entity");
+const module_entity_1 = require("../../modules/entities/module.entity");
 let Formation = class Formation {
     id;
     titre;

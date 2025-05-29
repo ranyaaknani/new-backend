@@ -16,17 +16,12 @@ exports.FormateurService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
-const formation_entity_1 = require("../formation/entities/formation.entity");
-const module_entity_1 = require("../formation/entities/module.entity");
 const formateur_entity_1 = require("./formateur.entity");
+const bcrypt_1 = require("bcrypt");
 let FormateurService = class FormateurService {
     formateurRepository;
-    formationRepository;
-    moduleRepository;
-    constructor(formateurRepository, formationRepository, moduleRepository) {
+    constructor(formateurRepository) {
         this.formateurRepository = formateurRepository;
-        this.formationRepository = formationRepository;
-        this.moduleRepository = moduleRepository;
     }
     async createFormateur(createFormateurDto) {
         const existingFormateur = await this.formateurRepository.findOne({
@@ -35,7 +30,8 @@ let FormateurService = class FormateurService {
         if (existingFormateur) {
             throw new common_1.ConflictException('Un formateur avec cet email existe déjà');
         }
-        const hashedPassword = createFormateurDto.password;
+        const salt = await bcrypt_1.default.genSalt();
+        const hashedPassword = await bcrypt_1.default.hash(createFormateurDto.password, salt);
         const formateur = this.formateurRepository.create({
             ...createFormateurDto,
             password: hashedPassword,
@@ -56,10 +52,6 @@ exports.FormateurService = FormateurService;
 exports.FormateurService = FormateurService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(formateur_entity_1.Formateur)),
-    __param(1, (0, typeorm_1.InjectRepository)(formation_entity_1.Formation)),
-    __param(2, (0, typeorm_1.InjectRepository)(module_entity_1.ModuleEntity)),
-    __metadata("design:paramtypes", [typeorm_2.Repository,
-        typeorm_2.Repository,
-        typeorm_2.Repository])
+    __metadata("design:paramtypes", [typeorm_2.Repository])
 ], FormateurService);
 //# sourceMappingURL=formateur.service.js.map

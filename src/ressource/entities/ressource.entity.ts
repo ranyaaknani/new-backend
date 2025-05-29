@@ -1,4 +1,4 @@
-import { ModuleEntity } from 'formation/entities/module.entity';
+import { ModuleEntity } from 'modules/entities/module.entity';
 import {
   Entity,
   Column,

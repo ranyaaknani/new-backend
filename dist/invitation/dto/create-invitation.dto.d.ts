@@ -1,10 +1,15 @@
 export declare class CreateInvitationDto {
     mode: string;
-    emails: string[];
-    linkGenerated?: boolean;
+    emails?: string[];
+    fromEmails?: string[];
+    toEmails?: string[];
     invitationLink?: string;
+    linkGenerated?: boolean;
+    csvFile?: any;
     csvImage?: string;
-    validFrom?: Date;
-    validTo?: Date;
+    subject?: string;
+    message?: string;
+    expiresAt?: string;
+    isActive?: boolean;
     formationId: string;
 }

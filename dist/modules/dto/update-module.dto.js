@@ -9,55 +9,49 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreateModuleDto = void 0;
+exports.UpdateModuleDto = void 0;
 const class_transformer_1 = require("class-transformer");
 const class_validator_1 = require("class-validator");
 const create_ressource_dto_1 = require("../../ressource/dto/create-ressource.dto");
-class CreateModuleDto {
+class UpdateModuleDto {
     titre;
     order;
     description;
     duration;
     resources;
     questions;
-    formationId;
 }
-exports.CreateModuleDto = CreateModuleDto;
-__decorate([
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsNotEmpty)(),
-    __metadata("design:type", String)
-], CreateModuleDto.prototype, "titre", void 0);
-__decorate([
-    (0, class_validator_1.IsNumber)(),
-    (0, class_validator_1.IsOptional)(),
-    __metadata("design:type", Number)
-], CreateModuleDto.prototype, "order", void 0);
+exports.UpdateModuleDto = UpdateModuleDto;
 __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
-], CreateModuleDto.prototype, "description", void 0);
+], UpdateModuleDto.prototype, "titre", void 0);
 __decorate([
     (0, class_validator_1.IsNumber)(),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", Number)
-], CreateModuleDto.prototype, "duration", void 0);
+], UpdateModuleDto.prototype, "order", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], UpdateModuleDto.prototype, "description", void 0);
+__decorate([
+    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Number)
+], UpdateModuleDto.prototype, "duration", void 0);
 __decorate([
     (0, class_validator_1.IsArray)(),
     (0, class_validator_1.ValidateNested)({ each: true }),
     (0, class_transformer_1.Type)(() => create_ressource_dto_1.CreateResourceDto),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", Array)
-], CreateModuleDto.prototype, "resources", void 0);
+], UpdateModuleDto.prototype, "resources", void 0);
 __decorate([
     (0, class_validator_1.IsArray)(),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", Array)
-], CreateModuleDto.prototype, "questions", void 0);
-__decorate([
-    (0, class_validator_1.IsUUID)(),
-    (0, class_validator_1.IsNotEmpty)(),
-    __metadata("design:type", String)
-], CreateModuleDto.prototype, "formationId", void 0);
-//# sourceMappingURL=create-module.dto.js.map
+], UpdateModuleDto.prototype, "questions", void 0);
+//# sourceMappingURL=update-module.dto.js.map

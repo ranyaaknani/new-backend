@@ -15,6 +15,8 @@ const formation_entity_1 = require("./entities/formation.entity");
 const module_entity_1 = require("../modules/entities/module.entity");
 const ressource_entity_1 = require("../ressource/entities/ressource.entity");
 const invitation_entity_1 = require("../invitation/invitation.entity");
+const formateur_entity_1 = require("../formateur/formateur.entity");
+const formateur_service_1 = require("../formateur/formateur.service");
 let FormationsModule = class FormationsModule {
 };
 exports.FormationsModule = FormationsModule;
@@ -26,10 +28,11 @@ exports.FormationsModule = FormationsModule = __decorate([
                 module_entity_1.ModuleEntity,
                 ressource_entity_1.ResourceEntity,
                 invitation_entity_1.InvitationEntity,
+                formateur_entity_1.Formateur,
             ]),
         ],
         controllers: [formations_controller_1.FormationsController],
-        providers: [formations_service_1.FormationsService],
+        providers: [formations_service_1.FormationsService, formateur_service_1.FormateurService],
         exports: [formations_service_1.FormationsService],
     })
 ], FormationsModule);

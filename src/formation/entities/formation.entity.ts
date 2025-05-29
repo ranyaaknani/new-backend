@@ -10,10 +10,10 @@ import {
   ManyToMany,
   JoinTable,
 } from 'typeorm';
-import { ModuleEntity } from './module.entity';
 import { Formateur } from 'formateur/formateur.entity';
 import { Participant } from 'participant/entities/participant.entity';
 import { InvitationEntity } from 'invitation/invitation.entity';
+import { ModuleEntity } from 'modules/entities/module.entity';
 
 @Entity('formations')
 export class Formation {

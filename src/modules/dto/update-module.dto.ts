@@ -1,19 +1,17 @@
 import { Type } from 'class-transformer';
 import {
   IsArray,
-  IsNotEmpty,
   IsNumber,
   IsOptional,
   IsString,
-  IsUUID,
   ValidateNested,
 } from 'class-validator';
 import { CreateResourceDto } from 'ressource/dto/create-ressource.dto';
 
-export class CreateModuleDto {
+export class UpdateModuleDto {
   @IsString()
-  @IsNotEmpty()
-  titre: string;
+  @IsOptional()
+  titre?: string;
 
   @IsNumber()
   @IsOptional()
@@ -36,8 +34,4 @@ export class CreateModuleDto {
   @IsArray()
   @IsOptional()
   questions?: any[];
-
-  @IsUUID()
-  @IsNotEmpty()
-  formationId: string;
 }

@@ -1,22 +1,15 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Formation } from 'formation/entities/formation.entity';
-import { ModuleEntity } from 'formation/entities/module.entity';
 import { Formateur } from './formateur.entity';
 import { CreateFormateurDto } from './dto/create-formateur.dto';
+import bcrypt from 'bcrypt';
 
 @Injectable()
 export class FormateurService {
   constructor(
     @InjectRepository(Formateur)
     private readonly formateurRepository: Repository<Formateur>,
-
-    @InjectRepository(Formation)
-    private readonly formationRepository: Repository<Formation>,
-
-    @InjectRepository(ModuleEntity)
-    private readonly moduleRepository: Repository<ModuleEntity>,
   ) {}
 
   async createFormateur(
@@ -30,7 +23,8 @@ export class FormateurService {
       throw new ConflictException('Un formateur avec cet email existe déjà');
     }
 
-    const hashedPassword = createFormateurDto.password;
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(createFormateurDto.password, salt);
 
     const formateur = this.formateurRepository.create({
       ...createFormateurDto,

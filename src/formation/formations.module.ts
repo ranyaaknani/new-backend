@@ -6,6 +6,8 @@ import { Formation } from './entities/formation.entity';
 import { ModuleEntity } from 'modules/entities/module.entity';
 import { ResourceEntity } from 'ressource/entities/ressource.entity';
 import { InvitationEntity } from 'invitation/invitation.entity';
+import { Formateur } from 'formateur/formateur.entity';
+import { FormateurService } from 'formateur/formateur.service';
 
 @Module({
   imports: [
@@ -14,10 +16,11 @@ import { InvitationEntity } from 'invitation/invitation.entity';
       ModuleEntity,
       ResourceEntity,
       InvitationEntity,
+      Formateur,
     ]),
   ],
   controllers: [FormationsController],
-  providers: [FormationsService],
+  providers: [FormationsService, FormateurService],
   exports: [FormationsService],
 })
 export class FormationsModule {}

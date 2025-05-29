@@ -9,69 +9,75 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UpdateFormationDto = void 0;
-const class_transformer_1 = require("class-transformer");
+exports.UpdateResourceDto = void 0;
 const class_validator_1 = require("class-validator");
-const create_invitation_dto_1 = require("../../invitation/dto/create-invitation.dto");
-const create_module_dto_1 = require("../../modules/dto/create-module.dto");
-class UpdateFormationDto {
-    titre;
-    domaine;
-    image;
+class UpdateResourceDto {
+    title;
+    type;
+    videoLink;
+    pdfLink;
+    textLink;
+    content;
+    duration;
+    order;
+    isCompleted;
+    thumbnail;
     description;
-    objectifs;
-    accessType;
-    formateurId;
-    invitation;
-    modules;
 }
-exports.UpdateFormationDto = UpdateFormationDto;
+exports.UpdateResourceDto = UpdateResourceDto;
 __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
-], UpdateFormationDto.prototype, "titre", void 0);
+], UpdateResourceDto.prototype, "title", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
-], UpdateFormationDto.prototype, "domaine", void 0);
+], UpdateResourceDto.prototype, "type", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
-], UpdateFormationDto.prototype, "image", void 0);
+], UpdateResourceDto.prototype, "videoLink", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
-], UpdateFormationDto.prototype, "description", void 0);
+], UpdateResourceDto.prototype, "pdfLink", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
-], UpdateFormationDto.prototype, "objectifs", void 0);
+], UpdateResourceDto.prototype, "textLink", void 0);
 __decorate([
-    (0, class_validator_1.IsEnum)(['public', 'private']),
+    (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
-], UpdateFormationDto.prototype, "accessType", void 0);
+], UpdateResourceDto.prototype, "content", void 0);
 __decorate([
-    (0, class_validator_1.IsUUID)(),
+    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Number)
+], UpdateResourceDto.prototype, "duration", void 0);
+__decorate([
+    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Number)
+], UpdateResourceDto.prototype, "order", void 0);
+__decorate([
+    (0, class_validator_1.IsBoolean)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Boolean)
+], UpdateResourceDto.prototype, "isCompleted", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
-], UpdateFormationDto.prototype, "formateurId", void 0);
+], UpdateResourceDto.prototype, "thumbnail", void 0);
 __decorate([
-    (0, class_validator_1.ValidateNested)(),
-    (0, class_transformer_1.Type)(() => create_invitation_dto_1.CreateInvitationDto),
+    (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsOptional)(),
-    __metadata("design:type", create_invitation_dto_1.CreateInvitationDto)
-], UpdateFormationDto.prototype, "invitation", void 0);
-__decorate([
-    (0, class_validator_1.IsArray)(),
-    (0, class_validator_1.ValidateNested)({ each: true }),
-    (0, class_transformer_1.Type)(() => create_module_dto_1.CreateModuleDto),
-    (0, class_validator_1.IsOptional)(),
-    __metadata("design:type", Array)
-], UpdateFormationDto.prototype, "modules", void 0);
-//# sourceMappingURL=update-formation.dto.js.map
+    __metadata("design:type", String)
+], UpdateResourceDto.prototype, "description", void 0);
+//# sourceMappingURL=update-resource.dto.js.map
