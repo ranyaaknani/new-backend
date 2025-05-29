@@ -9,6 +9,12 @@ export declare class FormationsController {
         success: boolean;
         message: string;
         data: Formation;
+        error?: undefined;
+    } | {
+        success: boolean;
+        message: string;
+        error: any;
+        data?: undefined;
     }>;
     findAll(): Promise<Formation[]>;
     findOne(id: string): Promise<Formation>;

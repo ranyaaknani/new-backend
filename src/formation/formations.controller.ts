@@ -6,41 +6,37 @@ import {
   Param,
   Put,
   Delete,
-  HttpException,
-  HttpStatus,
+  UseInterceptors,
 } from '@nestjs/common';
 import { FormationsService } from './formations.service';
 import { CreateFormationDto } from './dto/create-formation.dto';
 import { Formation } from './entities/formation.entity';
 import { UpdateFormationDto } from './dto/update-formation.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('formations')
 export class FormationsController {
   constructor(private readonly formationsService: FormationsService) {}
 
   @Post('add')
-  async create(@Body() createFormationDto: CreateFormationDto): Promise<{
-    success: boolean;
-    message: string;
-    data: Formation;
-  }> {
+  @UseInterceptors(FileInterceptor('csvFile'))
+  async create(@Body() createFormationDto: CreateFormationDto) {
     try {
-      const formation = await this.formationsService.create(createFormationDto);
+      console.log('Received DTO:', createFormationDto);
+      const result = await this.formationsService.create(createFormationDto);
       return {
         success: true,
         message: 'Formation created successfully',
-        data: formation,
+        data: result,
       };
     } catch (error) {
-      throw new HttpException(
-        {
-          success: false,
-          message: 'Failed to create formation',
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-          error: error.message,
-        },
-        HttpStatus.BAD_REQUEST,
-      );
+      console.error('Controller error:', error);
+      return {
+        success: false,
+        message: 'Failed to create formation',
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+        error: error.message,
+      };
     }
   }
 

@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const formations_service_1 = require("./formations.service");
 const create_formation_dto_1 = require("./dto/create-formation.dto");
 const update_formation_dto_1 = require("./dto/update-formation.dto");
+const platform_express_1 = require("@nestjs/platform-express");
 let FormationsController = class FormationsController {
     formationsService;
     constructor(formationsService) {
@@ -24,19 +25,21 @@ let FormationsController = class FormationsController {
     }
     async create(createFormationDto) {
         try {
-            const formation = await this.formationsService.create(createFormationDto);
+            console.log('Received DTO:', createFormationDto);
+            const result = await this.formationsService.create(createFormationDto);
             return {
                 success: true,
                 message: 'Formation created successfully',
-                data: formation,
+                data: result,
             };
         }
         catch (error) {
-            throw new common_1.HttpException({
+            console.error('Controller error:', error);
+            return {
                 success: false,
                 message: 'Failed to create formation',
                 error: error.message,
-            }, common_1.HttpStatus.BAD_REQUEST);
+            };
         }
     }
     findAll() {
@@ -55,6 +58,7 @@ let FormationsController = class FormationsController {
 exports.FormationsController = FormationsController;
 __decorate([
     (0, common_1.Post)('add'),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('csvFile')),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_formation_dto_1.CreateFormationDto]),
