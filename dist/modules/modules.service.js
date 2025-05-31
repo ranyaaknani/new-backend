@@ -19,18 +19,15 @@ const module_entity_1 = require("./entities/module.entity");
 const typeorm_2 = require("typeorm");
 const formation_entity_1 = require("../formation/entities/formation.entity");
 const ressource_entity_1 = require("../ressource/entities/ressource.entity");
-const ressource_service_1 = require("../ressource/ressource.service");
 let ModulesService = class ModulesService {
     modulesRepository;
     formationsRepository;
     resourcesRepository;
-    resourcesService;
     dataSource;
-    constructor(modulesRepository, formationsRepository, resourcesRepository, resourcesService, dataSource) {
+    constructor(modulesRepository, formationsRepository, resourcesRepository, dataSource) {
         this.modulesRepository = modulesRepository;
         this.formationsRepository = formationsRepository;
         this.resourcesRepository = resourcesRepository;
-        this.resourcesService = resourcesService;
         this.dataSource = dataSource;
     }
     async create(createModuleDto) {
@@ -158,7 +155,6 @@ exports.ModulesService = ModulesService = __decorate([
     __metadata("design:paramtypes", [typeorm_2.Repository,
         typeorm_2.Repository,
         typeorm_2.Repository,
-        ressource_service_1.ResourcesService,
         typeorm_2.DataSource])
 ], ModulesService);
 //# sourceMappingURL=modules.service.js.map

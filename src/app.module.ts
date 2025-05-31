@@ -9,6 +9,9 @@ import { FormateurModule } from './formateur/formateur.module';
 import { AuthModule } from './auth/auth.module';
 import { databaseConfig } from 'config/database.config';
 import { FormationsModule } from 'formation/formations.module';
+import { ModulesModule } from 'modules/modules.module';
+import { ResourcesModule } from 'ressource/ressource.module';
+import { InvitationsModule } from 'invitation/invitation.module';
 
 @Module({
   imports: [
@@ -29,6 +32,9 @@ import { FormationsModule } from 'formation/formations.module';
     AdminModule,
     FormateurModule,
     FormationsModule,
+    ModulesModule,
+    ResourcesModule,
+    InvitationsModule,
   ],
 })
 export class AppModule {}

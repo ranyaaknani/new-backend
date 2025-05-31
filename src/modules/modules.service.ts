@@ -8,7 +8,6 @@ import { ModuleEntity } from './entities/module.entity';
 import { DataSource, Repository } from 'typeorm';
 import { Formation } from 'formation/entities/formation.entity';
 import { ResourceEntity } from 'ressource/entities/ressource.entity';
-import { ResourcesService } from 'ressource/ressource.service';
 import { CreateModuleDto } from './dto/create-module.dto';
 import { UpdateModuleDto } from './dto/update-module.dto';
 
@@ -21,7 +20,6 @@ export class ModulesService {
     private formationsRepository: Repository<Formation>,
     @InjectRepository(ResourceEntity)
     private resourcesRepository: Repository<ResourceEntity>,
-    private resourcesService: ResourcesService,
     private dataSource: DataSource,
   ) {}
 

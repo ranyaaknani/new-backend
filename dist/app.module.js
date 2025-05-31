@@ -16,6 +16,9 @@ const formateur_module_1 = require("./formateur/formateur.module");
 const auth_module_1 = require("./auth/auth.module");
 const database_config_1 = require("./config/database.config");
 const formations_module_1 = require("./formation/formations.module");
+const modules_module_1 = require("./modules/modules.module");
+const ressource_module_1 = require("./ressource/ressource.module");
+const invitation_module_1 = require("./invitation/invitation.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -37,6 +40,9 @@ exports.AppModule = AppModule = __decorate([
             admin_module_1.AdminModule,
             formateur_module_1.FormateurModule,
             formations_module_1.FormationsModule,
+            modules_module_1.ModulesModule,
+            ressource_module_1.ResourcesModule,
+            invitation_module_1.InvitationsModule,
         ],
     })
 ], AppModule);
