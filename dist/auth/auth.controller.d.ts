@@ -11,11 +11,17 @@ export declare class AuthController {
         access_token: string;
     }>;
     register(dto: CreateUserDto): Promise<{
-        [x: string]: any;
         id: string;
         email: string;
         password: string;
         name: string;
+        telephone?: string;
         role: Role;
+        status: import("../users/user.entity").UserStatus;
+        hasCertificate: boolean;
+        createdAt: Date;
+        updatedAt: Date;
+        formations: import("../formation/entities/formation.entity").Formation[];
+        certificatsObtenus: import("../certificat/entities/certificate.entity").Certificat[];
     }>;
 }

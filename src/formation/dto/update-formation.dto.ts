@@ -49,4 +49,9 @@ export class UpdateFormationDto {
   @Type(() => CreateModuleDto)
   @IsOptional()
   modules?: CreateModuleDto[];
+
+  @IsArray()
+  @IsUUID(4, { each: true })
+  @IsOptional()
+  participantIds?: string[];
 }

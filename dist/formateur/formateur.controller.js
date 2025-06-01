@@ -16,6 +16,7 @@ exports.FormateurController = void 0;
 const common_1 = require("@nestjs/common");
 const formateur_service_1 = require("./formateur.service");
 const create_formateur_dto_1 = require("./dto/create-formateur.dto");
+const update_formateur_dto_1 = require("./dto/update-formateur.dto");
 let FormateurController = class FormateurController {
     formateurService;
     constructor(formateurService) {
@@ -26,6 +27,15 @@ let FormateurController = class FormateurController {
     }
     getAllFormateurs() {
         return this.formateurService.getAllFormateurs();
+    }
+    updateFormateur(id, updateFormateurDto) {
+        return this.formateurService.updateFormateur(id, updateFormateurDto);
+    }
+    deleteFormateur(id) {
+        return this.formateurService.deleteFormateur(id);
+    }
+    getFormateurById(id) {
+        return this.formateurService.getFormateurById(id);
     }
 };
 exports.FormateurController = FormateurController;
@@ -42,6 +52,28 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], FormateurController.prototype, "getAllFormateurs", null);
+__decorate([
+    (0, common_1.Put)(':id'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, update_formateur_dto_1.UpdateFormateurDto]),
+    __metadata("design:returntype", void 0)
+], FormateurController.prototype, "updateFormateur", null);
+__decorate([
+    (0, common_1.Delete)(':id'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], FormateurController.prototype, "deleteFormateur", null);
+__decorate([
+    (0, common_1.Get)(':id'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], FormateurController.prototype, "getFormateurById", null);
 exports.FormateurController = FormateurController = __decorate([
     (0, common_1.Controller)('formateur'),
     __metadata("design:paramtypes", [formateur_service_1.FormateurService])

@@ -3,4 +3,7 @@ export declare class CreateParticipantDto {
     email: string;
     niveau: string;
     formationId: string;
+    score?: number;
+    certificatObtenu?: boolean;
+    statusFormation?: string;
 }

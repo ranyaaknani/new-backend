@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import { Formation } from '../../formation/entities/formation.entity';
 import { ResourceEntity } from 'ressource/entities/ressource.entity';
+import { Quiz } from 'quiz/entities/quiz.entity';
 
 @Entity('modules')
 export class ModuleEntity {
@@ -45,6 +46,11 @@ export class ModuleEntity {
     onDelete: 'CASCADE',
   })
   resources: ResourceEntity[];
+
+  @OneToMany(() => Quiz, (quiz) => quiz.module, {
+    cascade: true,
+  })
+  quizzes: Quiz[];
 
   @CreateDateColumn()
   createdAt: Date;

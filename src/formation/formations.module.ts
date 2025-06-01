@@ -8,6 +8,7 @@ import { ResourceEntity } from 'ressource/entities/ressource.entity';
 import { InvitationEntity } from 'invitation/invitation.entity';
 import { Formateur } from 'formateur/formateur.entity';
 import { FormateurService } from 'formateur/formateur.service';
+import { User } from 'users/user.entity';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { FormateurService } from 'formateur/formateur.service';
       ResourceEntity,
       InvitationEntity,
       Formateur,
+      User,
     ]),
   ],
   controllers: [FormationsController],

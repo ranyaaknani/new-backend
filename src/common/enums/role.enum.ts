@@ -1,6 +1,5 @@
 export enum Role {
-    Admin = 'admin',
-    Formateur = 'formateur',
-    Participant = 'participant',
-  }
-  
+  Admin = 'admin',
+  Formateur = 'formateur',
+  Participant = 'participant',
+}

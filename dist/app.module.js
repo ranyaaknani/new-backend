@@ -19,6 +19,9 @@ const formations_module_1 = require("./formation/formations.module");
 const modules_module_1 = require("./modules/modules.module");
 const ressource_module_1 = require("./ressource/ressource.module");
 const invitation_module_1 = require("./invitation/invitation.module");
+const quiz_module_1 = require("./quiz/quiz.module");
+const participant_module_1 = require("./participant/participant.module");
+const certificat_module_1 = require("./certificat/certificat.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -43,6 +46,9 @@ exports.AppModule = AppModule = __decorate([
             modules_module_1.ModulesModule,
             ressource_module_1.ResourcesModule,
             invitation_module_1.InvitationsModule,
+            quiz_module_1.QuizModule,
+            participant_module_1.ParticipantModule,
+            certificat_module_1.CertificatModule,
         ],
     })
 ], AppModule);

@@ -16,6 +16,9 @@ class CreateParticipantDto {
     email;
     niveau;
     formationId;
+    score = 0;
+    certificatObtenu = false;
+    statusFormation = 'Inscrit';
 }
 exports.CreateParticipantDto = CreateParticipantDto;
 __decorate([
@@ -31,6 +34,7 @@ __decorate([
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsIn)(['Débutant', 'Intermédiaire', 'Avancé']),
     __metadata("design:type", String)
 ], CreateParticipantDto.prototype, "niveau", void 0);
 __decorate([
@@ -38,4 +42,22 @@ __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CreateParticipantDto.prototype, "formationId", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.Min)(0),
+    (0, class_validator_1.Max)(100),
+    __metadata("design:type", Number)
+], CreateParticipantDto.prototype, "score", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsBoolean)(),
+    __metadata("design:type", Boolean)
+], CreateParticipantDto.prototype, "certificatObtenu", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsIn)(['Inscrit', 'En cours', 'Terminé', 'Annulé']),
+    __metadata("design:type", String)
+], CreateParticipantDto.prototype, "statusFormation", void 0);
 //# sourceMappingURL=create-participant.dto.js.map

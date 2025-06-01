@@ -21,19 +21,22 @@ const ressource_entity_1 = require("../ressource/entities/ressource.entity");
 const invitation_entity_1 = require("../invitation/invitation.entity");
 const module_entity_1 = require("../modules/entities/module.entity");
 const formateur_entity_1 = require("../formateur/formateur.entity");
+const user_entity_1 = require("../users/user.entity");
 let FormationsService = class FormationsService {
     formationsRepository;
     formateurRepository;
     modulesRepository;
     invitationsRepository;
     resourcesRepository;
+    userRepository;
     dataSource;
-    constructor(formationsRepository, formateurRepository, modulesRepository, invitationsRepository, resourcesRepository, dataSource) {
+    constructor(formationsRepository, formateurRepository, modulesRepository, invitationsRepository, resourcesRepository, userRepository, dataSource) {
         this.formationsRepository = formationsRepository;
         this.formateurRepository = formateurRepository;
         this.modulesRepository = modulesRepository;
         this.invitationsRepository = invitationsRepository;
         this.resourcesRepository = resourcesRepository;
+        this.userRepository = userRepository;
         this.dataSource = dataSource;
     }
     async create(createFormationDto) {
@@ -159,7 +162,13 @@ let FormationsService = class FormationsService {
         await queryRunner.connect();
         await queryRunner.startTransaction();
         try {
-            const formation = await this.findOne(id);
+            const formation = await this.formationsRepository.findOne({
+                where: { id },
+                relations: ['participants'],
+            });
+            if (!formation) {
+                throw new common_1.NotFoundException(`Formation with ID ${id} not found`);
+            }
             if (updateFormationDto.titre)
                 formation.titre = updateFormationDto.titre;
             if (updateFormationDto.domaine)
@@ -174,6 +183,24 @@ let FormationsService = class FormationsService {
                 formation.accessType = updateFormationDto.accessType;
             if (updateFormationDto.formateurId)
                 formation.formateurId = updateFormationDto.formateurId;
+            if (updateFormationDto.participantIds !== undefined) {
+                if (updateFormationDto.participantIds.length > 0) {
+                    const validUsers = await this.userRepository.find({
+                        where: {
+                            id: (0, typeorm_2.In)(updateFormationDto.participantIds),
+                        },
+                    });
+                    if (validUsers.length !== updateFormationDto.participantIds.length) {
+                        const validUserIds = validUsers.map((user) => user.id);
+                        const invalidIds = updateFormationDto.participantIds.filter((id) => !validUserIds.includes(id));
+                        throw new common_1.BadRequestException(`Invalid participant user IDs or users don't have participant role: ${invalidIds.join(', ')}`);
+                    }
+                    formation.participants = validUsers;
+                }
+                else {
+                    formation.participants = [];
+                }
+            }
             await queryRunner.manager.save(formation);
             if (updateFormationDto.invitation) {
                 await queryRunner.manager.delete(invitation_entity_1.InvitationEntity, { formationId: id });
@@ -292,7 +319,9 @@ exports.FormationsService = FormationsService = __decorate([
     __param(2, (0, typeorm_1.InjectRepository)(module_entity_1.ModuleEntity)),
     __param(3, (0, typeorm_1.InjectRepository)(invitation_entity_1.InvitationEntity)),
     __param(4, (0, typeorm_1.InjectRepository)(ressource_entity_1.ResourceEntity)),
+    __param(5, (0, typeorm_1.InjectRepository)(user_entity_1.User)),
     __metadata("design:paramtypes", [typeorm_2.Repository,
+        typeorm_2.Repository,
         typeorm_2.Repository,
         typeorm_2.Repository,
         typeorm_2.Repository,

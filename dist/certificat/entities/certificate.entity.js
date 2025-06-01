@@ -10,14 +10,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Certificat = void 0;
+const formation_entity_1 = require("../../formation/entities/formation.entity");
 const typeorm_1 = require("typeorm");
-const participant_entity_1 = require("../../participant/entities/participant.entity");
+const user_entity_1 = require("../../users/user.entity");
 let Certificat = class Certificat {
     id;
     nomParticipant;
     formation;
     dateObtention;
     urlPdf;
+    formationId;
+    formationEntity;
     participants;
 };
 exports.Certificat = Certificat;
@@ -42,10 +45,31 @@ __decorate([
     __metadata("design:type", String)
 ], Certificat.prototype, "urlPdf", void 0);
 __decorate([
-    (0, typeorm_1.ManyToMany)(() => participant_entity_1.Participant, (participant) => participant.certificatsObtenus, {
+    (0, typeorm_1.Column)('uuid'),
+    __metadata("design:type", String)
+], Certificat.prototype, "formationId", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => formation_entity_1.Formation, (formation) => formation.certificats, {
         onDelete: 'CASCADE',
     }),
-    (0, typeorm_1.JoinTable)(),
+    (0, typeorm_1.JoinColumn)({ name: 'formationId' }),
+    __metadata("design:type", formation_entity_1.Formation)
+], Certificat.prototype, "formationEntity", void 0);
+__decorate([
+    (0, typeorm_1.ManyToMany)(() => user_entity_1.User, (user) => user.certificatsObtenus, {
+        onDelete: 'CASCADE',
+    }),
+    (0, typeorm_1.JoinTable)({
+        name: 'certificat_participants',
+        joinColumn: {
+            name: 'certificatId',
+            referencedColumnName: 'id',
+        },
+        inverseJoinColumn: {
+            name: 'userId',
+            referencedColumnName: 'id',
+        },
+    }),
     __metadata("design:type", Array)
 ], Certificat.prototype, "participants", void 0);
 exports.Certificat = Certificat = __decorate([

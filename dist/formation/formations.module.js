@@ -17,6 +17,7 @@ const ressource_entity_1 = require("../ressource/entities/ressource.entity");
 const invitation_entity_1 = require("../invitation/invitation.entity");
 const formateur_entity_1 = require("../formateur/formateur.entity");
 const formateur_service_1 = require("../formateur/formateur.service");
+const user_entity_1 = require("../users/user.entity");
 let FormationsModule = class FormationsModule {
 };
 exports.FormationsModule = FormationsModule;
@@ -29,6 +30,7 @@ exports.FormationsModule = FormationsModule = __decorate([
                 ressource_entity_1.ResourceEntity,
                 invitation_entity_1.InvitationEntity,
                 formateur_entity_1.Formateur,
+                user_entity_1.User,
             ]),
         ],
         controllers: [formations_controller_1.FormationsController],

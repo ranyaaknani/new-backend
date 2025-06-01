@@ -17,7 +17,7 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const formateur_entity_1 = require("./formateur.entity");
-const bcrypt_1 = require("bcrypt");
+const bcrypt = require("bcrypt");
 let FormateurService = class FormateurService {
     formateurRepository;
     constructor(formateurRepository) {
@@ -30,8 +30,8 @@ let FormateurService = class FormateurService {
         if (existingFormateur) {
             throw new common_1.ConflictException('Un formateur avec cet email existe déjà');
         }
-        const salt = await bcrypt_1.default.genSalt();
-        const hashedPassword = await bcrypt_1.default.hash(createFormateurDto.password, salt);
+        const salt = await bcrypt.genSalt();
+        const hashedPassword = await bcrypt.hash(createFormateurDto.password, salt);
         const formateur = this.formateurRepository.create({
             ...createFormateurDto,
             password: hashedPassword,
@@ -46,6 +46,56 @@ let FormateurService = class FormateurService {
             select: ['id', 'nom', 'email', 'createdAt', 'updatedAt'],
         });
         return formateurs;
+    }
+    async updateFormateur(id, updateFormateurDto) {
+        const formateur = await this.formateurRepository.findOne({ where: { id } });
+        if (!formateur) {
+            throw new common_1.NotFoundException('Formateur non trouvé');
+        }
+        if (updateFormateurDto.email &&
+            updateFormateurDto.email !== formateur.email) {
+            const existingFormateur = await this.formateurRepository.findOne({
+                where: { email: updateFormateurDto.email },
+            });
+            if (existingFormateur) {
+                throw new common_1.ConflictException('Un formateur avec cet email existe déjà');
+            }
+        }
+        await this.formateurRepository.update(id, updateFormateurDto);
+        const updatedFormateur = await this.formateurRepository.findOne({
+            where: { id },
+            relations: ['formations'],
+            select: ['id', 'nom', 'email', 'createdAt', 'updatedAt'],
+        });
+        if (!updatedFormateur) {
+            throw new common_1.NotFoundException('Formateur non trouvé après mise à jour');
+        }
+        return updatedFormateur;
+    }
+    async deleteFormateur(id) {
+        const formateur = await this.formateurRepository.findOne({
+            where: { id },
+            relations: ['formations'],
+        });
+        if (!formateur) {
+            throw new common_1.NotFoundException('Formateur non trouvé');
+        }
+        if (formateur.formations && formateur.formations.length > 0) {
+            throw new common_1.BadRequestException('Impossible de supprimer ce formateur car il a des formations associées');
+        }
+        await this.formateurRepository.delete(id);
+        return { message: 'Formateur deleted successfully' };
+    }
+    async getFormateurById(id) {
+        const formateur = await this.formateurRepository.findOne({
+            where: { id },
+            relations: ['formations'],
+            select: ['id', 'nom', 'email', 'createdAt', 'updatedAt'],
+        });
+        if (!formateur) {
+            throw new common_1.NotFoundException('Formateur non trouvé');
+        }
+        return formateur;
     }
 };
 exports.FormateurService = FormateurService;

@@ -1,25 +1,36 @@
 import {
   IsEmail,
-  IsNotEmpty,
   IsString,
-  IsIn,
   IsOptional,
+  IsEnum,
+  IsBoolean,
 } from 'class-validator';
 import { Role } from '../../common/enums/role.enum';
+import { UserStatus } from 'users/user.entity';
 
 export class CreateUserDto {
   @IsEmail()
   email: string;
 
   @IsString()
-  @IsNotEmpty()
   password: string;
 
   @IsString()
-  @IsNotEmpty()
   name: string;
 
-  @IsIn([Role.Participant, Role.Formateur, Role.Admin])
   @IsOptional()
-  role: Role;
+  @IsString()
+  telephone?: string;
+
+  @IsOptional()
+  @IsEnum(Role)
+  role?: Role;
+
+  @IsOptional()
+  @IsEnum(UserStatus)
+  status?: UserStatus;
+
+  @IsOptional()
+  @IsBoolean()
+  hasCertificate?: boolean;
 }

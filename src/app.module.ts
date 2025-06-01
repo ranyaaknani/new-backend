@@ -12,6 +12,9 @@ import { FormationsModule } from 'formation/formations.module';
 import { ModulesModule } from 'modules/modules.module';
 import { ResourcesModule } from 'ressource/ressource.module';
 import { InvitationsModule } from 'invitation/invitation.module';
+import { QuizModule } from 'quiz/quiz.module';
+import { ParticipantModule } from 'participant/participant.module';
+import { CertificatModule } from 'certificat/certificat.module';
 
 @Module({
   imports: [
@@ -35,6 +38,9 @@ import { InvitationsModule } from 'invitation/invitation.module';
     ModulesModule,
     ResourcesModule,
     InvitationsModule,
+    QuizModule,
+    ParticipantModule,
+    CertificatModule,
   ],
 })
 export class AppModule {}

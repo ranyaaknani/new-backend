@@ -1,10 +1,12 @@
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
+import { Role } from 'common/enums/role.enum';
+import { UpdateUserDto } from './dto/update-user.dto';
 export declare class UsersService {
     private userRepository;
-    findAll(): Promise<User[]>;
-    update(user: User): Promise<User>;
+    findAll(role?: Role): Promise<User[]>;
+    update(id: string, updateData: UpdateUserDto): Promise<User>;
     remove(user: User): Promise<{
         deleted: boolean;
     }>;

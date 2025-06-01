@@ -24,6 +24,7 @@ class UpdateFormationDto {
     formateurId;
     invitation;
     modules;
+    participantIds;
 }
 exports.UpdateFormationDto = UpdateFormationDto;
 __decorate([
@@ -74,4 +75,10 @@ __decorate([
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", Array)
 ], UpdateFormationDto.prototype, "modules", void 0);
+__decorate([
+    (0, class_validator_1.IsArray)(),
+    (0, class_validator_1.IsUUID)(4, { each: true }),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Array)
+], UpdateFormationDto.prototype, "participantIds", void 0);
 //# sourceMappingURL=update-formation.dto.js.map

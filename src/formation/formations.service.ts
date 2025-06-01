@@ -1,10 +1,11 @@
 import {
+  BadRequestException,
   ConflictException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, In, Repository } from 'typeorm';
 import { CreateFormationDto } from './dto/create-formation.dto';
 import { Formation } from './entities/formation.entity';
 import { ResourceEntity } from 'ressource/entities/ressource.entity';
@@ -12,6 +13,7 @@ import { InvitationEntity } from 'invitation/invitation.entity';
 import { ModuleEntity } from 'modules/entities/module.entity';
 import { UpdateFormationDto } from './dto/update-formation.dto';
 import { Formateur } from 'formateur/formateur.entity';
+import { User } from 'users/user.entity';
 
 @Injectable()
 export class FormationsService {
@@ -26,6 +28,8 @@ export class FormationsService {
     private invitationsRepository: Repository<InvitationEntity>,
     @InjectRepository(ResourceEntity)
     private resourcesRepository: Repository<ResourceEntity>,
+    @InjectRepository(User)
+    private userRepository: Repository<User>,
     private dataSource: DataSource,
   ) {}
 
@@ -180,7 +184,14 @@ export class FormationsService {
     await queryRunner.startTransaction();
 
     try {
-      const formation = await this.findOne(id);
+      const formation = await this.formationsRepository.findOne({
+        where: { id },
+        relations: ['participants'],
+      });
+
+      if (!formation) {
+        throw new NotFoundException(`Formation with ID ${id} not found`);
+      }
 
       if (updateFormationDto.titre) formation.titre = updateFormationDto.titre;
       if (updateFormationDto.domaine)
@@ -195,6 +206,30 @@ export class FormationsService {
         formation.accessType = updateFormationDto.accessType;
       if (updateFormationDto.formateurId)
         formation.formateurId = updateFormationDto.formateurId;
+
+      if (updateFormationDto.participantIds !== undefined) {
+        if (updateFormationDto.participantIds.length > 0) {
+          const validUsers = await this.userRepository.find({
+            where: {
+              id: In(updateFormationDto.participantIds),
+            },
+          });
+
+          if (validUsers.length !== updateFormationDto.participantIds.length) {
+            const validUserIds = validUsers.map((user) => user.id);
+            const invalidIds = updateFormationDto.participantIds.filter(
+              (id) => !validUserIds.includes(id),
+            );
+            throw new BadRequestException(
+              `Invalid participant user IDs or users don't have participant role: ${invalidIds.join(', ')}`,
+            );
+          }
+
+          formation.participants = validUsers;
+        } else {
+          formation.participants = [];
+        }
+      }
 
       await queryRunner.manager.save(formation);
 
@@ -223,6 +258,7 @@ export class FormationsService {
         await queryRunner.manager.save(invitation);
       }
 
+      // Handle modules update (existing code)
       if (updateFormationDto.modules) {
         await queryRunner.manager.delete(ModuleEntity, { formationId: id });
 

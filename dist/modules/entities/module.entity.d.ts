@@ -1,5 +1,6 @@
 import { Formation } from '../../formation/entities/formation.entity';
 import { ResourceEntity } from 'ressource/entities/ressource.entity';
+import { Quiz } from 'quiz/entities/quiz.entity';
 export declare class ModuleEntity {
     id: string;
     titre: string;
@@ -10,6 +11,7 @@ export declare class ModuleEntity {
     formationId: string;
     formation: Formation;
     resources: ResourceEntity[];
+    quizzes: Quiz[];
     createdAt: Date;
     updatedAt: Date;
 }

@@ -13,6 +13,7 @@ exports.ModuleEntity = void 0;
 const typeorm_1 = require("typeorm");
 const formation_entity_1 = require("../../formation/entities/formation.entity");
 const ressource_entity_1 = require("../../ressource/entities/ressource.entity");
+const quiz_entity_1 = require("../../quiz/entities/quiz.entity");
 let ModuleEntity = class ModuleEntity {
     id;
     titre;
@@ -23,6 +24,7 @@ let ModuleEntity = class ModuleEntity {
     formationId;
     formation;
     resources;
+    quizzes;
     createdAt;
     updatedAt;
 };
@@ -69,6 +71,12 @@ __decorate([
     }),
     __metadata("design:type", Array)
 ], ModuleEntity.prototype, "resources", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => quiz_entity_1.Quiz, (quiz) => quiz.module, {
+        cascade: true,
+    }),
+    __metadata("design:type", Array)
+], ModuleEntity.prototype, "quizzes", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)

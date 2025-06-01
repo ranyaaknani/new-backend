@@ -1,9 +1,23 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToMany,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { Role } from '../common/enums/role.enum';
+import { Formation } from 'formation/entities/formation.entity';
+import { Certificat } from 'certificat/entities/certificate.entity';
+
+export enum UserStatus {
+  Active = 'active',
+  Inactive = 'inactive',
+  Suspended = 'suspended',
+}
 
 @Entity()
 export class User {
-  [x: string]: any;
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -16,10 +30,35 @@ export class User {
   @Column()
   name: string;
 
+  @Column({ nullable: true })
+  telephone?: string;
+
   @Column({
     type: 'enum',
     enum: Role,
     default: Role.Participant,
   })
   role: Role;
+
+  @Column({
+    type: 'enum',
+    enum: UserStatus,
+    default: UserStatus.Active,
+  })
+  status: UserStatus;
+
+  @Column({ default: false })
+  hasCertificate: boolean;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  @ManyToMany(() => Formation, (formation) => formation.participants)
+  formations: Formation[];
+
+  @ManyToMany(() => Certificat, (certificat) => certificat.participants)
+  certificatsObtenus: Certificat[];
 }

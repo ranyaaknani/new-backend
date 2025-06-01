@@ -4,6 +4,14 @@ export declare class Participant {
     id: string;
     nom: string;
     email: string;
-    formationsSuivies: Formation[];
+    niveau: string;
+    score: number;
+    certificatObtenu: boolean;
+    statusFormation: string;
+    isActive: boolean;
+    dateInscription: Date;
+    dateModification: Date;
+    formation: Formation;
+    formationId: string;
     certificatsObtenus: Certificat[];
 }

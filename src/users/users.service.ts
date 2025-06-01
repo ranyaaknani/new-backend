@@ -3,14 +3,26 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
+import { Role } from 'common/enums/role.enum';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
-  async findAll(): Promise<User[]> {
-    return this.userRepository.find();
+  async findAll(role?: Role): Promise<User[]> {
+    const queryBuilder = this.userRepository
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.formations', 'formations');
+
+    if (role) {
+      queryBuilder.where('user.role = :role', { role });
+    }
+
+    return queryBuilder.getMany();
   }
 
-  async update(user: User): Promise<User> {
+  async update(id: string, updateData: UpdateUserDto): Promise<User> {
+    const user = await this.findOneById(id);
+    Object.assign(user, updateData);
     return this.userRepository.save(user);
   }
 

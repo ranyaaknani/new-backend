@@ -11,13 +11,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Section = void 0;
 const typeorm_1 = require("typeorm");
-const quiz_entity_1 = require("../../quiz/entities/quiz.entity");
 const module_entity_1 = require("./module.entity");
 let Section = class Section {
     id;
     titre;
     module;
-    quizzes;
 };
 exports.Section = Section;
 __decorate([
@@ -32,10 +30,6 @@ __decorate([
     (0, typeorm_1.ManyToOne)(() => module_entity_1.Module, (module) => module.sections),
     __metadata("design:type", module_entity_1.Module)
 ], Section.prototype, "module", void 0);
-__decorate([
-    (0, typeorm_1.OneToMany)(() => quiz_entity_1.Quiz, (quiz) => quiz.section, { cascade: true }),
-    __metadata("design:type", Array)
-], Section.prototype, "quizzes", void 0);
 exports.Section = Section = __decorate([
     (0, typeorm_1.Entity)()
 ], Section);

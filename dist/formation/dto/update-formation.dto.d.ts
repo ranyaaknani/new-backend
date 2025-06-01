@@ -10,4 +10,5 @@ export declare class UpdateFormationDto {
     formateurId?: string;
     invitation?: CreateInvitationDto;
     modules?: CreateModuleDto[];
+    participantIds?: string[];
 }

@@ -11,9 +11,11 @@ import {
   JoinTable,
 } from 'typeorm';
 import { Formateur } from 'formateur/formateur.entity';
-import { Participant } from 'participant/entities/participant.entity';
 import { InvitationEntity } from 'invitation/invitation.entity';
 import { ModuleEntity } from 'modules/entities/module.entity';
+import { Quiz } from 'quiz/entities/quiz.entity';
+import { User } from 'users/user.entity';
+import { Certificat } from 'certificat/entities/certificate.entity';
 
 @Entity('formations')
 export class Formation {
@@ -57,9 +59,21 @@ export class Formation {
   })
   invitations: InvitationEntity[];
 
-  @ManyToMany(() => Participant)
-  @JoinTable()
-  participants: Participant[];
+  @ManyToMany(() => User, (user) => user.formations)
+  @JoinTable({
+    name: 'formation_participants',
+    joinColumn: { name: 'formationId', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'userId', referencedColumnName: 'id' },
+  })
+  participants: User[];
+
+  @OneToMany(() => Quiz, (quiz) => quiz.formation, {
+    cascade: true,
+  })
+  quizzes: Quiz[];
+
+  @OneToMany(() => Certificat, (certificat) => certificat.formationEntity)
+  certificats: Certificat[];
 
   @CreateDateColumn()
   createdAt: Date;

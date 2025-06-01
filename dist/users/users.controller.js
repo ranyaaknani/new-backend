@@ -16,6 +16,8 @@ exports.UsersController = void 0;
 const common_1 = require("@nestjs/common");
 const users_service_1 = require("./users.service");
 const create_user_dto_1 = require("./dto/create-user.dto");
+const role_enum_1 = require("../common/enums/role.enum");
+const update_user_dto_1 = require("./dto/update-user.dto");
 let UsersController = class UsersController {
     usersService;
     constructor(usersService) {
@@ -24,25 +26,52 @@ let UsersController = class UsersController {
     create(createUserDto) {
         return this.usersService.create(createUserDto);
     }
-    findAll() {
-        return this.usersService.findAll();
+    async findAll(role) {
+        try {
+            return await this.usersService.findAll(role);
+        }
+        catch (error) {
+            throw new common_1.HttpException('Erreur lors de la récupération des utilisateurs', common_1.HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
-    findOne(id) {
-        return this.usersService.findOneById(id);
+    async findOne(id) {
+        try {
+            return await this.usersService.findOneById(id);
+        }
+        catch (error) {
+            if (error instanceof common_1.NotFoundException) {
+                throw error;
+            }
+            throw new common_1.HttpException("Erreur lors de la récupération de l'utilisateur", common_1.HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
-    async update(id, updates) {
-        const user = await this.usersService.findOneById(id);
-        Object.assign(user, updates);
-        return this.usersService.update(user);
+    async update(id, updateUserDto) {
+        try {
+            return await this.usersService.update(id, updateUserDto);
+        }
+        catch (error) {
+            if (error instanceof common_1.NotFoundException) {
+                throw error;
+            }
+            throw new common_1.HttpException("Erreur lors de la mise à jour de l'utilisateur", common_1.HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
     async remove(id) {
-        const user = await this.usersService.findOneById(id);
-        return this.usersService.remove(user);
+        try {
+            const user = await this.usersService.findOneById(id);
+            return await this.usersService.remove(user);
+        }
+        catch (error) {
+            if (error instanceof common_1.NotFoundException) {
+                throw error;
+            }
+            throw new common_1.HttpException("Erreur lors de la suppression de l'utilisateur", common_1.HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 };
 exports.UsersController = UsersController;
 __decorate([
-    (0, common_1.Post)(),
+    (0, common_1.Post)('add'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_user_dto_1.CreateUserDto]),
@@ -50,8 +79,9 @@ __decorate([
 ], UsersController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
+    __param(0, (0, common_1.Query)('role')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "findAll", null);
 __decorate([
@@ -66,7 +96,7 @@ __decorate([
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:paramtypes", [String, update_user_dto_1.UpdateUserDto]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "update", null);
 __decorate([

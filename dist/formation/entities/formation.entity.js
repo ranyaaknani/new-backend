@@ -12,9 +12,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Formation = void 0;
 const typeorm_1 = require("typeorm");
 const formateur_entity_1 = require("../../formateur/formateur.entity");
-const participant_entity_1 = require("../../participant/entities/participant.entity");
 const invitation_entity_1 = require("../../invitation/invitation.entity");
 const module_entity_1 = require("../../modules/entities/module.entity");
+const quiz_entity_1 = require("../../quiz/entities/quiz.entity");
+const user_entity_1 = require("../../users/user.entity");
+const certificate_entity_1 = require("../../certificat/entities/certificate.entity");
 let Formation = class Formation {
     id;
     titre;
@@ -28,6 +30,8 @@ let Formation = class Formation {
     modules;
     invitations;
     participants;
+    quizzes;
+    certificats;
     createdAt;
     updatedAt;
 };
@@ -84,10 +88,24 @@ __decorate([
     __metadata("design:type", Array)
 ], Formation.prototype, "invitations", void 0);
 __decorate([
-    (0, typeorm_1.ManyToMany)(() => participant_entity_1.Participant),
-    (0, typeorm_1.JoinTable)(),
+    (0, typeorm_1.ManyToMany)(() => user_entity_1.User, (user) => user.formations),
+    (0, typeorm_1.JoinTable)({
+        name: 'formation_participants',
+        joinColumn: { name: 'formationId', referencedColumnName: 'id' },
+        inverseJoinColumn: { name: 'userId', referencedColumnName: 'id' },
+    }),
     __metadata("design:type", Array)
 ], Formation.prototype, "participants", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => quiz_entity_1.Quiz, (quiz) => quiz.formation, {
+        cascade: true,
+    }),
+    __metadata("design:type", Array)
+], Formation.prototype, "quizzes", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => certificate_entity_1.Certificat, (certificat) => certificat.formationEntity),
+    __metadata("design:type", Array)
+], Formation.prototype, "certificats", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)
