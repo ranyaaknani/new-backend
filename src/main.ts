@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as cookieParser from 'cookie-parser';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import crypto from "crypto";
+import crypto from 'crypto';
 
 // ✅ Correction : ne pas écraser global.crypto si déjà présent
 if (!globalThis.crypto) {
@@ -14,8 +14,8 @@ async function bootstrap() {
 
   // 🔥 Ajouter CORS ici
   app.enableCors({
-    origin: ['http://localhost:3000'], // autoriser le frontend NextJS
-    credentials: true, // important pour envoyer les cookies et les tokens
+    origin: ['http://localhost:3000', 'http://127.0.0.1:3000'],
+    credentials: true,
   });
 
   app.use(cookieParser());
@@ -31,6 +31,8 @@ async function bootstrap() {
   SwaggerModule.setup('api-docs', app, document);
 
   await app.listen(process.env.PORT || 3001);
-  console.log(`✅ Serveur démarré sur http://localhost:${process.env.PORT || 3001}`);
+  console.log(
+    `✅ Serveur démarré sur http://localhost:${process.env.PORT || 3001}`,
+  );
 }
 bootstrap();

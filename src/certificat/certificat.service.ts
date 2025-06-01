@@ -27,6 +27,7 @@ export class CertificatService {
   ): Promise<Certificat> {
     // Check if user exists and has participant role
     const user = await this.userRepository.findOne({
+      where: { id: createCertificateDto.participantId },
       relations: ['formations'],
     });
 
@@ -107,7 +108,6 @@ export class CertificatService {
   ): Promise<Certificat> {
     const certificat = await this.findOne(id);
 
-    // If formationId is being updated, validate the formation exists
     if (updateCertificateDto.formationId) {
       const formation = await this.formationRepository.findOne({
         where: { id: updateCertificateDto.formationId },
@@ -126,20 +126,5 @@ export class CertificatService {
   async remove(id: string): Promise<void> {
     const certificat = await this.findOne(id);
     await this.certificatRepository.remove(certificat);
-  }
-
-  async checkCertificateExists(
-    participantId: string,
-    formationId: string,
-  ): Promise<boolean> {
-    const count = await this.certificatRepository
-      .createQueryBuilder('certificat')
-      .leftJoin('certificat.participants', 'user')
-      .where('user.id = :participantId', { participantId })
-      .andWhere('user.role = :role', { role: 'participant' })
-      .andWhere('certificat.formationId = :formationId', { formationId })
-      .getCount();
-
-    return count > 0;
   }
 }

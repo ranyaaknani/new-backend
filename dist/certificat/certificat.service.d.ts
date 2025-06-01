@@ -15,5 +15,4 @@ export declare class CertificatService {
     findByParticipant(participantId: string): Promise<Certificat[]>;
     update(id: string, updateCertificateDto: UpdateCertificateDto): Promise<Certificat>;
     remove(id: string): Promise<void>;
-    checkCertificateExists(participantId: string, formationId: string): Promise<boolean>;
 }

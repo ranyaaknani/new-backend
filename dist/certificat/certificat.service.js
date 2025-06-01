@@ -30,6 +30,7 @@ let CertificatService = class CertificatService {
     }
     async create(createCertificateDto) {
         const user = await this.userRepository.findOne({
+            where: { id: createCertificateDto.participantId },
             relations: ['formations'],
         });
         if (!user) {
@@ -99,16 +100,6 @@ let CertificatService = class CertificatService {
     async remove(id) {
         const certificat = await this.findOne(id);
         await this.certificatRepository.remove(certificat);
-    }
-    async checkCertificateExists(participantId, formationId) {
-        const count = await this.certificatRepository
-            .createQueryBuilder('certificat')
-            .leftJoin('certificat.participants', 'user')
-            .where('user.id = :participantId', { participantId })
-            .andWhere('user.role = :role', { role: 'participant' })
-            .andWhere('certificat.formationId = :formationId', { formationId })
-            .getCount();
-        return count > 0;
     }
 };
 exports.CertificatService = CertificatService;

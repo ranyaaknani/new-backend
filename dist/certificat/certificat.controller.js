@@ -23,10 +23,6 @@ let CertificatController = class CertificatController {
         this.certificatService = certificatService;
     }
     async create(createCertificateDto) {
-        const exists = await this.certificatService.checkCertificateExists(createCertificateDto.participantId, createCertificateDto.formationId);
-        if (exists) {
-            throw new common_1.BadRequestException('Certificate already exists for this participant and formation');
-        }
         return this.certificatService.create(createCertificateDto);
     }
     findAll(participantId) {
@@ -51,10 +47,6 @@ let CertificatController = class CertificatController {
             participantId: body.participantId,
             formationId: body.formationId,
         };
-        const exists = await this.certificatService.checkCertificateExists(createCertificateDto.participantId, createCertificateDto.formationId);
-        if (exists) {
-            throw new common_1.BadRequestException('Un certificat existe déjà pour ce participant et cette formation');
-        }
         return this.certificatService.create(createCertificateDto);
     }
 };

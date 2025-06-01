@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -22,17 +21,6 @@ export class CertificatController {
   @Post('add')
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() createCertificateDto: CreateCertificateDto) {
-    const exists = await this.certificatService.checkCertificateExists(
-      createCertificateDto.participantId,
-      createCertificateDto.formationId,
-    );
-
-    if (exists) {
-      throw new BadRequestException(
-        'Certificate already exists for this participant and formation',
-      );
-    }
-
     return this.certificatService.create(createCertificateDto);
   }
 
@@ -80,17 +68,6 @@ export class CertificatController {
       participantId: body.participantId,
       formationId: body.formationId,
     };
-
-    const exists = await this.certificatService.checkCertificateExists(
-      createCertificateDto.participantId,
-      createCertificateDto.formationId,
-    );
-
-    if (exists) {
-      throw new BadRequestException(
-        'Un certificat existe déjà pour ce participant et cette formation',
-      );
-    }
 
     return this.certificatService.create(createCertificateDto);
   }
