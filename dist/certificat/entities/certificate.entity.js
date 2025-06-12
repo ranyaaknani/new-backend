@@ -60,13 +60,13 @@ __decorate([
         onDelete: 'CASCADE',
     }),
     (0, typeorm_1.JoinTable)({
-        name: 'certificat_participants',
+        name: 'participant_certificats',
         joinColumn: {
             name: 'certificatId',
             referencedColumnName: 'id',
         },
         inverseJoinColumn: {
-            name: 'userId',
+            name: 'participantId',
             referencedColumnName: 'id',
         },
     }),

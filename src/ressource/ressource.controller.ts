@@ -6,8 +6,8 @@ import {
   HttpException,
   HttpStatus,
   Param,
+  Patch,
   Post,
-  Put,
 } from '@nestjs/common';
 import { CreateResourceDto } from './dto/create-ressource.dto';
 import { ResourceEntity } from './entities/ressource.entity';
@@ -54,7 +54,7 @@ export class ResourcesController {
     return this.resourcesService.findOne(id);
   }
 
-  @Put(':id')
+  @Patch(':id')
   update(
     @Param('id') id: string,
     @Body() updateResourceDto: UpdateResourceDto,

@@ -2,15 +2,12 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  ManyToMany,
   CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
   JoinColumn,
-  JoinTable,
 } from 'typeorm';
 import { Formation } from '../../formation/entities/formation.entity';
-import { Certificat } from 'certificat/entities/certificate.entity';
 
 @Entity('participants')
 export class Participant {
@@ -62,12 +59,4 @@ export class Participant {
 
   @Column()
   formationId: string;
-
-  @ManyToMany(() => Certificat, (certificat) => certificat.participants)
-  @JoinTable({
-    name: 'participant_certificats',
-    joinColumn: { name: 'participantId', referencedColumnName: 'id' },
-    inverseJoinColumn: { name: 'certificatId', referencedColumnName: 'id' },
-  })
-  certificatsObtenus: Certificat[];
 }

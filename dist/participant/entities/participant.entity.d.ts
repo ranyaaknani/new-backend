@@ -1,5 +1,4 @@
 import { Formation } from '../../formation/entities/formation.entity';
-import { Certificat } from 'certificat/entities/certificate.entity';
 export declare class Participant {
     id: string;
     nom: string;
@@ -13,5 +12,4 @@ export declare class Participant {
     dateModification: Date;
     formation: Formation;
     formationId: string;
-    certificatsObtenus: Certificat[];
 }

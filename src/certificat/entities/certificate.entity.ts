@@ -37,18 +37,17 @@ export class Certificat {
   @JoinColumn({ name: 'formationId' })
   formationEntity: Formation;
 
-  // Many-to-Many relationship with Users
   @ManyToMany(() => User, (user) => user.certificatsObtenus, {
     onDelete: 'CASCADE',
   })
   @JoinTable({
-    name: 'certificat_participants', // Custom join table name
+    name: 'participant_certificats',
     joinColumn: {
       name: 'certificatId',
       referencedColumnName: 'id',
     },
     inverseJoinColumn: {
-      name: 'userId',
+      name: 'participantId',
       referencedColumnName: 'id',
     },
   })

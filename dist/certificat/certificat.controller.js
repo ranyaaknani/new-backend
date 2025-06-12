@@ -17,6 +17,8 @@ const common_1 = require("@nestjs/common");
 const certificat_service_1 = require("./certificat.service");
 const create_certification_dto_1 = require("./dto/create-certification.dto");
 const update_certification_dto_1 = require("./dto/update-certification.dto");
+const path = require("path");
+const fs = require("fs");
 let CertificatController = class CertificatController {
     certificatService;
     constructor(certificatService) {
@@ -24,6 +26,25 @@ let CertificatController = class CertificatController {
     }
     async create(createCertificateDto) {
         return this.certificatService.create(createCertificateDto);
+    }
+    serveCertificatePdf(filename, res) {
+        try {
+            const filePath = path.join(process.cwd(), 'uploads', 'certificates', filename);
+            if (!fs.existsSync(filePath)) {
+                throw new common_1.NotFoundException('Certificate PDF not found');
+            }
+            res.setHeader('Content-Type', 'application/pdf');
+            res.setHeader('Content-Disposition', `inline; filename="${filename}"`);
+            res.setHeader('Cache-Control', 'public, max-age=31536000');
+            const fileStream = fs.createReadStream(filePath);
+            fileStream.pipe(res);
+        }
+        catch (error) {
+            if (error instanceof common_1.NotFoundException) {
+                throw error;
+            }
+            throw new common_1.NotFoundException('Certificate PDF not found');
+        }
     }
     findAll(participantId) {
         if (participantId) {
@@ -59,6 +80,14 @@ __decorate([
     __metadata("design:paramtypes", [create_certification_dto_1.CreateCertificateDto]),
     __metadata("design:returntype", Promise)
 ], CertificatController.prototype, "create", null);
+__decorate([
+    (0, common_1.Get)(':filename'),
+    __param(0, (0, common_1.Param)('filename')),
+    __param(1, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", void 0)
+], CertificatController.prototype, "serveCertificatePdf", null);
 __decorate([
     (0, common_1.Get)(),
     __param(0, (0, common_1.Query)('participantId')),

@@ -5,14 +5,19 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  NotFoundException,
   Param,
   Patch,
   Post,
   Query,
+  Res,
 } from '@nestjs/common';
 import { CertificatService } from './certificat.service';
 import { CreateCertificateDto } from './dto/create-certification.dto';
 import { UpdateCertificateDto } from './dto/update-certification.dto';
+import { Response } from 'express';
+import * as path from 'path';
+import * as fs from 'fs';
 
 @Controller('certificats')
 export class CertificatController {
@@ -22,6 +27,37 @@ export class CertificatController {
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() createCertificateDto: CreateCertificateDto) {
     return this.certificatService.create(createCertificateDto);
+  }
+
+  @Get(':filename')
+  serveCertificatePdf(
+    @Param('filename') filename: string,
+    @Res() res: Response,
+  ) {
+    try {
+      const filePath = path.join(
+        process.cwd(),
+        'uploads',
+        'certificates',
+        filename,
+      );
+
+      if (!fs.existsSync(filePath)) {
+        throw new NotFoundException('Certificate PDF not found');
+      }
+
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', `inline; filename="${filename}"`);
+      res.setHeader('Cache-Control', 'public, max-age=31536000');
+      // Stream the file
+      const fileStream = fs.createReadStream(filePath);
+      fileStream.pipe(res);
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      throw new NotFoundException('Certificate PDF not found');
+    }
   }
 
   @Get()

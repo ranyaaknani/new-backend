@@ -12,7 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Participant = void 0;
 const typeorm_1 = require("typeorm");
 const formation_entity_1 = require("../../formation/entities/formation.entity");
-const certificate_entity_1 = require("../../certificat/entities/certificate.entity");
 let Participant = class Participant {
     id;
     nom;
@@ -26,7 +25,6 @@ let Participant = class Participant {
     dateModification;
     formation;
     formationId;
-    certificatsObtenus;
 };
 exports.Participant = Participant;
 __decorate([
@@ -89,15 +87,6 @@ __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], Participant.prototype, "formationId", void 0);
-__decorate([
-    (0, typeorm_1.ManyToMany)(() => certificate_entity_1.Certificat, (certificat) => certificat.participants),
-    (0, typeorm_1.JoinTable)({
-        name: 'participant_certificats',
-        joinColumn: { name: 'participantId', referencedColumnName: 'id' },
-        inverseJoinColumn: { name: 'certificatId', referencedColumnName: 'id' },
-    }),
-    __metadata("design:type", Array)
-], Participant.prototype, "certificatsObtenus", void 0);
 exports.Participant = Participant = __decorate([
     (0, typeorm_1.Entity)('participants')
 ], Participant);
