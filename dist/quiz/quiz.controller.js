@@ -78,20 +78,21 @@ let QuizController = class QuizController {
             }, common_1.HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    async findByFormation(formationId) {
+    async getQuizzesByFormation(formationId) {
         try {
-            const quizzes = await this.quizService.findByFormation(formationId);
+            const quizzes = await this.quizService.findQuizzesByFormation(formationId);
             return {
                 success: true,
-                message: 'Formation quizzes retrieved successfully',
+                message: 'Quizzes retrieved successfully',
                 data: quizzes,
+                count: quizzes.length,
             };
         }
         catch (error) {
             throw new common_1.HttpException({
                 success: false,
-                message: 'Failed to retrieve formation quizzes',
-                error: error.message,
+                message: error.message || 'Failed to fetch quizzes',
+                data: null,
             }, common_1.HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -242,7 +243,7 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
-], QuizController.prototype, "findByFormation", null);
+], QuizController.prototype, "getQuizzesByFormation", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id', common_1.ParseUUIDPipe)),

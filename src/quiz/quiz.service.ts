@@ -180,17 +180,32 @@ export class QuizService {
     });
   }
 
-  async findByFormation(formationId: string): Promise<Quiz[]> {
-    return this.quizRepository.find({
-      where: { formationId, isActive: true },
-      relations: ['questions', 'module'],
-      order: {
-        createdAt: 'ASC',
-        questions: {
-          order: 'ASC',
+  async findQuizzesByFormation(formationId: string): Promise<Quiz[]> {
+    try {
+      const quizzes = await this.quizRepository.find({
+        where: {
+          formationId,
+          isActive: true,
         },
-      },
-    });
+        relations: {
+          module: true,
+          questions: true,
+        },
+        order: {
+          createdAt: 'DESC',
+          questions: {
+            order: 'ASC',
+          },
+        },
+      });
+
+      return quizzes;
+    } catch (error) {
+      throw new Error(
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        `Failed to fetch quizzes for formation ${formationId}: ${error.message}`,
+      );
+    }
   }
 
   async update(id: string, updateQuizDto: UpdateQuizDto): Promise<Quiz> {

@@ -25,10 +25,11 @@ export declare class QuizController {
         message: string;
         data: Quiz[];
     }>;
-    findByFormation(formationId: string): Promise<{
+    getQuizzesByFormation(formationId: string): Promise<{
         success: boolean;
         message: string;
         data: Quiz[];
+        count: number;
     }>;
     findOne(id: string): Promise<{
         success: boolean;

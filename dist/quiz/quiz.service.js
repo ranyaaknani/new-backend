@@ -142,17 +142,29 @@ let QuizService = class QuizService {
             },
         });
     }
-    async findByFormation(formationId) {
-        return this.quizRepository.find({
-            where: { formationId, isActive: true },
-            relations: ['questions', 'module'],
-            order: {
-                createdAt: 'ASC',
-                questions: {
-                    order: 'ASC',
+    async findQuizzesByFormation(formationId) {
+        try {
+            const quizzes = await this.quizRepository.find({
+                where: {
+                    formationId,
+                    isActive: true,
                 },
-            },
-        });
+                relations: {
+                    module: true,
+                    questions: true,
+                },
+                order: {
+                    createdAt: 'DESC',
+                    questions: {
+                        order: 'ASC',
+                    },
+                },
+            });
+            return quizzes;
+        }
+        catch (error) {
+            throw new Error(`Failed to fetch quizzes for formation ${formationId}: ${error.message}`);
+        }
     }
     async update(id, updateQuizDto) {
         const queryRunner = this.dataSource.createQueryRunner();

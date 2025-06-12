@@ -19,7 +19,7 @@ export declare class QuizService {
     }>;
     findOne(id: string): Promise<Quiz>;
     findByModule(moduleId: string): Promise<Quiz[]>;
-    findByFormation(formationId: string): Promise<Quiz[]>;
+    findQuizzesByFormation(formationId: string): Promise<Quiz[]>;
     update(id: string, updateQuizDto: UpdateQuizDto): Promise<Quiz>;
     remove(id: string): Promise<void>;
     toggleActive(id: string): Promise<Quiz>;

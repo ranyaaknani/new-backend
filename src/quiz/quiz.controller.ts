@@ -116,27 +116,26 @@ export class QuizController {
   }
 
   @Get('formation/:formationId')
-  async findByFormation(
+  async getQuizzesByFormation(
     @Param('formationId', ParseUUIDPipe) formationId: string,
-  ): Promise<{
-    success: boolean;
-    message: string;
-    data: Quiz[];
-  }> {
+  ) {
     try {
-      const quizzes = await this.quizService.findByFormation(formationId);
+      const quizzes =
+        await this.quizService.findQuizzesByFormation(formationId);
+
       return {
         success: true,
-        message: 'Formation quizzes retrieved successfully',
+        message: 'Quizzes retrieved successfully',
         data: quizzes,
+        count: quizzes.length,
       };
     } catch (error) {
       throw new HttpException(
         {
           success: false,
-          message: 'Failed to retrieve formation quizzes',
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-          error: error.message,
+          message: error.message || 'Failed to fetch quizzes',
+          data: null,
         },
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
