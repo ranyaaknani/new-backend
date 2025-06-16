@@ -68,6 +68,15 @@ let UsersController = class UsersController {
             throw new common_1.HttpException("Erreur lors de la suppression de l'utilisateur", common_1.HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    async createUser(createUserDto) {
+        try {
+            const result = await this.usersService.createUserWithFormation(createUserDto);
+            return result;
+        }
+        catch (error) {
+            throw new common_1.BadRequestException(error.message);
+        }
+    }
 };
 exports.UsersController = UsersController;
 __decorate([
@@ -106,6 +115,13 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "remove", null);
+__decorate([
+    (0, common_1.Post)('addUserWithFormation'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], UsersController.prototype, "createUser", null);
 exports.UsersController = UsersController = __decorate([
     (0, common_1.Controller)('users'),
     __metadata("design:paramtypes", [users_service_1.UsersService])

@@ -12,7 +12,6 @@ import { ResourceEntity } from 'ressource/entities/ressource.entity';
 import { InvitationEntity } from 'invitation/invitation.entity';
 import { ModuleEntity } from 'modules/entities/module.entity';
 import { UpdateFormationDto } from './dto/update-formation.dto';
-import { Formateur } from 'formateur/formateur.entity';
 import { User } from 'users/user.entity';
 
 @Injectable()
@@ -20,8 +19,6 @@ export class FormationsService {
   constructor(
     @InjectRepository(Formation)
     private formationsRepository: Repository<Formation>,
-    @InjectRepository(Formateur)
-    private formateurRepository: Repository<Formateur>,
     @InjectRepository(ModuleEntity)
     private modulesRepository: Repository<ModuleEntity>,
     @InjectRepository(InvitationEntity)
@@ -39,17 +36,15 @@ export class FormationsService {
     await queryRunner.startTransaction();
 
     try {
-      // Verify formateur exists
-      const formateur = await this.formateurRepository.findOne({
-        where: { id: createFormationDto.formateurId },
+      const user = await this.userRepository.findOne({
+        where: { id: createFormationDto.userId },
       });
-      if (!formateur) {
+      if (!user) {
         throw new NotFoundException(
-          `Formateur with ID ${createFormationDto.formateurId} not found`,
+          `User with ID ${createFormationDto.userId} not found`,
         );
       }
 
-      // Create Formation
       const formation = this.formationsRepository.create({
         titre: createFormationDto.titre,
         domaine: createFormationDto.domaine,
@@ -57,12 +52,11 @@ export class FormationsService {
         description: createFormationDto.description,
         objectifs: createFormationDto.objectifs,
         accessType: createFormationDto.accessType,
-        formateurId: createFormationDto.formateurId,
+        userId: createFormationDto.userId,
       });
 
       const savedFormation = await queryRunner.manager.save(formation);
 
-      // Create Invitation (if provided)
       if (createFormationDto.invitation) {
         const invitation = this.invitationsRepository.create({
           mode: createFormationDto.invitation.mode,
@@ -74,7 +68,6 @@ export class FormationsService {
         await queryRunner.manager.save(invitation);
       }
 
-      // Create Modules (if provided)
       if (createFormationDto.modules?.length) {
         for (const moduleData of createFormationDto.modules) {
           const module = this.modulesRepository.create({
@@ -117,7 +110,6 @@ export class FormationsService {
     } catch (error) {
       await queryRunner.rollbackTransaction();
       throw new ConflictException(
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         `Failed to create formation: ${error.message}`,
       );
     } finally {
@@ -128,7 +120,7 @@ export class FormationsService {
   async findAll(): Promise<Formation[]> {
     return this.formationsRepository.find({
       relations: {
-        formateur: true,
+        user: true,
         modules: {
           resources: true,
         },
@@ -151,7 +143,7 @@ export class FormationsService {
     const formation = await this.formationsRepository.findOne({
       where: { id },
       relations: {
-        formateur: true,
+        user: true,
         modules: {
           resources: true,
         },
@@ -204,8 +196,8 @@ export class FormationsService {
         formation.objectifs = updateFormationDto.objectifs;
       if (updateFormationDto.accessType)
         formation.accessType = updateFormationDto.accessType;
-      if (updateFormationDto.formateurId)
-        formation.formateurId = updateFormationDto.formateurId;
+      if (updateFormationDto.userId)
+        formation.userId = updateFormationDto.userId;
 
       if (updateFormationDto.participantIds !== undefined) {
         if (updateFormationDto.participantIds.length > 0) {
@@ -243,7 +235,6 @@ export class FormationsService {
           toEmails: updateFormationDto.invitation.toEmails,
           invitationLink: updateFormationDto.invitation.invitationLink,
           linkGenerated: updateFormationDto.invitation.linkGenerated || false,
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           csvFile: updateFormationDto.invitation.csvFile,
           csvImage: updateFormationDto.invitation.csvImage,
           subject: updateFormationDto.invitation.subject,
@@ -258,7 +249,6 @@ export class FormationsService {
         await queryRunner.manager.save(invitation);
       }
 
-      // Handle modules update (existing code)
       if (updateFormationDto.modules) {
         await queryRunner.manager.delete(ModuleEntity, { formationId: id });
 
@@ -303,7 +293,6 @@ export class FormationsService {
     } catch (error) {
       await queryRunner.rollbackTransaction();
       throw new ConflictException(
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         `Failed to update formation: ${error.message}`,
       );
     } finally {
@@ -316,9 +305,9 @@ export class FormationsService {
     await this.formationsRepository.remove(formation);
   }
 
-  async findByFormateur(formateurId: string): Promise<Formation[]> {
+  async findByUser(userId: string): Promise<Formation[]> {
     return this.formationsRepository.find({
-      where: { formateurId },
+      where: { userId },
       relations: {
         modules: {
           resources: true,
@@ -342,7 +331,7 @@ export class FormationsService {
     return this.formationsRepository.find({
       where: { accessType: 'public' },
       relations: {
-        formateur: true,
+        user: true,
         modules: {
           resources: true,
         },
@@ -357,5 +346,26 @@ export class FormationsService {
         },
       },
     });
+  }
+
+  async getParticipantsByFormationId(formationId: string): Promise<User[]> {
+    try {
+      const formation = await this.formationsRepository.findOne({
+        where: { id: formationId },
+        relations: ['participants'],
+      });
+
+      if (!formation) {
+        throw new NotFoundException(
+          `Formation with ID ${formationId} not found`,
+        );
+      }
+
+      return formation.participants || [];
+    } catch (error) {
+      throw new NotFoundException(
+        `Failed to fetch participants: ${error.message}`,
+      );
+    }
   }
 }

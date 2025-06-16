@@ -20,19 +20,16 @@ const formation_entity_1 = require("./entities/formation.entity");
 const ressource_entity_1 = require("../ressource/entities/ressource.entity");
 const invitation_entity_1 = require("../invitation/invitation.entity");
 const module_entity_1 = require("../modules/entities/module.entity");
-const formateur_entity_1 = require("../formateur/formateur.entity");
 const user_entity_1 = require("../users/user.entity");
 let FormationsService = class FormationsService {
     formationsRepository;
-    formateurRepository;
     modulesRepository;
     invitationsRepository;
     resourcesRepository;
     userRepository;
     dataSource;
-    constructor(formationsRepository, formateurRepository, modulesRepository, invitationsRepository, resourcesRepository, userRepository, dataSource) {
+    constructor(formationsRepository, modulesRepository, invitationsRepository, resourcesRepository, userRepository, dataSource) {
         this.formationsRepository = formationsRepository;
-        this.formateurRepository = formateurRepository;
         this.modulesRepository = modulesRepository;
         this.invitationsRepository = invitationsRepository;
         this.resourcesRepository = resourcesRepository;
@@ -44,11 +41,11 @@ let FormationsService = class FormationsService {
         await queryRunner.connect();
         await queryRunner.startTransaction();
         try {
-            const formateur = await this.formateurRepository.findOne({
-                where: { id: createFormationDto.formateurId },
+            const user = await this.userRepository.findOne({
+                where: { id: createFormationDto.userId },
             });
-            if (!formateur) {
-                throw new common_1.NotFoundException(`Formateur with ID ${createFormationDto.formateurId} not found`);
+            if (!user) {
+                throw new common_1.NotFoundException(`User with ID ${createFormationDto.userId} not found`);
             }
             const formation = this.formationsRepository.create({
                 titre: createFormationDto.titre,
@@ -57,7 +54,7 @@ let FormationsService = class FormationsService {
                 description: createFormationDto.description,
                 objectifs: createFormationDto.objectifs,
                 accessType: createFormationDto.accessType,
-                formateurId: createFormationDto.formateurId,
+                userId: createFormationDto.userId,
             });
             const savedFormation = await queryRunner.manager.save(formation);
             if (createFormationDto.invitation) {
@@ -114,7 +111,7 @@ let FormationsService = class FormationsService {
     async findAll() {
         return this.formationsRepository.find({
             relations: {
-                formateur: true,
+                user: true,
                 modules: {
                     resources: true,
                 },
@@ -136,7 +133,7 @@ let FormationsService = class FormationsService {
         const formation = await this.formationsRepository.findOne({
             where: { id },
             relations: {
-                formateur: true,
+                user: true,
                 modules: {
                     resources: true,
                 },
@@ -181,8 +178,8 @@ let FormationsService = class FormationsService {
                 formation.objectifs = updateFormationDto.objectifs;
             if (updateFormationDto.accessType)
                 formation.accessType = updateFormationDto.accessType;
-            if (updateFormationDto.formateurId)
-                formation.formateurId = updateFormationDto.formateurId;
+            if (updateFormationDto.userId)
+                formation.userId = updateFormationDto.userId;
             if (updateFormationDto.participantIds !== undefined) {
                 if (updateFormationDto.participantIds.length > 0) {
                     const validUsers = await this.userRepository.find({
@@ -269,9 +266,9 @@ let FormationsService = class FormationsService {
         const formation = await this.findOne(id);
         await this.formationsRepository.remove(formation);
     }
-    async findByFormateur(formateurId) {
+    async findByUser(userId) {
         return this.formationsRepository.find({
-            where: { formateurId },
+            where: { userId },
             relations: {
                 modules: {
                     resources: true,
@@ -294,7 +291,7 @@ let FormationsService = class FormationsService {
         return this.formationsRepository.find({
             where: { accessType: 'public' },
             relations: {
-                formateur: true,
+                user: true,
                 modules: {
                     resources: true,
                 },
@@ -310,18 +307,31 @@ let FormationsService = class FormationsService {
             },
         });
     }
+    async getParticipantsByFormationId(formationId) {
+        try {
+            const formation = await this.formationsRepository.findOne({
+                where: { id: formationId },
+                relations: ['participants'],
+            });
+            if (!formation) {
+                throw new common_1.NotFoundException(`Formation with ID ${formationId} not found`);
+            }
+            return formation.participants || [];
+        }
+        catch (error) {
+            throw new common_1.NotFoundException(`Failed to fetch participants: ${error.message}`);
+        }
+    }
 };
 exports.FormationsService = FormationsService;
 exports.FormationsService = FormationsService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(formation_entity_1.Formation)),
-    __param(1, (0, typeorm_1.InjectRepository)(formateur_entity_1.Formateur)),
-    __param(2, (0, typeorm_1.InjectRepository)(module_entity_1.ModuleEntity)),
-    __param(3, (0, typeorm_1.InjectRepository)(invitation_entity_1.InvitationEntity)),
-    __param(4, (0, typeorm_1.InjectRepository)(ressource_entity_1.ResourceEntity)),
-    __param(5, (0, typeorm_1.InjectRepository)(user_entity_1.User)),
+    __param(1, (0, typeorm_1.InjectRepository)(module_entity_1.ModuleEntity)),
+    __param(2, (0, typeorm_1.InjectRepository)(invitation_entity_1.InvitationEntity)),
+    __param(3, (0, typeorm_1.InjectRepository)(ressource_entity_1.ResourceEntity)),
+    __param(4, (0, typeorm_1.InjectRepository)(user_entity_1.User)),
     __metadata("design:paramtypes", [typeorm_2.Repository,
-        typeorm_2.Repository,
         typeorm_2.Repository,
         typeorm_2.Repository,
         typeorm_2.Repository,

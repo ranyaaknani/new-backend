@@ -5,6 +5,7 @@ import {
   ManyToMany,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
 import { Role } from '../common/enums/role.enum';
 import { Formation } from 'formation/entities/formation.entity';
@@ -58,6 +59,9 @@ export class User {
 
   @ManyToMany(() => Formation, (formation) => formation.participants)
   formations: Formation[];
+
+  @OneToMany(() => Formation, (formation) => formation.user)
+  createdFormations: Formation[];
 
   @ManyToMany(() => Certificat, (certificat) => certificat.participants)
   certificatsObtenus: Certificat[];

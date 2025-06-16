@@ -7,7 +7,7 @@ export declare class UpdateFormationDto {
     description?: string;
     objectifs?: string;
     accessType?: 'public' | 'private';
-    formateurId?: string;
+    userId?: string;
     invitation?: CreateInvitationDto;
     modules?: CreateModuleDto[];
     participantIds?: string[];

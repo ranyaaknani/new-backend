@@ -10,7 +10,6 @@ import {
   ManyToMany,
   JoinTable,
 } from 'typeorm';
-import { Formateur } from 'formateur/formateur.entity';
 import { InvitationEntity } from 'invitation/invitation.entity';
 import { ModuleEntity } from 'modules/entities/module.entity';
 import { Quiz } from 'quiz/entities/quiz.entity';
@@ -41,11 +40,11 @@ export class Formation {
   accessType: string;
 
   @Column({ type: 'uuid' })
-  formateurId: string;
+  userId: string;
 
-  @ManyToOne(() => Formateur, (formateur) => formateur.formations)
-  @JoinColumn({ name: 'formateurId' })
-  formateur: Formateur;
+  @ManyToOne(() => User, (user) => user.formations)
+  @JoinColumn({ name: 'userId' })
+  user: User;
 
   @OneToMany(() => ModuleEntity, (module) => module.formation, {
     cascade: true,

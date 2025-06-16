@@ -17,8 +17,14 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const user_entity_1 = require("./user.entity");
+const formation_entity_1 = require("../formation/entities/formation.entity");
 let UsersService = class UsersService {
     userRepository;
+    formationsRepository;
+    constructor(userRepository, formationsRepository) {
+        this.userRepository = userRepository;
+        this.formationsRepository = formationsRepository;
+    }
     async findAll(role) {
         const queryBuilder = this.userRepository
             .createQueryBuilder('user')
@@ -37,9 +43,6 @@ let UsersService = class UsersService {
         await this.userRepository.remove(user);
         return { deleted: true };
     }
-    constructor(userRepository) {
-        this.userRepository = userRepository;
-    }
     async create(data) {
         const user = this.userRepository.create(data);
         return this.userRepository.save(user);
@@ -56,11 +59,84 @@ let UsersService = class UsersService {
     async findOneByEmail(email) {
         return this.userRepository.findOne({ where: { email } });
     }
+    async createUserWithFormation(createUserDto) {
+        try {
+            const { formationId, ...userData } = createUserDto;
+            const existingUser = await this.userRepository.findOne({
+                where: { email: userData.email },
+            });
+            if (existingUser) {
+                if (formationId) {
+                    const formation = await this.formationsRepository.findOne({
+                        where: { id: formationId },
+                        relations: ['participants'],
+                    });
+                    if (!formation) {
+                        throw new Error('Formation non trouvée');
+                    }
+                    const isAlreadyParticipant = formation.participants.some((participant) => participant.id === existingUser.id);
+                    if (isAlreadyParticipant) {
+                        throw new Error('Cet utilisateur est déjà participant à cette formation');
+                    }
+                    formation.participants.push(existingUser);
+                    await this.formationsRepository.save(formation);
+                    return {
+                        success: true,
+                        message: 'Utilisateur existant ajouté avec succès à la formation',
+                        user: {
+                            id: existingUser.id,
+                            email: existingUser.email,
+                            name: existingUser.name,
+                            role: existingUser.role,
+                            status: existingUser.status,
+                        },
+                    };
+                }
+                else {
+                    throw new Error('Un utilisateur avec cette adresse email existe déjà');
+                }
+            }
+            const user = this.userRepository.create(userData);
+            const savedUser = await this.userRepository.save(user);
+            if (formationId) {
+                const formation = await this.formationsRepository.findOne({
+                    where: { id: formationId },
+                    relations: ['participants'],
+                });
+                if (!formation) {
+                    throw new Error('Formation non trouvée');
+                }
+                if (!formation.participants) {
+                    formation.participants = [];
+                }
+                formation.participants.push(savedUser);
+                await this.formationsRepository.save(formation);
+            }
+            return {
+                success: true,
+                message: formationId
+                    ? 'Participant créé et ajouté avec succès à la formation'
+                    : 'Utilisateur créé avec succès',
+                user: {
+                    id: savedUser.id,
+                    email: savedUser.email,
+                    name: savedUser.name,
+                    role: savedUser.role,
+                    status: savedUser.status,
+                },
+            };
+        }
+        catch (error) {
+            throw new Error(error.message || "Erreur lors de la création de l'utilisateur");
+        }
+    }
 };
 exports.UsersService = UsersService;
 exports.UsersService = UsersService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(user_entity_1.User)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __param(1, (0, typeorm_1.InjectRepository)(formation_entity_1.Formation)),
+    __metadata("design:paramtypes", [typeorm_2.Repository,
+        typeorm_2.Repository])
 ], UsersService);
 //# sourceMappingURL=users.service.js.map

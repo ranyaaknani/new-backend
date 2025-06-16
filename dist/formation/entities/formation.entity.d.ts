@@ -1,4 +1,3 @@
-import { Formateur } from 'formateur/formateur.entity';
 import { InvitationEntity } from 'invitation/invitation.entity';
 import { ModuleEntity } from 'modules/entities/module.entity';
 import { Quiz } from 'quiz/entities/quiz.entity';
@@ -12,8 +11,8 @@ export declare class Formation {
     description: string;
     objectifs: string;
     accessType: string;
-    formateurId: string;
-    formateur: Formateur;
+    userId: string;
+    user: User;
     modules: ModuleEntity[];
     invitations: InvitationEntity[];
     participants: User[];

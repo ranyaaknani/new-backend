@@ -22,6 +22,7 @@ export declare class AuthController {
         createdAt: Date;
         updatedAt: Date;
         formations: import("../formation/entities/formation.entity").Formation[];
+        createdFormations: import("../formation/entities/formation.entity").Formation[];
         certificatsObtenus: import("../certificat/entities/certificate.entity").Certificat[];
     }>;
 }

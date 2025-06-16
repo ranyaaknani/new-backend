@@ -7,6 +7,8 @@ import {
   Delete,
   UseInterceptors,
   Put,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { FormationsService } from './formations.service';
 import { CreateFormationDto } from './dto/create-formation.dto';
@@ -61,5 +63,29 @@ export class FormationsController {
   @Delete(':id')
   remove(@Param('id') id: string): Promise<void> {
     return this.formationsService.remove(id);
+  }
+
+  @Get('formation/:formationId')
+  async getParticipantsByFormation(@Param('formationId') formationId: string) {
+    try {
+      const participants =
+        await this.formationsService.getParticipantsByFormationId(formationId);
+
+      return participants.map((participant) => ({
+        id: participant.id,
+        email: participant.email,
+        name: participant.name,
+        role: participant.role,
+        status: participant.status,
+        createdAt: participant.createdAt,
+        updatedAt: participant.updatedAt,
+      }));
+    } catch (error) {
+      console.error('Error fetching participants:', error);
+      throw new HttpException(
+        error.message || 'Failed to fetch participants',
+        error.status || HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 }

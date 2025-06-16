@@ -32,6 +32,7 @@ let User = class User {
     createdAt;
     updatedAt;
     formations;
+    createdFormations;
     certificatsObtenus;
 };
 exports.User = User;
@@ -87,6 +88,10 @@ __decorate([
     (0, typeorm_1.ManyToMany)(() => formation_entity_1.Formation, (formation) => formation.participants),
     __metadata("design:type", Array)
 ], User.prototype, "formations", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => formation_entity_1.Formation, (formation) => formation.user),
+    __metadata("design:type", Array)
+], User.prototype, "createdFormations", void 0);
 __decorate([
     (0, typeorm_1.ManyToMany)(() => certificate_entity_1.Certificat, (certificat) => certificat.participants),
     __metadata("design:type", Array)

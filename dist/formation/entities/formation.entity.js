@@ -11,7 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Formation = void 0;
 const typeorm_1 = require("typeorm");
-const formateur_entity_1 = require("../../formateur/formateur.entity");
 const invitation_entity_1 = require("../../invitation/invitation.entity");
 const module_entity_1 = require("../../modules/entities/module.entity");
 const quiz_entity_1 = require("../../quiz/entities/quiz.entity");
@@ -25,8 +24,8 @@ let Formation = class Formation {
     description;
     objectifs;
     accessType;
-    formateurId;
-    formateur;
+    userId;
+    user;
     modules;
     invitations;
     participants;
@@ -67,12 +66,12 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)({ type: 'uuid' }),
     __metadata("design:type", String)
-], Formation.prototype, "formateurId", void 0);
+], Formation.prototype, "userId", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => formateur_entity_1.Formateur, (formateur) => formateur.formations),
-    (0, typeorm_1.JoinColumn)({ name: 'formateurId' }),
-    __metadata("design:type", formateur_entity_1.Formateur)
-], Formation.prototype, "formateur", void 0);
+    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, (user) => user.formations),
+    (0, typeorm_1.JoinColumn)({ name: 'userId' }),
+    __metadata("design:type", user_entity_1.User)
+], Formation.prototype, "user", void 0);
 __decorate([
     (0, typeorm_1.OneToMany)(() => module_entity_1.ModuleEntity, (module) => module.formation, {
         cascade: true,

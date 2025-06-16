@@ -49,7 +49,7 @@ let ParticipantsService = class ParticipantsService {
         return this.participantRepository.find({
             where: {
                 formation: {
-                    formateurId: formateurId,
+                    userId: formateurId,
                 },
             },
             relations: ['formation', 'formation.formateur'],

@@ -98,12 +98,6 @@ export class FormateurService {
       throw new NotFoundException('Formateur non trouvé');
     }
 
-    if (formateur.formations && formateur.formations.length > 0) {
-      throw new BadRequestException(
-        'Impossible de supprimer ce formateur car il a des formations associées',
-      );
-    }
-
     await this.formateurRepository.delete(id);
     return { message: 'Formateur deleted successfully' };
   }

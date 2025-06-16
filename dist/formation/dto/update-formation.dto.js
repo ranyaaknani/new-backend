@@ -21,7 +21,7 @@ class UpdateFormationDto {
     description;
     objectifs;
     accessType;
-    formateurId;
+    userId;
     invitation;
     modules;
     participantIds;
@@ -61,7 +61,7 @@ __decorate([
     (0, class_validator_1.IsUUID)(),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
-], UpdateFormationDto.prototype, "formateurId", void 0);
+], UpdateFormationDto.prototype, "userId", void 0);
 __decorate([
     (0, class_validator_1.ValidateNested)(),
     (0, class_transformer_1.Type)(() => create_invitation_dto_1.CreateInvitationDto),

@@ -13,4 +13,17 @@ export declare class UsersController {
     remove(id: string): Promise<{
         deleted: boolean;
     }>;
+    createUser(createUserDto: CreateUserDto & {
+        formationId?: string;
+    }): Promise<{
+        success: boolean;
+        message: string;
+        user: {
+            id: string;
+            email: string;
+            name: string;
+            role: Role;
+            status: import("./user.entity").UserStatus;
+        };
+    }>;
 }

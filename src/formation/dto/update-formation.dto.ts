@@ -37,7 +37,7 @@ export class UpdateFormationDto {
 
   @IsUUID()
   @IsOptional()
-  formateurId?: string;
+  userId?: string;
 
   @ValidateNested()
   @Type(() => CreateInvitationDto)

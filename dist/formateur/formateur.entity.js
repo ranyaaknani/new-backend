@@ -10,14 +10,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Formateur = void 0;
-const formation_entity_1 = require("../formation/entities/formation.entity");
 const typeorm_1 = require("typeorm");
 let Formateur = class Formateur {
     id;
     nom;
     email;
     password;
-    formations;
     createdAt;
     updatedAt;
 };
@@ -38,10 +36,6 @@ __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], Formateur.prototype, "password", void 0);
-__decorate([
-    (0, typeorm_1.OneToMany)(() => formation_entity_1.Formation, (formation) => formation.formateur),
-    __metadata("design:type", Array)
-], Formateur.prototype, "formations", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)

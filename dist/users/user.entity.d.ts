@@ -18,5 +18,6 @@ export declare class User {
     createdAt: Date;
     updatedAt: Date;
     formations: Formation[];
+    createdFormations: Formation[];
     certificatsObtenus: Certificat[];
 }

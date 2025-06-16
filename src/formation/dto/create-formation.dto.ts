@@ -38,7 +38,7 @@ export class CreateFormationDto {
 
   @IsUUID()
   @IsNotEmpty()
-  formateurId: string;
+  userId: string;
 
   @ValidateNested()
   @Type(() => CreateInvitationDto)

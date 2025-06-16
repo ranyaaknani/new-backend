@@ -80,9 +80,6 @@ let FormateurService = class FormateurService {
         if (!formateur) {
             throw new common_1.NotFoundException('Formateur non trouvé');
         }
-        if (formateur.formations && formateur.formations.length > 0) {
-            throw new common_1.BadRequestException('Impossible de supprimer ce formateur car il a des formations associées');
-        }
         await this.formateurRepository.delete(id);
         return { message: 'Formateur deleted successfully' };
     }

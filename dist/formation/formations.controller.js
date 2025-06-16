@@ -54,6 +54,24 @@ let FormationsController = class FormationsController {
     remove(id) {
         return this.formationsService.remove(id);
     }
+    async getParticipantsByFormation(formationId) {
+        try {
+            const participants = await this.formationsService.getParticipantsByFormationId(formationId);
+            return participants.map((participant) => ({
+                id: participant.id,
+                email: participant.email,
+                name: participant.name,
+                role: participant.role,
+                status: participant.status,
+                createdAt: participant.createdAt,
+                updatedAt: participant.updatedAt,
+            }));
+        }
+        catch (error) {
+            console.error('Error fetching participants:', error);
+            throw new common_1.HttpException(error.message || 'Failed to fetch participants', error.status || common_1.HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 };
 exports.FormationsController = FormationsController;
 __decorate([
@@ -92,6 +110,13 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], FormationsController.prototype, "remove", null);
+__decorate([
+    (0, common_1.Get)('formation/:formationId'),
+    __param(0, (0, common_1.Param)('formationId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], FormationsController.prototype, "getParticipantsByFormation", null);
 exports.FormationsController = FormationsController = __decorate([
     (0, common_1.Controller)('formations'),
     __metadata("design:paramtypes", [formations_service_1.FormationsService])

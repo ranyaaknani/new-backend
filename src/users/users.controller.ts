@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -85,6 +86,19 @@ export class UsersController {
         "Erreur lors de la suppression de l'utilisateur",
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
+    }
+  }
+
+  @Post('addUserWithFormation')
+  async createUser(
+    @Body() createUserDto: CreateUserDto & { formationId?: string },
+  ) {
+    try {
+      const result =
+        await this.usersService.createUserWithFormation(createUserDto);
+      return result;
+    } catch (error) {
+      throw new BadRequestException(error.message);
     }
   }
 }

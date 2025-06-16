@@ -22,9 +22,6 @@ export class Formateur {
   @Column()
   password: string;
 
-  @OneToMany(() => Formation, (formation) => formation.formateur)
-  formations: Formation[];
-
   @CreateDateColumn()
   createdAt: Date;
 

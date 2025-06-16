@@ -20,4 +20,13 @@ export declare class FormationsController {
     findOne(id: string): Promise<Formation>;
     update(id: string, updateFormationDto: UpdateFormationDto): Promise<Formation>;
     remove(id: string): Promise<void>;
+    getParticipantsByFormation(formationId: string): Promise<{
+        id: string;
+        email: string;
+        name: string;
+        role: import("../common/enums/role.enum").Role;
+        status: import("../users/user.entity").UserStatus;
+        createdAt: Date;
+        updatedAt: Date;
+    }[]>;
 }
