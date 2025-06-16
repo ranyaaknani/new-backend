@@ -10,8 +10,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Participant = void 0;
-const typeorm_1 = require("typeorm");
 const formation_entity_1 = require("../../formation/entities/formation.entity");
+const typeorm_1 = require("typeorm");
 let Participant = class Participant {
     id;
     nom;
@@ -23,8 +23,8 @@ let Participant = class Participant {
     isActive;
     dateInscription;
     dateModification;
-    formation;
     formationId;
+    formation;
 };
 exports.Participant = Participant;
 __decorate([
@@ -76,6 +76,10 @@ __decorate([
     __metadata("design:type", Date)
 ], Participant.prototype, "dateModification", void 0);
 __decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], Participant.prototype, "formationId", void 0);
+__decorate([
     (0, typeorm_1.ManyToOne)(() => formation_entity_1.Formation, (formation) => formation.participants, {
         eager: true,
         onDelete: 'CASCADE',
@@ -83,10 +87,6 @@ __decorate([
     (0, typeorm_1.JoinColumn)({ name: 'formationId' }),
     __metadata("design:type", formation_entity_1.Formation)
 ], Participant.prototype, "formation", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
-], Participant.prototype, "formationId", void 0);
 exports.Participant = Participant = __decorate([
     (0, typeorm_1.Entity)('participants')
 ], Participant);

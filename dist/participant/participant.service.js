@@ -66,7 +66,7 @@ let ParticipantsService = class ParticipantsService {
     async findOne(id) {
         const participant = await this.participantRepository.findOne({
             where: { id },
-            relations: ['formation', 'formation.formateur', 'certificatsObtenus'],
+            relations: ['formation', 'formation.formateur'],
         });
         if (!participant) {
             throw new common_1.NotFoundException(`Participant with ID ${id} not found`);

@@ -6,7 +6,7 @@ import {
   Param,
   Delete,
   UseInterceptors,
-  Patch,
+  Put,
 } from '@nestjs/common';
 import { FormationsService } from './formations.service';
 import { CreateFormationDto } from './dto/create-formation.dto';
@@ -50,7 +50,7 @@ export class FormationsController {
     return this.formationsService.findOne(id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   update(
     @Param('id') id: string,
     @Body() updateFormationDto: UpdateFormationDto,

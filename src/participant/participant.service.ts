@@ -72,7 +72,7 @@ export class ParticipantsService {
   async findOne(id: string): Promise<Participant> {
     const participant = await this.participantRepository.findOne({
       where: { id },
-      relations: ['formation', 'formation.formateur', 'certificatsObtenus'],
+      relations: ['formation', 'formation.formateur'],
     });
 
     if (!participant) {

@@ -1,4 +1,4 @@
-import { Formation } from '../../formation/entities/formation.entity';
+import { Formation } from 'formation/entities/formation.entity';
 export declare class Participant {
     id: string;
     nom: string;
@@ -10,6 +10,6 @@ export declare class Participant {
     isActive: boolean;
     dateInscription: Date;
     dateModification: Date;
-    formation: Formation;
     formationId: string;
+    formation: Formation;
 }

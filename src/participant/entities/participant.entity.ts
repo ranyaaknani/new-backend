@@ -1,3 +1,4 @@
+import { Formation } from 'formation/entities/formation.entity';
 import {
   Entity,
   Column,
@@ -7,7 +8,6 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import { Formation } from '../../formation/entities/formation.entity';
 
 @Entity('participants')
 export class Participant {
@@ -49,14 +49,13 @@ export class Participant {
   @UpdateDateColumn()
   dateModification: Date;
 
-  // Relations
+  @Column()
+  formationId: string;
+
   @ManyToOne(() => Formation, (formation) => formation.participants, {
     eager: true,
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'formationId' })
   formation: Formation;
-
-  @Column()
-  formationId: string;
 }
