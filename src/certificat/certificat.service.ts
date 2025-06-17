@@ -102,6 +102,19 @@ export class CertificatService {
       .getMany();
   }
 
+  async findByUserId(userId: string): Promise<Certificat[]> {
+    const certificates = await this.certificatRepository.find({
+      relations: ['participants', 'formationEntity'],
+      where: {
+        participants: {
+          id: userId,
+        },
+      },
+    });
+
+    return certificates;
+  }
+
   async update(
     id: string,
     updateCertificateDto: UpdateCertificateDto,

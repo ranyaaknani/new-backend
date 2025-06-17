@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -106,5 +107,16 @@ export class CertificatController {
     };
 
     return this.certificatService.create(createCertificateDto);
+  }
+
+  @Get('user/:userId')
+  async getCertificatesByUser(@Param('userId') userId: string) {
+    try {
+      const certificates = await this.certificatService.findByUserId(userId);
+      return certificates;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      throw new BadRequestException('Failed to fetch user certificates');
+    }
   }
 }

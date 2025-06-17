@@ -17,4 +17,5 @@ export declare class CertificatController {
         participantName: string;
         formationName: string;
     }): Promise<import("./entities/certificate.entity").Certificat>;
+    getCertificatesByUser(userId: string): Promise<import("./entities/certificate.entity").Certificat[]>;
 }

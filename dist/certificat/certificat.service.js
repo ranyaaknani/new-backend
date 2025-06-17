@@ -84,6 +84,17 @@ let CertificatService = class CertificatService {
             .andWhere('user.role = :role', { role: 'participant' })
             .getMany();
     }
+    async findByUserId(userId) {
+        const certificates = await this.certificatRepository.find({
+            relations: ['participants', 'formationEntity'],
+            where: {
+                participants: {
+                    id: userId,
+                },
+            },
+        });
+        return certificates;
+    }
     async update(id, updateCertificateDto) {
         const certificat = await this.findOne(id);
         if (updateCertificateDto.formationId) {

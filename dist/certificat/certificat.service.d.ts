@@ -13,6 +13,7 @@ export declare class CertificatService {
     findAll(): Promise<Certificat[]>;
     findOne(id: string): Promise<Certificat>;
     findByParticipant(participantId: string): Promise<Certificat[]>;
+    findByUserId(userId: string): Promise<Certificat[]>;
     update(id: string, updateCertificateDto: UpdateCertificateDto): Promise<Certificat>;
     remove(id: string): Promise<void>;
 }

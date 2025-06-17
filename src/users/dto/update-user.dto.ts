@@ -34,6 +34,18 @@ export class UpdateUserDto {
   status?: UserStatus;
 
   @IsOptional()
+  @IsString()
+  linkedInLink?: string;
+
+  @IsOptional()
+  @IsString()
+  cv?: string;
+
+  @IsOptional()
+  @IsString()
+  isAccepted?: boolean;
+
+  @IsOptional()
   @IsBoolean()
   hasCertificate?: boolean;
 }

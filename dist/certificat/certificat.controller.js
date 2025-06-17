@@ -70,6 +70,15 @@ let CertificatController = class CertificatController {
         };
         return this.certificatService.create(createCertificateDto);
     }
+    async getCertificatesByUser(userId) {
+        try {
+            const certificates = await this.certificatService.findByUserId(userId);
+            return certificates;
+        }
+        catch (error) {
+            throw new common_1.BadRequestException('Failed to fetch user certificates');
+        }
+    }
 };
 exports.CertificatController = CertificatController;
 __decorate([
@@ -126,6 +135,13 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], CertificatController.prototype, "generateCertificate", null);
+__decorate([
+    (0, common_1.Get)('user/:userId'),
+    __param(0, (0, common_1.Param)('userId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], CertificatController.prototype, "getCertificatesByUser", null);
 exports.CertificatController = CertificatController = __decorate([
     (0, common_1.Controller)('certificats'),
     __metadata("design:paramtypes", [certificat_service_1.CertificatService])
