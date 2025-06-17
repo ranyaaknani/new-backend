@@ -21,13 +21,7 @@ export class ResourceEntity {
   type: string;
 
   @Column({ nullable: true })
-  videoLink?: string;
-
-  @Column({ nullable: true })
-  pdfLink?: string;
-
-  @Column({ nullable: true })
-  textLink?: string;
+  url?: string;
 
   @Column('text', { nullable: true })
   content?: string;
@@ -39,13 +33,28 @@ export class ResourceEntity {
   order: number;
 
   @Column({ default: false })
-  isCompleted: boolean;
+  isSaved: boolean;
 
   @Column({ nullable: true })
   thumbnail?: string;
 
   @Column('text', { nullable: true })
   description?: string;
+
+  @Column('json', { nullable: true })
+  tableData?: {
+    headers: string[];
+    data: string[][];
+  };
+
+  @Column({ nullable: true })
+  fileName?: string;
+
+  @Column({ nullable: true })
+  fileSize?: number;
+
+  @Column({ nullable: true })
+  previewUrl?: string;
 
   @Column({ type: 'uuid' })
   moduleId: string;

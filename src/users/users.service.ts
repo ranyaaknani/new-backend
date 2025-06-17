@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { User } from './user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { Role } from 'common/enums/role.enum';
@@ -14,6 +14,7 @@ export class UsersService {
     private userRepository: Repository<User>,
     @InjectRepository(Formation)
     private formationsRepository: Repository<Formation>,
+    private dataSource: DataSource,
   ) {}
 
   async findAll(role?: Role): Promise<User[]> {
@@ -40,6 +41,9 @@ export class UsersService {
   }
 
   async create(data: CreateUserDto): Promise<User> {
+    const queryRunner = this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
     const user = this.userRepository.create(data);
     return this.userRepository.save(user);
   }
@@ -148,6 +152,7 @@ export class UsersService {
       };
     } catch (error) {
       throw new Error(
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
         error.message || "Erreur lors de la création de l'utilisateur",
       );
     }

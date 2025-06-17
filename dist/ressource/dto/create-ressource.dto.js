@@ -14,15 +14,17 @@ const class_validator_1 = require("class-validator");
 class CreateResourceDto {
     title;
     type;
-    videoLink;
-    pdfLink;
-    textLink;
+    url;
     content;
     duration;
     order;
-    isCompleted;
+    isSaved;
     thumbnail;
     description;
+    tableData;
+    fileName;
+    fileSize;
+    previewUrl;
     moduleId;
 }
 exports.CreateResourceDto = CreateResourceDto;
@@ -40,17 +42,7 @@ __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
-], CreateResourceDto.prototype, "videoLink", void 0);
-__decorate([
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsOptional)(),
-    __metadata("design:type", String)
-], CreateResourceDto.prototype, "pdfLink", void 0);
-__decorate([
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsOptional)(),
-    __metadata("design:type", String)
-], CreateResourceDto.prototype, "textLink", void 0);
+], CreateResourceDto.prototype, "url", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsOptional)(),
@@ -70,7 +62,7 @@ __decorate([
     (0, class_validator_1.IsBoolean)(),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", Boolean)
-], CreateResourceDto.prototype, "isCompleted", void 0);
+], CreateResourceDto.prototype, "isSaved", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsOptional)(),
@@ -81,6 +73,26 @@ __decorate([
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], CreateResourceDto.prototype, "description", void 0);
+__decorate([
+    (0, class_validator_1.IsObject)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Object)
+], CreateResourceDto.prototype, "tableData", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], CreateResourceDto.prototype, "fileName", void 0);
+__decorate([
+    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Number)
+], CreateResourceDto.prototype, "fileSize", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], CreateResourceDto.prototype, "previewUrl", void 0);
 __decorate([
     (0, class_validator_1.IsUUID)(),
     (0, class_validator_1.IsNotEmpty)(),

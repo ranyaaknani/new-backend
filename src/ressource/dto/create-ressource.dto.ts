@@ -2,6 +2,7 @@ import {
   IsBoolean,
   IsNotEmpty,
   IsNumber,
+  IsObject,
   IsOptional,
   IsString,
   IsUUID,
@@ -18,15 +19,7 @@ export class CreateResourceDto {
 
   @IsString()
   @IsOptional()
-  videoLink?: string;
-
-  @IsString()
-  @IsOptional()
-  pdfLink?: string;
-
-  @IsString()
-  @IsOptional()
-  textLink?: string;
+  url?: string;
 
   @IsString()
   @IsOptional()
@@ -42,7 +35,7 @@ export class CreateResourceDto {
 
   @IsBoolean()
   @IsOptional()
-  isCompleted?: boolean;
+  isSaved?: boolean;
 
   @IsString()
   @IsOptional()
@@ -51,6 +44,25 @@ export class CreateResourceDto {
   @IsString()
   @IsOptional()
   description?: string;
+
+  @IsObject()
+  @IsOptional()
+  tableData?: {
+    headers: string[];
+    data: string[][];
+  };
+
+  @IsString()
+  @IsOptional()
+  fileName?: string;
+
+  @IsNumber()
+  @IsOptional()
+  fileSize?: number;
+
+  @IsString()
+  @IsOptional()
+  previewUrl?: string;
 
   @IsUUID()
   @IsNotEmpty()

@@ -83,7 +83,9 @@ export class FormationsController {
     } catch (error) {
       console.error('Error fetching participants:', error);
       throw new HttpException(
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
         error.message || 'Failed to fetch participants',
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
         error.status || HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }

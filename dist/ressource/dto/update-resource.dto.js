@@ -14,15 +14,17 @@ const class_validator_1 = require("class-validator");
 class UpdateResourceDto {
     title;
     type;
-    videoLink;
-    pdfLink;
-    textLink;
+    url;
     content;
     duration;
     order;
-    isCompleted;
+    isSaved;
     thumbnail;
     description;
+    tableData;
+    fileName;
+    fileSize;
+    previewUrl;
 }
 exports.UpdateResourceDto = UpdateResourceDto;
 __decorate([
@@ -39,17 +41,7 @@ __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
-], UpdateResourceDto.prototype, "videoLink", void 0);
-__decorate([
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsOptional)(),
-    __metadata("design:type", String)
-], UpdateResourceDto.prototype, "pdfLink", void 0);
-__decorate([
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsOptional)(),
-    __metadata("design:type", String)
-], UpdateResourceDto.prototype, "textLink", void 0);
+], UpdateResourceDto.prototype, "url", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsOptional)(),
@@ -69,7 +61,7 @@ __decorate([
     (0, class_validator_1.IsBoolean)(),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", Boolean)
-], UpdateResourceDto.prototype, "isCompleted", void 0);
+], UpdateResourceDto.prototype, "isSaved", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsOptional)(),
@@ -80,4 +72,24 @@ __decorate([
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], UpdateResourceDto.prototype, "description", void 0);
+__decorate([
+    (0, class_validator_1.IsObject)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Object)
+], UpdateResourceDto.prototype, "tableData", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], UpdateResourceDto.prototype, "fileName", void 0);
+__decorate([
+    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Number)
+], UpdateResourceDto.prototype, "fileSize", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], UpdateResourceDto.prototype, "previewUrl", void 0);
 //# sourceMappingURL=update-resource.dto.js.map

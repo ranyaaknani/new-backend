@@ -21,9 +21,11 @@ const formation_entity_1 = require("../formation/entities/formation.entity");
 let UsersService = class UsersService {
     userRepository;
     formationsRepository;
-    constructor(userRepository, formationsRepository) {
+    dataSource;
+    constructor(userRepository, formationsRepository, dataSource) {
         this.userRepository = userRepository;
         this.formationsRepository = formationsRepository;
+        this.dataSource = dataSource;
     }
     async findAll(role) {
         const queryBuilder = this.userRepository
@@ -44,6 +46,9 @@ let UsersService = class UsersService {
         return { deleted: true };
     }
     async create(data) {
+        const queryRunner = this.dataSource.createQueryRunner();
+        await queryRunner.connect();
+        await queryRunner.startTransaction();
         const user = this.userRepository.create(data);
         return this.userRepository.save(user);
     }
@@ -137,6 +142,7 @@ exports.UsersService = UsersService = __decorate([
     __param(0, (0, typeorm_1.InjectRepository)(user_entity_1.User)),
     __param(1, (0, typeorm_1.InjectRepository)(formation_entity_1.Formation)),
     __metadata("design:paramtypes", [typeorm_2.Repository,
-        typeorm_2.Repository])
+        typeorm_2.Repository,
+        typeorm_2.DataSource])
 ], UsersService);
 //# sourceMappingURL=users.service.js.map

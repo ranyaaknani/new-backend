@@ -98,6 +98,7 @@ export class UsersController {
         await this.usersService.createUserWithFormation(createUserDto);
       return result;
     } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       throw new BadRequestException(error.message);
     }
   }

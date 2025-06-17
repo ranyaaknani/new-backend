@@ -41,13 +41,15 @@ let ResourcesService = class ResourcesService {
             const resource = this.resourcesRepository.create({
                 title: createResourceDto.title,
                 type: createResourceDto.type,
-                videoLink: createResourceDto.videoLink,
-                pdfLink: createResourceDto.pdfLink,
-                textLink: createResourceDto.textLink,
+                url: createResourceDto.url,
                 content: createResourceDto.content,
+                tableData: createResourceDto.tableData,
+                fileName: createResourceDto.fileName,
+                fileSize: createResourceDto.fileSize,
+                previewUrl: createResourceDto.previewUrl,
                 duration: createResourceDto.duration,
-                order: createResourceDto.order || 0,
-                isCompleted: createResourceDto.isCompleted || false,
+                order: createResourceDto.order ?? 0,
+                isSaved: createResourceDto.isSaved || false,
                 thumbnail: createResourceDto.thumbnail,
                 description: createResourceDto.description,
                 moduleId: createResourceDto.moduleId,
@@ -90,20 +92,26 @@ let ResourcesService = class ResourcesService {
                 resource.title = updateResourceDto.title;
             if (updateResourceDto.type)
                 resource.type = updateResourceDto.type;
-            if (updateResourceDto.videoLink)
-                resource.videoLink = updateResourceDto.videoLink;
-            if (updateResourceDto.pdfLink)
-                resource.pdfLink = updateResourceDto.pdfLink;
-            if (updateResourceDto.textLink)
-                resource.textLink = updateResourceDto.textLink;
+            if (updateResourceDto.url)
+                resource.url = updateResourceDto.url;
             if (updateResourceDto.content)
                 resource.content = updateResourceDto.content;
+            if (updateResourceDto.tableData)
+                resource.tableData = updateResourceDto.tableData;
+            if (updateResourceDto.fileName)
+                resource.fileName = updateResourceDto.fileName;
+            if (updateResourceDto.fileSize)
+                resource.fileSize = updateResourceDto.fileSize;
+            if (updateResourceDto.previewUrl)
+                resource.previewUrl = updateResourceDto.previewUrl;
             if (updateResourceDto.duration)
                 resource.duration = updateResourceDto.duration;
             if (updateResourceDto.order !== undefined)
                 resource.order = updateResourceDto.order;
-            if (updateResourceDto.isCompleted !== undefined)
-                resource.isCompleted = updateResourceDto.isCompleted;
+            if (updateResourceDto.isSaved !== undefined)
+                resource.isSaved = updateResourceDto.isSaved;
+            if (updateResourceDto.isSaved !== undefined)
+                resource.isSaved = updateResourceDto.isSaved;
             if (updateResourceDto.thumbnail)
                 resource.thumbnail = updateResourceDto.thumbnail;
             if (updateResourceDto.description)

@@ -16,15 +16,17 @@ let ResourceEntity = class ResourceEntity {
     id;
     title;
     type;
-    videoLink;
-    pdfLink;
-    textLink;
+    url;
     content;
     duration;
     order;
-    isCompleted;
+    isSaved;
     thumbnail;
     description;
+    tableData;
+    fileName;
+    fileSize;
+    previewUrl;
     moduleId;
     module;
     createdAt;
@@ -46,15 +48,7 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
-], ResourceEntity.prototype, "videoLink", void 0);
-__decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
-    __metadata("design:type", String)
-], ResourceEntity.prototype, "pdfLink", void 0);
-__decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
-    __metadata("design:type", String)
-], ResourceEntity.prototype, "textLink", void 0);
+], ResourceEntity.prototype, "url", void 0);
 __decorate([
     (0, typeorm_1.Column)('text', { nullable: true }),
     __metadata("design:type", String)
@@ -70,7 +64,7 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)({ default: false }),
     __metadata("design:type", Boolean)
-], ResourceEntity.prototype, "isCompleted", void 0);
+], ResourceEntity.prototype, "isSaved", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
@@ -79,6 +73,22 @@ __decorate([
     (0, typeorm_1.Column)('text', { nullable: true }),
     __metadata("design:type", String)
 ], ResourceEntity.prototype, "description", void 0);
+__decorate([
+    (0, typeorm_1.Column)('json', { nullable: true }),
+    __metadata("design:type", Object)
+], ResourceEntity.prototype, "tableData", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], ResourceEntity.prototype, "fileName", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", Number)
+], ResourceEntity.prototype, "fileSize", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], ResourceEntity.prototype, "previewUrl", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'uuid' }),
     __metadata("design:type", String)

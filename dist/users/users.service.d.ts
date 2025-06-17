@@ -1,4 +1,4 @@
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { User } from './user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { Role } from 'common/enums/role.enum';
@@ -7,7 +7,8 @@ import { Formation } from 'formation/entities/formation.entity';
 export declare class UsersService {
     private userRepository;
     private formationsRepository;
-    constructor(userRepository: Repository<User>, formationsRepository: Repository<Formation>);
+    private dataSource;
+    constructor(userRepository: Repository<User>, formationsRepository: Repository<Formation>, dataSource: DataSource);
     findAll(role?: Role): Promise<User[]>;
     update(id: string, updateData: UpdateUserDto): Promise<User>;
     remove(user: User): Promise<{

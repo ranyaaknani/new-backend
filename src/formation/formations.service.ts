@@ -86,14 +86,15 @@ export class FormationsService {
               this.resourcesRepository.create({
                 title: resourceData.title,
                 type: resourceData.type,
-                videoLink: resourceData.videoLink,
-                pdfLink: resourceData.pdfLink,
-                textLink: resourceData.textLink,
+                url: resourceData.url,
                 content: resourceData.content,
+                tableData: resourceData.tableData,
+                fileName: resourceData.fileName,
+                fileSize: resourceData.fileSize,
+                previewUrl: resourceData.previewUrl,
                 duration: resourceData.duration,
-                order:
-                  resourceData.order !== undefined ? resourceData.order : index,
-                isCompleted: resourceData.isCompleted || false,
+                order: resourceData.order ?? index,
+                isSaved: resourceData.isSaved || false,
                 thumbnail: resourceData.thumbnail,
                 description: resourceData.description,
                 moduleId: savedModule.id,
@@ -110,6 +111,7 @@ export class FormationsService {
     } catch (error) {
       await queryRunner.rollbackTransaction();
       throw new ConflictException(
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         `Failed to create formation: ${error.message}`,
       );
     } finally {
@@ -235,6 +237,7 @@ export class FormationsService {
           toEmails: updateFormationDto.invitation.toEmails,
           invitationLink: updateFormationDto.invitation.invitationLink,
           linkGenerated: updateFormationDto.invitation.linkGenerated || false,
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           csvFile: updateFormationDto.invitation.csvFile,
           csvImage: updateFormationDto.invitation.csvImage,
           subject: updateFormationDto.invitation.subject,
@@ -269,14 +272,15 @@ export class FormationsService {
               this.resourcesRepository.create({
                 title: resourceData.title,
                 type: resourceData.type,
-                videoLink: resourceData.videoLink,
-                pdfLink: resourceData.pdfLink,
-                textLink: resourceData.textLink,
+                url: resourceData.url,
                 content: resourceData.content,
+                tableData: resourceData.tableData,
+                fileName: resourceData.fileName,
+                fileSize: resourceData.fileSize,
+                previewUrl: resourceData.previewUrl,
                 duration: resourceData.duration,
-                order:
-                  resourceData.order !== undefined ? resourceData.order : index,
-                isCompleted: resourceData.isCompleted || false,
+                order: resourceData.order ?? index,
+                isSaved: resourceData.isSaved || false,
                 thumbnail: resourceData.thumbnail,
                 description: resourceData.description,
                 moduleId: savedModule.id,
@@ -293,6 +297,7 @@ export class FormationsService {
     } catch (error) {
       await queryRunner.rollbackTransaction();
       throw new ConflictException(
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         `Failed to update formation: ${error.message}`,
       );
     } finally {
@@ -364,6 +369,7 @@ export class FormationsService {
       return formation.participants || [];
     } catch (error) {
       throw new NotFoundException(
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         `Failed to fetch participants: ${error.message}`,
       );
     }

@@ -22,6 +22,7 @@ const invitation_module_1 = require("./invitation/invitation.module");
 const quiz_module_1 = require("./quiz/quiz.module");
 const participant_module_1 = require("./participant/participant.module");
 const certificat_module_1 = require("./certificat/certificat.module");
+const notifications_module_1 = require("./notification/notifications.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -49,6 +50,7 @@ exports.AppModule = AppModule = __decorate([
             quiz_module_1.QuizModule,
             participant_module_1.ParticipantModule,
             certificat_module_1.CertificatModule,
+            notifications_module_1.NotificationModule,
         ],
     })
 ], AppModule);
