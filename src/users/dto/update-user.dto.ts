@@ -42,7 +42,7 @@ export class UpdateUserDto {
   cv?: string;
 
   @IsOptional()
-  @IsString()
+  @IsBoolean()
   isAccepted?: boolean;
 
   @IsOptional()

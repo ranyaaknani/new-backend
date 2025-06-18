@@ -7,5 +7,8 @@ export declare class UpdateUserDto {
     telephone?: string;
     role?: Role;
     status?: UserStatus;
+    linkedInLink?: string;
+    cv?: string;
+    isAccepted?: boolean;
     hasCertificate?: boolean;
 }

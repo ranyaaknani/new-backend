@@ -34,6 +34,15 @@ export class User {
   @Column({ nullable: true })
   telephone?: string;
 
+  @Column({ nullable: true })
+  linkedInLink?: string;
+
+  @Column({ nullable: true })
+  cv?: string;
+
+  @Column({ nullable: true })
+  isAccepted?: boolean;
+
   @Column({
     type: 'enum',
     enum: Role,

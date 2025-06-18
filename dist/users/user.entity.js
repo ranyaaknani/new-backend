@@ -26,6 +26,9 @@ let User = class User {
     password;
     name;
     telephone;
+    linkedInLink;
+    cv;
+    isAccepted;
     role;
     status;
     hasCertificate;
@@ -56,6 +59,18 @@ __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
 ], User.prototype, "telephone", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], User.prototype, "linkedInLink", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], User.prototype, "cv", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", Boolean)
+], User.prototype, "isAccepted", void 0);
 __decorate([
     (0, typeorm_1.Column)({
         type: 'enum',

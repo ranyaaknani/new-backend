@@ -20,6 +20,9 @@ class UpdateUserDto {
     telephone;
     role;
     status;
+    linkedInLink;
+    cv;
+    isAccepted;
     hasCertificate;
 }
 exports.UpdateUserDto = UpdateUserDto;
@@ -53,6 +56,21 @@ __decorate([
     (0, class_validator_1.IsEnum)(user_entity_1.UserStatus),
     __metadata("design:type", String)
 ], UpdateUserDto.prototype, "status", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], UpdateUserDto.prototype, "linkedInLink", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], UpdateUserDto.prototype, "cv", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsBoolean)(),
+    __metadata("design:type", Boolean)
+], UpdateUserDto.prototype, "isAccepted", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsBoolean)(),

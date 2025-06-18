@@ -16,6 +16,9 @@ export declare class AuthController {
         password: string;
         name: string;
         telephone?: string;
+        linkedInLink?: string;
+        cv?: string;
+        isAccepted?: boolean;
         role: Role;
         status: import("../users/user.entity").UserStatus;
         hasCertificate: boolean;

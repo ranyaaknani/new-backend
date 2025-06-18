@@ -28,7 +28,12 @@ let AuthService = class AuthService {
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch)
             throw new common_1.UnauthorizedException('Mot de passe invalide');
-        const payload = { sub: user.id, email: user.email, role: user.role };
+        const payload = {
+            sub: user.id,
+            email: user.email,
+            role: user.role,
+            isAccepted: user.isAccepted,
+        };
         return {
             access_token: this.jwtService.sign(payload),
         };

@@ -31,6 +31,18 @@ export class CreateUserDto {
   status?: UserStatus;
 
   @IsOptional()
+  @IsString()
+  linkedInLink?: string;
+
+  @IsOptional()
+  @IsString()
+  cv?: string;
+
+  @IsOptional()
+  @IsBoolean()
+  isAccepted?: boolean;
+
+  @IsOptional()
   @IsBoolean()
   hasCertificate?: boolean;
 }

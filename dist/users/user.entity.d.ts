@@ -12,6 +12,9 @@ export declare class User {
     password: string;
     name: string;
     telephone?: string;
+    linkedInLink?: string;
+    cv?: string;
+    isAccepted?: boolean;
     role: Role;
     status: UserStatus;
     hasCertificate: boolean;

@@ -15,6 +15,7 @@ import { ModuleEntity } from 'modules/entities/module.entity';
 import { Quiz } from 'quiz/entities/quiz.entity';
 import { User } from 'users/user.entity';
 import { Certificat } from 'certificat/entities/certificate.entity';
+import { Question } from 'question/questions.entity';
 
 @Entity('formations')
 export class Formation {
@@ -70,6 +71,12 @@ export class Formation {
     cascade: true,
   })
   quizzes: Quiz[];
+
+  @OneToMany(() => Question, (question) => question.formation, {
+    cascade: true,
+    eager: false,
+  })
+  questions: Question[];
 
   @OneToMany(() => Certificat, (certificat) => certificat.formationEntity)
   certificats: Certificat[];
