@@ -17,6 +17,7 @@ import { ParticipantModule } from 'participant/participant.module';
 import { CertificatModule } from 'certificat/certificat.module';
 import { NotificationModule } from 'notification/notifications.module';
 import { QuestionsModule } from 'question/questions.module';
+import { EvaluationTestModule } from 'evaluation_test/evaluation-test.module';
 
 @Module({
   imports: [
@@ -45,6 +46,7 @@ import { QuestionsModule } from 'question/questions.module';
     CertificatModule,
     NotificationModule,
     QuestionsModule,
+    EvaluationTestModule,
   ],
 })
 export class AppModule {}

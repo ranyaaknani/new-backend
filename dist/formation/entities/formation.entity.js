@@ -17,6 +17,7 @@ const quiz_entity_1 = require("../../quiz/entities/quiz.entity");
 const user_entity_1 = require("../../users/user.entity");
 const certificate_entity_1 = require("../../certificat/entities/certificate.entity");
 const questions_entity_1 = require("../../question/questions.entity");
+const evaluation_test_entity_1 = require("../../evaluation_test/evaluation_test.entity");
 let Formation = class Formation {
     id;
     titre;
@@ -32,6 +33,7 @@ let Formation = class Formation {
     participants;
     quizzes;
     questions;
+    evalTest;
     certificats;
     createdAt;
     updatedAt;
@@ -110,6 +112,13 @@ __decorate([
     }),
     __metadata("design:type", Array)
 ], Formation.prototype, "questions", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => evaluation_test_entity_1.EvaluationTest, (evalTest) => evalTest.formation, {
+        cascade: true,
+        eager: false,
+    }),
+    __metadata("design:type", Array)
+], Formation.prototype, "evalTest", void 0);
 __decorate([
     (0, typeorm_1.OneToMany)(() => certificate_entity_1.Certificat, (certificat) => certificat.formationEntity),
     __metadata("design:type", Array)

@@ -1,3 +1,4 @@
+import { EvaluationTest } from 'evaluation_test/evaluation_test.entity';
 import { Formation } from 'formation/entities/formation.entity';
 export declare enum QuestionType {
     MULTIPLE_CHOICE = "multiple-choice",
@@ -17,4 +18,6 @@ export declare class Question {
     formation: Formation;
     createdAt: Date;
     updatedAt: Date;
+    evaluationTestId: string;
+    evaluationTest: EvaluationTest;
 }

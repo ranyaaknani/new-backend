@@ -1,4 +1,4 @@
-import { Exclude, Expose, Type } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
 import { QuestionType } from 'question/questions.entity';
 
 export class QuestionResponseDto {
@@ -14,7 +14,7 @@ export class QuestionResponseDto {
   @Expose()
   options?: string[];
 
-  @Exclude()
+  @Expose()
   correctAnswer: string;
 
   @Expose()

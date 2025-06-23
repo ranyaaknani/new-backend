@@ -43,7 +43,7 @@ __decorate([
     __metadata("design:type", Array)
 ], QuestionResponseDto.prototype, "options", void 0);
 __decorate([
-    (0, class_transformer_1.Exclude)(),
+    (0, class_transformer_1.Expose)(),
     __metadata("design:type", String)
 ], QuestionResponseDto.prototype, "correctAnswer", void 0);
 __decorate([

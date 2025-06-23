@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Question = exports.QuestionType = void 0;
+const evaluation_test_entity_1 = require("../evaluation_test/evaluation_test.entity");
 const formation_entity_1 = require("../formation/entities/formation.entity");
 const typeorm_1 = require("typeorm");
 var QuestionType;
@@ -31,6 +32,8 @@ let Question = class Question {
     formation;
     createdAt;
     updatedAt;
+    evaluationTestId;
+    evaluationTest;
 };
 exports.Question = Question;
 __decorate([
@@ -70,7 +73,7 @@ __decorate([
     __metadata("design:type", Number)
 ], Question.prototype, "order", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'uuid' }),
+    (0, typeorm_1.Column)({ type: 'uuid', nullable: false }),
     __metadata("design:type", String)
 ], Question.prototype, "formationId", void 0);
 __decorate([
@@ -88,6 +91,15 @@ __decorate([
     (0, typeorm_1.UpdateDateColumn)(),
     __metadata("design:type", Date)
 ], Question.prototype, "updatedAt", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'uuid' }),
+    __metadata("design:type", String)
+], Question.prototype, "evaluationTestId", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => evaluation_test_entity_1.EvaluationTest, (evaluationTest) => evaluationTest.questions, { onDelete: 'CASCADE' }),
+    (0, typeorm_1.JoinColumn)({ name: 'evaluationTestId' }),
+    __metadata("design:type", evaluation_test_entity_1.EvaluationTest)
+], Question.prototype, "evaluationTest", void 0);
 exports.Question = Question = __decorate([
     (0, typeorm_1.Entity)('questions')
 ], Question);

@@ -1,3 +1,4 @@
+import { EvaluationTest } from 'evaluation_test/evaluation_test.entity';
 import { Formation } from 'formation/entities/formation.entity';
 import {
   Column,
@@ -45,7 +46,7 @@ export class Question {
   @Column({ type: 'int', default: 0 })
   order: number;
 
-  @Column({ type: 'uuid' })
+  @Column({ type: 'uuid', nullable: false })
   formationId: string;
 
   @ManyToOne(() => Formation, (formation) => formation.questions, {
@@ -59,4 +60,15 @@ export class Question {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @Column({ type: 'uuid' })
+  evaluationTestId: string;
+
+  @ManyToOne(
+    () => EvaluationTest,
+    (evaluationTest) => evaluationTest.questions,
+    { onDelete: 'CASCADE' },
+  )
+  @JoinColumn({ name: 'evaluationTestId' })
+  evaluationTest: EvaluationTest;
 }

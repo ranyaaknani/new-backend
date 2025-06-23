@@ -4,6 +4,7 @@ import { Quiz } from 'quiz/entities/quiz.entity';
 import { User } from 'users/user.entity';
 import { Certificat } from 'certificat/entities/certificate.entity';
 import { Question } from 'question/questions.entity';
+import { EvaluationTest } from 'evaluation_test/evaluation_test.entity';
 export declare class Formation {
     id: string;
     titre: string;
@@ -19,6 +20,7 @@ export declare class Formation {
     participants: User[];
     quizzes: Quiz[];
     questions: Question[];
+    evalTest: EvaluationTest[];
     certificats: Certificat[];
     createdAt: Date;
     updatedAt: Date;
