@@ -17,6 +17,7 @@ let Quiz = class Quiz {
     id;
     description;
     isActive;
+    score;
     moduleId;
     formationId;
     module;
@@ -38,6 +39,16 @@ __decorate([
     (0, typeorm_1.Column)({ default: true }),
     __metadata("design:type", Boolean)
 ], Quiz.prototype, "isActive", void 0);
+__decorate([
+    (0, typeorm_1.Column)({
+        type: 'decimal',
+        precision: 5,
+        scale: 2,
+        default: 0,
+        nullable: true,
+    }),
+    __metadata("design:type", Number)
+], Quiz.prototype, "score", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'uuid' }),
     __metadata("design:type", String)
@@ -85,6 +96,7 @@ let QuizQuestion = class QuizQuestion {
     correctAnswer;
     order;
     quizId;
+    score;
     quiz;
     createdAt;
     updatedAt;
@@ -114,6 +126,16 @@ __decorate([
     (0, typeorm_1.Column)({ type: 'uuid' }),
     __metadata("design:type", String)
 ], QuizQuestion.prototype, "quizId", void 0);
+__decorate([
+    (0, typeorm_1.Column)({
+        type: 'decimal',
+        precision: 5,
+        scale: 2,
+        default: 0,
+        nullable: true,
+    }),
+    __metadata("design:type", Number)
+], QuizQuestion.prototype, "score", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => Quiz, (quiz) => quiz.questions, {
         onDelete: 'CASCADE',

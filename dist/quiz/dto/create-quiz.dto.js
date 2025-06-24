@@ -17,6 +17,7 @@ class CreateQuizQuestionDto {
     options;
     correctAnswer;
     order;
+    score;
 }
 exports.CreateQuizQuestionDto = CreateQuizQuestionDto;
 __decorate([
@@ -41,11 +42,17 @@ __decorate([
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", Number)
 ], CreateQuizQuestionDto.prototype, "order", void 0);
+__decorate([
+    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Number)
+], CreateQuizQuestionDto.prototype, "score", void 0);
 class UpdateQuizQuestionDto {
     question;
     options;
     correctAnswer;
     order;
+    score;
 }
 exports.UpdateQuizQuestionDto = UpdateQuizQuestionDto;
 __decorate([
@@ -73,10 +80,16 @@ __decorate([
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", Number)
 ], UpdateQuizQuestionDto.prototype, "order", void 0);
+__decorate([
+    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Number)
+], UpdateQuizQuestionDto.prototype, "score", void 0);
 class CreateQuizDto {
     description;
     moduleId;
     formationId;
+    score;
     isActive;
     questions;
 }
@@ -95,6 +108,11 @@ __decorate([
     __metadata("design:type", String)
 ], CreateQuizDto.prototype, "formationId", void 0);
 __decorate([
+    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Number)
+], CreateQuizDto.prototype, "score", void 0);
+__decorate([
     (0, class_validator_1.IsBoolean)(),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", Boolean)
@@ -110,6 +128,7 @@ class UpdateQuizDto {
     title;
     description;
     isActive;
+    score;
     questions;
 }
 exports.UpdateQuizDto = UpdateQuizDto;
@@ -129,6 +148,11 @@ __decorate([
     __metadata("design:type", Boolean)
 ], UpdateQuizDto.prototype, "isActive", void 0);
 __decorate([
+    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Number)
+], UpdateQuizDto.prototype, "score", void 0);
+__decorate([
     (0, class_validator_1.IsArray)(),
     (0, class_validator_1.ValidateNested)({ each: true }),
     (0, class_transformer_1.Type)(() => UpdateQuizQuestionDto),
@@ -141,6 +165,7 @@ class QuizQueryDto {
     search;
     isActive;
     page;
+    score;
     limit;
 }
 exports.QuizQueryDto = QuizQueryDto;
@@ -169,6 +194,11 @@ __decorate([
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", Number)
 ], QuizQueryDto.prototype, "page", void 0);
+__decorate([
+    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Number)
+], QuizQueryDto.prototype, "score", void 0);
 __decorate([
     (0, class_validator_1.IsNumber)(),
     (0, class_validator_1.IsOptional)(),

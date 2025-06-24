@@ -8,6 +8,7 @@ export declare class ResourceEntity {
     duration?: number;
     order: number;
     isSaved: boolean;
+    isCompleted: boolean;
     thumbnail?: string;
     description?: string;
     tableData?: {

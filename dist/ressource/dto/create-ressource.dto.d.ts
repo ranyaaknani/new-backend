@@ -5,6 +5,7 @@ export declare class CreateResourceDto {
     content?: string;
     duration?: number;
     order?: number;
+    isCompleted?: boolean;
     isSaved?: boolean;
     thumbnail?: string;
     description?: string;

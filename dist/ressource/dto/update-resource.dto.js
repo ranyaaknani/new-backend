@@ -16,6 +16,7 @@ class UpdateResourceDto {
     type;
     url;
     content;
+    isCompleted;
     duration;
     order;
     isSaved;
@@ -47,6 +48,11 @@ __decorate([
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], UpdateResourceDto.prototype, "content", void 0);
+__decorate([
+    (0, class_validator_1.IsBoolean)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Boolean)
+], UpdateResourceDto.prototype, "isCompleted", void 0);
 __decorate([
     (0, class_validator_1.IsNumber)(),
     (0, class_validator_1.IsOptional)(),

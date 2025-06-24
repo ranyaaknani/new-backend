@@ -18,6 +18,7 @@ class CreateResourceDto {
     content;
     duration;
     order;
+    isCompleted;
     isSaved;
     thumbnail;
     description;
@@ -58,6 +59,11 @@ __decorate([
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", Number)
 ], CreateResourceDto.prototype, "order", void 0);
+__decorate([
+    (0, class_validator_1.IsBoolean)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Boolean)
+], CreateResourceDto.prototype, "isCompleted", void 0);
 __decorate([
     (0, class_validator_1.IsBoolean)(),
     (0, class_validator_1.IsOptional)(),

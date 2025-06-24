@@ -31,6 +31,10 @@ export class CreateQuizQuestionDto {
   @IsNumber()
   @IsOptional()
   order?: number;
+
+  @IsNumber()
+  @IsOptional()
+  score?: number;
 }
 
 export class UpdateQuizQuestionDto {
@@ -54,6 +58,10 @@ export class UpdateQuizQuestionDto {
   @IsNumber()
   @IsOptional()
   order?: number;
+
+  @IsNumber()
+  @IsOptional()
+  score?: number;
 }
 
 export class CreateQuizDto {
@@ -66,6 +74,10 @@ export class CreateQuizDto {
 
   @IsUUID()
   formationId: string;
+
+  @IsNumber()
+  @IsOptional()
+  score?: number;
 
   @IsBoolean()
   @IsOptional()
@@ -90,6 +102,10 @@ export class UpdateQuizDto {
   @IsBoolean()
   @IsOptional()
   isActive?: boolean;
+
+  @IsNumber()
+  @IsOptional()
+  score?: number;
 
   @IsArray()
   @ValidateNested({ each: true })
@@ -118,6 +134,10 @@ export class QuizQueryDto {
   @IsNumber()
   @IsOptional()
   page?: number;
+
+  @IsNumber()
+  @IsOptional()
+  score?: number;
 
   @IsNumber()
   @IsOptional()

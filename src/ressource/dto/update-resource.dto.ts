@@ -23,6 +23,10 @@ export class UpdateResourceDto {
   @IsOptional()
   content?: string;
 
+  @IsBoolean()
+  @IsOptional()
+  isCompleted?: boolean;
+
   @IsNumber()
   @IsOptional()
   duration?: number;

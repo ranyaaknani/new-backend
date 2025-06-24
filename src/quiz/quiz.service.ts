@@ -63,6 +63,7 @@ export class QuizService {
         moduleId: createQuizDto.moduleId,
         formationId: createQuizDto.formationId,
         isActive: createQuizDto.isActive !== false,
+        score: createQuizDto.score,
       });
 
       const savedQuiz = await queryRunner.manager.save(quiz);
@@ -75,6 +76,7 @@ export class QuizService {
             options: questionDto.options,
             correctAnswer: questionDto.correctAnswer,
             order: questionDto.order ?? index,
+            score: questionDto.score,
             quizId: savedQuiz.id,
           });
         });
@@ -239,6 +241,7 @@ export class QuizService {
                 options: questionDto.options,
                 correctAnswer: questionDto.correctAnswer,
                 order: questionDto.order ?? index,
+                score: questionDto.score,
                 quizId: id,
               });
             },
@@ -283,6 +286,8 @@ export class QuizService {
       correctAnswer: questionData.correctAnswer,
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
       order: questionData.order ?? quiz.questions.length,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+      score: questionData?.score,
       quizId: quizId,
     });
 

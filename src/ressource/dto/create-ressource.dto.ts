@@ -35,6 +35,10 @@ export class CreateResourceDto {
 
   @IsBoolean()
   @IsOptional()
+  isCompleted?: boolean;
+
+  @IsBoolean()
+  @IsOptional()
   isSaved?: boolean;
 
   @IsString()

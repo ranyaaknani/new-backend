@@ -3,6 +3,7 @@ export declare class UpdateResourceDto {
     type?: string;
     url?: string;
     content?: string;
+    isCompleted?: boolean;
     duration?: number;
     order?: number;
     isSaved?: boolean;

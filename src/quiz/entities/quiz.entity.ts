@@ -22,6 +22,15 @@ export class Quiz {
   @Column({ default: true })
   isActive: boolean;
 
+  @Column({
+    type: 'decimal',
+    precision: 5,
+    scale: 2,
+    default: 0,
+    nullable: true,
+  })
+  score: number;
+
   @Column({ type: 'uuid' })
   moduleId: string;
 
@@ -72,6 +81,15 @@ export class QuizQuestion {
 
   @Column({ type: 'uuid' })
   quizId: string;
+
+  @Column({
+    type: 'decimal',
+    precision: 5,
+    scale: 2,
+    default: 0,
+    nullable: true,
+  })
+  score: number;
 
   @ManyToOne(() => Quiz, (quiz) => quiz.questions, {
     onDelete: 'CASCADE',

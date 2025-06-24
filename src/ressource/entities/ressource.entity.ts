@@ -35,6 +35,9 @@ export class ResourceEntity {
   @Column({ default: false })
   isSaved: boolean;
 
+  @Column({ type: 'boolean', default: false, nullable: true })
+  isCompleted: boolean;
+
   @Column({ nullable: true })
   thumbnail?: string;
 

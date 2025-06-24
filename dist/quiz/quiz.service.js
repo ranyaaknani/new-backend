@@ -57,6 +57,7 @@ let QuizService = class QuizService {
                 moduleId: createQuizDto.moduleId,
                 formationId: createQuizDto.formationId,
                 isActive: createQuizDto.isActive !== false,
+                score: createQuizDto.score,
             });
             const savedQuiz = await queryRunner.manager.save(quiz);
             if (createQuizDto.questions && createQuizDto.questions.length > 0) {
@@ -66,6 +67,7 @@ let QuizService = class QuizService {
                         options: questionDto.options,
                         correctAnswer: questionDto.correctAnswer,
                         order: questionDto.order ?? index,
+                        score: questionDto.score,
                         quizId: savedQuiz.id,
                     });
                 });
@@ -188,6 +190,7 @@ let QuizService = class QuizService {
                             options: questionDto.options,
                             correctAnswer: questionDto.correctAnswer,
                             order: questionDto.order ?? index,
+                            score: questionDto.score,
                             quizId: id,
                         });
                     });
@@ -222,6 +225,7 @@ let QuizService = class QuizService {
             options: questionData.options,
             correctAnswer: questionData.correctAnswer,
             order: questionData.order ?? quiz.questions.length,
+            score: questionData?.score,
             quizId: quizId,
         });
         await this.questionRepository.save(question);

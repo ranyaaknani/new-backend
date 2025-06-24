@@ -4,6 +4,7 @@ export declare class Quiz {
     id: string;
     description?: string;
     isActive: boolean;
+    score: number;
     moduleId: string;
     formationId: string;
     module: ModuleEntity;
@@ -19,6 +20,7 @@ export declare class QuizQuestion {
     correctAnswer: number;
     order: number;
     quizId: string;
+    score: number;
     quiz: Quiz;
     createdAt: Date;
     updatedAt: Date;

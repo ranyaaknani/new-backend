@@ -50,6 +50,7 @@ let ResourcesService = class ResourcesService {
                 duration: createResourceDto.duration,
                 order: createResourceDto.order ?? 0,
                 isSaved: createResourceDto.isSaved || false,
+                isCompleted: createResourceDto.isCompleted || false,
                 thumbnail: createResourceDto.thumbnail,
                 description: createResourceDto.description,
                 moduleId: createResourceDto.moduleId,
@@ -110,8 +111,8 @@ let ResourcesService = class ResourcesService {
                 resource.order = updateResourceDto.order;
             if (updateResourceDto.isSaved !== undefined)
                 resource.isSaved = updateResourceDto.isSaved;
-            if (updateResourceDto.isSaved !== undefined)
-                resource.isSaved = updateResourceDto.isSaved;
+            if (updateResourceDto.isCompleted !== undefined)
+                resource.isCompleted = updateResourceDto.isCompleted;
             if (updateResourceDto.thumbnail)
                 resource.thumbnail = updateResourceDto.thumbnail;
             if (updateResourceDto.description)
