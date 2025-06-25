@@ -54,6 +54,8 @@ let FormationsService = class FormationsService {
                 description: createFormationDto.description,
                 objectifs: createFormationDto.objectifs,
                 accessType: createFormationDto.accessType,
+                startDate: createFormationDto.startDate,
+                endDate: createFormationDto.endDate,
                 userId: createFormationDto.userId,
             });
             const savedFormation = await queryRunner.manager.save(formation);
@@ -178,6 +180,10 @@ let FormationsService = class FormationsService {
                 formation.description = updateFormationDto.description;
             if (updateFormationDto.objectifs)
                 formation.objectifs = updateFormationDto.objectifs;
+            if (updateFormationDto.startDate)
+                formation.startDate = updateFormationDto.startDate;
+            if (updateFormationDto.endDate)
+                formation.endDate = updateFormationDto.endDate;
             if (updateFormationDto.accessType)
                 formation.accessType = updateFormationDto.accessType;
             if (updateFormationDto.userId)

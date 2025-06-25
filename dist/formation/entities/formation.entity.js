@@ -25,6 +25,8 @@ let Formation = class Formation {
     image;
     description;
     objectifs;
+    startDate;
+    endDate;
     accessType;
     userId;
     user;
@@ -63,6 +65,14 @@ __decorate([
     (0, typeorm_1.Column)('text'),
     __metadata("design:type", String)
 ], Formation.prototype, "objectifs", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", Date)
+], Formation.prototype, "startDate", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", Date)
+], Formation.prototype, "endDate", void 0);
 __decorate([
     (0, typeorm_1.Column)({ default: 'private' }),
     __metadata("design:type", String)

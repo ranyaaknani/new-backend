@@ -12,6 +12,8 @@ export declare class Formation {
     image: string;
     description: string;
     objectifs: string;
+    startDate: Date;
+    endDate: Date;
     accessType: string;
     userId: string;
     user: User;

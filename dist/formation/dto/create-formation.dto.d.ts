@@ -5,6 +5,8 @@ export declare class CreateFormationDto {
     domaine: string;
     image?: string;
     description: string;
+    startDate: Date;
+    endDate: Date;
     objectifs: string;
     accessType: 'public' | 'private';
     userId: string;

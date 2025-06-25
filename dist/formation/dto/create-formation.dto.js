@@ -19,6 +19,8 @@ class CreateFormationDto {
     domaine;
     image;
     description;
+    startDate;
+    endDate;
     objectifs;
     accessType;
     userId;
@@ -46,6 +48,16 @@ __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], CreateFormationDto.prototype, "description", void 0);
+__decorate([
+    (0, class_validator_1.IsDate)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Date)
+], CreateFormationDto.prototype, "startDate", void 0);
+__decorate([
+    (0, class_validator_1.IsDate)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Date)
+], CreateFormationDto.prototype, "endDate", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)(),

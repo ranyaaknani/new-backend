@@ -6,6 +6,8 @@ export declare class UpdateFormationDto {
     image?: string;
     description?: string;
     objectifs?: string;
+    startDate: Date;
+    endDate: Date;
     accessType?: 'public' | 'private';
     userId?: string;
     invitation?: CreateInvitationDto;

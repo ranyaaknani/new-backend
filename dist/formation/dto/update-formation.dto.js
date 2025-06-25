@@ -20,6 +20,8 @@ class UpdateFormationDto {
     image;
     description;
     objectifs;
+    startDate;
+    endDate;
     accessType;
     userId;
     invitation;
@@ -52,6 +54,16 @@ __decorate([
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], UpdateFormationDto.prototype, "objectifs", void 0);
+__decorate([
+    (0, class_validator_1.IsDate)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Date)
+], UpdateFormationDto.prototype, "startDate", void 0);
+__decorate([
+    (0, class_validator_1.IsDate)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Date)
+], UpdateFormationDto.prototype, "endDate", void 0);
 __decorate([
     (0, class_validator_1.IsEnum)(['public', 'private']),
     (0, class_validator_1.IsOptional)(),

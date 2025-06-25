@@ -1,6 +1,7 @@
 import { Type } from 'class-transformer';
 import {
   IsArray,
+  IsDate,
   IsEnum,
   IsNotEmpty,
   IsOptional,
@@ -27,6 +28,14 @@ export class CreateFormationDto {
   @IsString()
   @IsNotEmpty()
   description: string;
+
+  @IsDate()
+  @IsOptional()
+  startDate: Date;
+
+  @IsDate()
+  @IsOptional()
+  endDate: Date;
 
   @IsString()
   @IsNotEmpty()

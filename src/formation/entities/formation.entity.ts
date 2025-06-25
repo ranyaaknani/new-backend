@@ -38,6 +38,12 @@ export class Formation {
   @Column('text')
   objectifs: string;
 
+  @Column({ nullable: true })
+  startDate: Date;
+
+  @Column({ nullable: true })
+  endDate: Date;
+
   @Column({ default: 'private' })
   accessType: string;
 

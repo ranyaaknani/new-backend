@@ -1,6 +1,7 @@
 import { Type } from 'class-transformer';
 import {
   IsArray,
+  IsDate,
   IsEnum,
   IsOptional,
   IsString,
@@ -30,6 +31,14 @@ export class UpdateFormationDto {
   @IsString()
   @IsOptional()
   objectifs?: string;
+
+  @IsDate()
+  @IsOptional()
+  startDate: Date;
+
+  @IsDate()
+  @IsOptional()
+  endDate: Date;
 
   @IsEnum(['public', 'private'])
   @IsOptional()
