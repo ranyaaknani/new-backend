@@ -108,7 +108,10 @@ __decorate([
     __metadata("design:type", Array)
 ], User.prototype, "createdFormations", void 0);
 __decorate([
-    (0, typeorm_1.ManyToMany)(() => certificate_entity_1.Certificat, (certificat) => certificat.participants),
+    (0, typeorm_1.ManyToMany)(() => certificate_entity_1.Certificat, (certificat) => certificat.participants, {
+        cascade: true,
+        onDelete: 'CASCADE',
+    }),
     __metadata("design:type", Array)
 ], User.prototype, "certificatsObtenus", void 0);
 exports.User = User = __decorate([

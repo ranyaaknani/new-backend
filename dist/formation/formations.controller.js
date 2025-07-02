@@ -54,6 +54,9 @@ let FormationsController = class FormationsController {
     remove(id) {
         return this.formationsService.remove(id);
     }
+    async getParticipants(formationId) {
+        return this.formationsService.getParticipants(formationId);
+    }
     async getParticipantsByFormation(formationId) {
         try {
             const participants = await this.formationsService.getParticipantsByFormationId(formationId);
@@ -110,6 +113,13 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], FormationsController.prototype, "remove", null);
+__decorate([
+    (0, common_1.Get)(':id/participants'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], FormationsController.prototype, "getParticipants", null);
 __decorate([
     (0, common_1.Get)('formation/:formationId'),
     __param(0, (0, common_1.Param)('formationId')),

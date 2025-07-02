@@ -72,6 +72,9 @@ export class User {
   @OneToMany(() => Formation, (formation) => formation.user)
   createdFormations: Formation[];
 
-  @ManyToMany(() => Certificat, (certificat) => certificat.participants)
+  @ManyToMany(() => Certificat, (certificat) => certificat.participants, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   certificatsObtenus: Certificat[];
 }

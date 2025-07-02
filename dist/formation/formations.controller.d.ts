@@ -20,6 +20,7 @@ export declare class FormationsController {
     findOne(id: string): Promise<Formation>;
     update(id: string, updateFormationDto: UpdateFormationDto): Promise<Formation>;
     remove(id: string): Promise<void>;
+    getParticipants(formationId: string): Promise<import("../users/user.entity").User[]>;
     getParticipantsByFormation(formationId: string): Promise<{
         id: string;
         email: string;

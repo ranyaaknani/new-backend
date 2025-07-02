@@ -82,7 +82,9 @@ __decorate([
     __metadata("design:type", String)
 ], Formation.prototype, "userId", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, (user) => user.formations),
+    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, (user) => user.formations, {
+        onDelete: 'CASCADE',
+    }),
     (0, typeorm_1.JoinColumn)({ name: 'userId' }),
     __metadata("design:type", user_entity_1.User)
 ], Formation.prototype, "user", void 0);
@@ -103,7 +105,7 @@ __decorate([
 __decorate([
     (0, typeorm_1.ManyToMany)(() => user_entity_1.User, (user) => user.formations),
     (0, typeorm_1.JoinTable)({
-        name: 'formation_participants',
+        name: 'user_formations',
         joinColumn: { name: 'formationId', referencedColumnName: 'id' },
         inverseJoinColumn: { name: 'userId', referencedColumnName: 'id' },
     }),
@@ -130,7 +132,10 @@ __decorate([
     __metadata("design:type", Array)
 ], Formation.prototype, "evalTest", void 0);
 __decorate([
-    (0, typeorm_1.OneToMany)(() => certificate_entity_1.Certificat, (certificat) => certificat.formationEntity),
+    (0, typeorm_1.OneToMany)(() => certificate_entity_1.Certificat, (certificat) => certificat.formationEntity, {
+        cascade: true,
+        onDelete: 'CASCADE',
+    }),
     __metadata("design:type", Array)
 ], Formation.prototype, "certificats", void 0);
 __decorate([

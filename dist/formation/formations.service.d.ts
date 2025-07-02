@@ -19,6 +19,7 @@ export declare class FormationsService {
     findOne(id: string): Promise<Formation>;
     update(id: string, updateFormationDto: UpdateFormationDto): Promise<Formation>;
     remove(id: string): Promise<void>;
+    getParticipants(formationId: string): Promise<User[]>;
     findByUser(userId: string): Promise<Formation[]>;
     findPublicFormations(): Promise<Formation[]>;
     getParticipantsByFormationId(formationId: string): Promise<User[]>;

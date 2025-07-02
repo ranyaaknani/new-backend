@@ -65,6 +65,11 @@ export class FormationsController {
     return this.formationsService.remove(id);
   }
 
+  @Get(':id/participants')
+  async getParticipants(@Param('id') formationId: string) {
+    return this.formationsService.getParticipants(formationId);
+  }
+
   @Get('formation/:formationId')
   async getParticipantsByFormation(@Param('formationId') formationId: string) {
     try {

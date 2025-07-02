@@ -50,7 +50,9 @@ export class Formation {
   @Column({ type: 'uuid' })
   userId: string;
 
-  @ManyToOne(() => User, (user) => user.formations)
+  @ManyToOne(() => User, (user) => user.formations, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'userId' })
   user: User;
 
@@ -68,7 +70,7 @@ export class Formation {
 
   @ManyToMany(() => User, (user) => user.formations)
   @JoinTable({
-    name: 'formation_participants',
+    name: 'user_formations',
     joinColumn: { name: 'formationId', referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'userId', referencedColumnName: 'id' },
   })
@@ -91,7 +93,10 @@ export class Formation {
   })
   evalTest: EvaluationTest[];
 
-  @OneToMany(() => Certificat, (certificat) => certificat.formationEntity)
+  @OneToMany(() => Certificat, (certificat) => certificat.formationEntity, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   certificats: Certificat[];
 
   @CreateDateColumn()

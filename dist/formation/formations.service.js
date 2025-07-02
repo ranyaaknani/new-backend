@@ -276,6 +276,13 @@ let FormationsService = class FormationsService {
         const formation = await this.findOne(id);
         await this.formationsRepository.remove(formation);
     }
+    async getParticipants(formationId) {
+        const formation = await this.formationsRepository.findOne({
+            where: { id: formationId },
+            relations: ['participants'],
+        });
+        return formation?.participants || [];
+    }
     async findByUser(userId) {
         return this.formationsRepository.find({
             where: { userId },
